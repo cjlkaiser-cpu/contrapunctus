@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrapunctus - Species Counterpoint Trainer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #030712;
+            --bg-secondary: #0f172a;
+            --bg-tertiary: #1e293b;
+            --accent: #a855f7;
+            --accent-dim: #7c3aed;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --consonance-perfect: #22c55e;
+            --consonance-imperfect: #3b82f6;
+            --dissonance: #ef4444;
+            --staff-line: #475569;
+            --note-cf: #f97316;
+            --note-cp: #a855f7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--bg-tertiary);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: -2px;
+        }
+
+        .breadcrumb {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--accent);
+        }
+
+        /* Main Layout */
+        main {
+            display: grid;
+            grid-template-columns: 280px 1fr 300px;
+            gap: 0;
+            min-height: calc(100vh - 65px);
+        }
+
+        /* Left Sidebar - Exercise Selection */
+        .sidebar-left {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--bg-tertiary);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .exercise-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .exercise-item {
+            background: var(--bg-tertiary);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .exercise-item:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .exercise-item.active {
+            border-color: var(--accent);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .exercise-item .name {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .exercise-item .meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .difficulty {
+            display: inline-flex;
+            gap: 2px;
+        }
+
+        .difficulty-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .difficulty-dot.active {
+            background: var(--accent);
+        }
+
+        /* Species Selector */
+        .species-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .species-tab {
+            flex: 1;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .species-tab:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .species-tab.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .species-tab.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Center - Staff Area */
+        .staff-container {
+            background: var(--bg-primary);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .staff-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .staff-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .staff-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dim);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-tertiary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .btn-icon {
+            padding: 0.5rem;
+        }
+
+        #staffCanvas {
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            cursor: crosshair;
+            width: 100%;
+            max-width: 900px;
+            height: 300px;
+            outline: none;
+        }
+
+        #staffCanvas:focus {
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            #staffCanvas {
+                height: 250px;
+            }
+
+            .selection-hint {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+
+            .selection-hint kbd {
+                font-size: 0.6rem;
+            }
+        }
+
+        /* Feedback Bar */
+        .feedback-bar {
+            width: 100%;
+            max-width: 900px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .feedback-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .feedback-icon.success { background: rgba(34, 197, 94, 0.2); }
+        .feedback-icon.warning { background: rgba(245, 158, 11, 0.2); }
+        .feedback-icon.error { background: rgba(239, 68, 68, 0.2); }
+
+        .feedback-content {
+            flex: 1;
+        }
+
+        .feedback-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .feedback-message {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .feedback-score {
+            text-align: right;
+        }
+
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .score-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Right Sidebar - Rules & Help */
+        .sidebar-right {
+            background: var(--bg-secondary);
+            border-left: 1px solid var(--bg-tertiary);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .rules-section {
+            margin-bottom: 2rem;
+        }
+
+        .rules-section h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .rule-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .rule-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .rule-icon.pass { background: var(--success); }
+        .rule-icon.fail { background: var(--error); }
+        .rule-icon.warn { background: var(--warning); }
+        .rule-icon.pending { background: var(--text-muted); }
+
+        .rule-text {
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        /* Interval Legend */
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Keyboard shortcuts */
+        .shortcuts {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .shortcut {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .shortcut:last-child {
+            border-bottom: none;
+        }
+
+        kbd {
+            background: var(--bg-tertiary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .modal h2 {
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        /* Note hover preview */
+        .note-preview {
+            position: absolute;
+            background: var(--bg-tertiary);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            pointer-events: none;
+            z-index: 50;
+            display: none;
+        }
+
+        .note-preview.visible {
+            display: block;
+        }
+
+        /* Selection indicator */
+        .selection-hint {
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .selection-hint .note-display {
+            color: var(--accent);
+            font-weight: 600;
+            min-width: 60px;
+        }
+
+        .selection-hint kbd {
+            background: var(--bg-secondary);
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.7rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-left, .sidebar-right {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <div class="logo-icon">♫</div>
+            <div>
+                <h1>Contrapunctus</h1>
+                <div class="logo-subtitle">Species Counterpoint Trainer</div>
+            </div>
+        </div>
+        <nav class="breadcrumb">
+            <a href="../../index.html">Physics Sound Lab</a> /
+            <a href="../index.html">Generativos</a> /
+            <span>Contrapunctus</span>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left">
+            <div class="sidebar-section">
+                <h3>Especie</h3>
+                <div class="species-tabs">
+                    <button class="species-tab active" data-species="1">1ra</button>
+                    <button class="species-tab locked" data-species="2">2da</button>
+                    <button class="species-tab locked" data-species="3">3ra</button>
+                    <button class="species-tab locked" data-species="4">4ta</button>
+                    <button class="species-tab locked" data-species="5">5ta</button>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Ejercicios</h3>
+                <div class="exercise-list" id="exerciseList">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Posicion del Contrapunto</h3>
+                <div class="species-tabs">
+                    <button class="species-tab active" data-position="upper">Superior</button>
+                    <button class="species-tab" data-position="lower">Inferior</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center - Staff -->
+        <div class="staff-container">
+            <div class="staff-header">
+                <div class="staff-title" id="exerciseTitle">Primera Especie - Do Mayor</div>
+                <div class="staff-controls">
+                    <button class="btn btn-secondary btn-icon" id="btnUndo" title="Deshacer (Ctrl+Z)">↩</button>
+                    <button class="btn btn-secondary btn-icon" id="btnClear" title="Limpiar">✕</button>
+                    <button class="btn btn-secondary" id="btnPlay">▶ Reproducir</button>
+                    <button class="btn btn-primary" id="btnCheck">Verificar</button>
+                </div>
+            </div>
+
+            <canvas id="staffCanvas" tabindex="0"></canvas>
+
+            <div class="selection-hint" id="selectionHint">
+                <span>Beat: <span class="note-display" id="selectedBeatDisplay">-</span></span>
+                <span>Nota: <span class="note-display" id="selectedNoteDisplay">-</span></span>
+                <span><kbd>↑</kbd><kbd>↓</kbd> diatonico</span>
+                <span><kbd>Shift</kbd>+<kbd>↑</kbd><kbd>↓</kbd> cromatico</span>
+                <span><kbd>←</kbd><kbd>→</kbd> navegar</span>
+            </div>
+
+            <div class="feedback-bar" id="feedbackBar">
+                <div class="feedback-icon pending" id="feedbackIcon">?</div>
+                <div class="feedback-content">
+                    <div class="feedback-title" id="feedbackTitle">Escribe tu contrapunto</div>
+                    <div class="feedback-message" id="feedbackMessage">
+                        Haz clic en el pentagrama para colocar notas sobre el cantus firmus.
+                    </div>
+                </div>
+                <div class="feedback-score">
+                    <div class="score-value" id="scoreValue">--</div>
+                    <div class="score-label">puntos</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right">
+            <div class="rules-section">
+                <h3>Reglas de Primera Especie</h3>
+                <div id="rulesList">
+                    <div class="rule-item">
+                        <div class="rule-icon pending">1</div>
+                        <div class="rule-text">Solo consonancias (3as, 5as, 6as, 8as)</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon pending">2</div>
+                        <div class="rule-text">Sin quintas u octavas paralelas</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon pending">3</div>
+                        <div class="rule-text">Comenzar en consonancia perfecta</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon pending">4</div>
+                        <div class="rule-text">Terminar en unisono u octava</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon pending">5</div>
+                        <div class="rule-text">Sin cruce de voces</div>
+                    </div>
+                    <div class="rule-item">
+                        <div class="rule-icon pending">6</div>
+                        <div class="rule-text">Preferir movimiento contrario</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <h3>Intervalos</h3>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--consonance-perfect)"></div>
+                        <span>Perf. (1, 5, 8)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--consonance-imperfect)"></div>
+                        <span>Imperf. (3, 6)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--dissonance)"></div>
+                        <span>Disonante</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: var(--note-cf)"></div>
+                        <span>Cantus Firmus</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <h3>Atajos de Teclado</h3>
+                <div class="shortcuts">
+                    <div class="shortcut">
+                        <span>Subir (diatonico)</span>
+                        <kbd>↑</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Bajar (diatonico)</span>
+                        <kbd>↓</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Alteracion (#/b)</span>
+                        <kbd>Shift+↑↓</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Beat anterior</span>
+                        <kbd>←</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Beat siguiente</span>
+                        <kbd>→</kbd> <kbd>Tab</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Borrar nota</span>
+                        <kbd>Del</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Reproducir</span>
+                        <kbd>Space</kbd>
+                    </div>
+                    <div class="shortcut">
+                        <span>Deshacer</span>
+                        <kbd>Ctrl+Z</kbd>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Note preview tooltip -->
+    <div class="note-preview" id="notePreview"></div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal">
+            <h2>🎉 Excelente!</h2>
+            <p id="successMessage">Has completado el ejercicio correctamente.</p>
+            <button class="btn btn-primary" id="btnNextExercise">Siguiente Ejercicio →</button>
+        </div>
+    </div>
+
+    <!-- Core modules -->
+    <script src="js/core/Pitch.js"></script>
+    <script src="js/core/Interval.js"></script>
+    <script src="js/core/Scale.js"></script>
+    <script src="js/core/CantusFirmus.js"></script>
+    <script src="js/validators/FirstSpeciesValidator.js"></script>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const CONFIG = {
+            staff: {
+                x: 60,
+                y: 80,
+                lineSpacing: 12,
+                noteSpacing: 80,
+                clefWidth: 50
+            },
+            colors: {
+                staffLine: '#475569',
+                cantusFirmus: '#f97316',
+                counterpoint: '#a855f7',
+                counterpointPreview: 'rgba(168, 85, 247, 0.4)',
+                perfectConsonance: '#22c55e',
+                imperfectConsonance: '#3b82f6',
+                dissonance: '#ef4444',
+                ledgerLine: '#64748b'
+            }
+        };
+
+        // ==================== STATE ====================
+        const state = {
+            currentExercise: null,
+            counterpoint: [],
+            cpPosition: 'upper',
+            species: 1,
+            audioContext: null,
+            isPlaying: false,
+            history: [],
+            selectedBeat: 0  // Currently selected beat for keyboard input
+        };
+
+        // ==================== CANVAS SETUP ====================
+        const canvas = document.getElementById('staffCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // High DPI support with proper resize handling
+        function setupCanvas() {
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.getBoundingClientRect();
+
+            // Set actual size in memory (scaled for retina)
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+
+            // Reset transform before scaling (prevents accumulation)
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.scale(dpr, dpr);
+
+            // CSS size stays the same (controlled by CSS)
+            // No need to set style.width/height since CSS handles it
+        }
+
+        // ==================== DRAWING ====================
+        function draw() {
+            const width = canvas.width / (window.devicePixelRatio || 1);
+            const height = canvas.height / (window.devicePixelRatio || 1);
+
+            // Clear
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+
+            if (!state.currentExercise) return;
+
+            const cf = state.currentExercise.notes;
+            const noteCount = cf.length;
+
+            // Calculate spacing
+            const availableWidth = width - CONFIG.staff.x - 40;
+            const noteSpacing = availableWidth / noteCount;
+
+            // Draw grand staff (treble + bass)
+            drawStaff(CONFIG.staff.x, CONFIG.staff.y, width - 40, 'treble');
+            drawStaff(CONFIG.staff.x, CONFIG.staff.y + 100, width - 40, 'bass');
+
+            // Draw barlines
+            ctx.strokeStyle = CONFIG.colors.staffLine;
+            ctx.lineWidth = 1;
+
+            // Initial barline
+            ctx.beginPath();
+            ctx.moveTo(CONFIG.staff.x, CONFIG.staff.y);
+            ctx.lineTo(CONFIG.staff.x, CONFIG.staff.y + 100 + 48);
+            ctx.stroke();
+
+            // Final barline (double)
+            const endX = width - 40;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(endX - 4, CONFIG.staff.y);
+            ctx.lineTo(endX - 4, CONFIG.staff.y + 100 + 48);
+            ctx.stroke();
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(endX, CONFIG.staff.y);
+            ctx.lineTo(endX, CONFIG.staff.y + 100 + 48);
+            ctx.stroke();
+
+            // Draw clefs
+            drawClef(CONFIG.staff.x + 10, CONFIG.staff.y, 'treble');
+            drawClef(CONFIG.staff.x + 10, CONFIG.staff.y + 100, 'bass');
+
+            // Draw key signature indicator
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = '14px Inter';
+            ctx.fillText(state.currentExercise.key + ' ' +
+                (state.currentExercise.mode === 'major' ? 'Mayor' : 'menor'),
+                CONFIG.staff.x + CONFIG.staff.clefWidth + 5, CONFIG.staff.y - 10);
+
+            // Draw notes
+            const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
+
+            for (let i = 0; i < noteCount; i++) {
+                const x = startX + i * noteSpacing;
+
+                // Draw selection highlight for selected beat
+                if (i === state.selectedBeat) {
+                    ctx.fillStyle = 'rgba(168, 85, 247, 0.15)';
+                    ctx.fillRect(x - noteSpacing/2 + 5, CONFIG.staff.y - 20, noteSpacing - 10, 200);
+
+                    // Selection indicator arrow at top
+                    ctx.fillStyle = '#a855f7';
+                    ctx.beginPath();
+                    ctx.moveTo(x - 6, CONFIG.staff.y - 25);
+                    ctx.lineTo(x + 6, CONFIG.staff.y - 25);
+                    ctx.lineTo(x, CONFIG.staff.y - 15);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
+                // Draw CF note
+                const cfNote = cf[i];
+                drawNote(x, cfNote, CONFIG.colors.cantusFirmus, 'cf');
+
+                // Draw CP note if exists
+                if (state.counterpoint[i]) {
+                    const cpNote = state.counterpoint[i];
+                    drawNote(x, cpNote, CONFIG.colors.counterpoint, 'cp');
+
+                    // Draw interval
+                    drawInterval(x, cfNote, cpNote);
+                }
+
+                // Draw beat number (highlight if selected)
+                ctx.fillStyle = i === state.selectedBeat ? '#a855f7' : '#64748b';
+                ctx.font = i === state.selectedBeat ? 'bold 12px Inter' : '11px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(i + 1, x, CONFIG.staff.y + 170);
+            }
+
+            // Update selection display
+            updateSelectionDisplay();
+        }
+
+        function updateSelectionDisplay() {
+            const beatDisplay = document.getElementById('selectedBeatDisplay');
+            const noteDisplay = document.getElementById('selectedNoteDisplay');
+
+            if (state.currentExercise && state.selectedBeat !== null) {
+                beatDisplay.textContent = state.selectedBeat + 1;
+                const note = state.counterpoint[state.selectedBeat];
+                noteDisplay.textContent = note || '(vacío)';
+            } else {
+                beatDisplay.textContent = '-';
+                noteDisplay.textContent = '-';
+            }
+        }
+
+        function drawStaff(x, y, width, clef) {
+            ctx.strokeStyle = CONFIG.colors.staffLine;
+            ctx.lineWidth = 1;
+
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath();
+                ctx.moveTo(x, y + i * CONFIG.staff.lineSpacing);
+                ctx.lineTo(width, y + i * CONFIG.staff.lineSpacing);
+                ctx.stroke();
+            }
+        }
+
+        function drawClef(x, y, type) {
+            ctx.font = '48px serif';
+            ctx.fillStyle = '#e2e8f0';
+
+            if (type === 'treble') {
+                ctx.fillText('𝄞', x, y + 38);
+            } else {
+                ctx.fillText('𝄢', x, y + 28);
+            }
+        }
+
+        function getNoteY(noteStr) {
+            // Map note to Y position on grand staff
+            // Middle C (C4) is on the ledger line between staves
+            const midi = Pitch.toMidi(noteStr);
+            const middleC = 60;
+
+            // Each step is half a line spacing
+            const stepSize = CONFIG.staff.lineSpacing / 2;
+
+            // Note positions (semitones don't affect vertical position, only letter names do)
+            const parsed = Pitch.parse(noteStr);
+            const letterIndex = Pitch.diatonicIndex(parsed.name);
+            const octave = parsed.octave;
+
+            // Calculate position relative to middle C (C4)
+            // C4 letterIndex = 0, octave = 4
+            const stepsFromC4 = letterIndex + (octave - 4) * 7;
+
+            // C4 Y position is between the two staves
+            const c4Y = CONFIG.staff.y + 60;
+
+            // Each step up moves the note down (lower Y value)
+            return c4Y - stepsFromC4 * stepSize;
+        }
+
+        function drawNote(x, noteStr, color, type) {
+            const y = getNoteY(noteStr);
+
+            // Draw ledger lines if needed
+            drawLedgerLines(x, y, noteStr);
+
+            // Draw note head (whole note)
+            ctx.beginPath();
+            ctx.ellipse(x, y, 8, 6, -0.2, 0, Math.PI * 2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Parse note for accidentals
+            const parsed = Pitch.parse(noteStr);
+
+            // Draw accidental symbol if present (for counterpoint notes)
+            if (type === 'cp' && parsed.accidental) {
+                ctx.fillStyle = color;
+                ctx.font = '16px serif';
+                ctx.textAlign = 'right';
+                const accSymbol = parsed.accidental === '#' ? '♯' : '♭';
+                ctx.fillText(accSymbol, x - 12, y + 5);
+            }
+
+            // Note label for CF
+            if (type === 'cf') {
+                ctx.fillStyle = color;
+                ctx.font = '10px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(parsed.name + parsed.accidental, x, y + 20);
+            }
+        }
+
+        function drawLedgerLines(x, y, noteStr) {
+            ctx.strokeStyle = CONFIG.colors.ledgerLine;
+            ctx.lineWidth = 1;
+
+            // Treble staff bottom line Y
+            const trebleBottom = CONFIG.staff.y + 4 * CONFIG.staff.lineSpacing;
+            // Bass staff top line Y
+            const bassTop = CONFIG.staff.y + 100;
+
+            // Middle C position
+            const middleCY = CONFIG.staff.y + 60;
+
+            // Draw ledger lines for notes outside staff
+            const lineY = CONFIG.staff.lineSpacing;
+
+            // Above treble staff
+            if (y < CONFIG.staff.y) {
+                for (let ly = CONFIG.staff.y - lineY; ly >= y - lineY/2; ly -= lineY) {
+                    ctx.beginPath();
+                    ctx.moveTo(x - 12, ly);
+                    ctx.lineTo(x + 12, ly);
+                    ctx.stroke();
+                }
+            }
+
+            // Below treble / above bass (middle C area)
+            if (y > trebleBottom && y < bassTop) {
+                // Middle C ledger line
+                if (Math.abs(y - middleCY) < lineY) {
+                    ctx.beginPath();
+                    ctx.moveTo(x - 12, middleCY);
+                    ctx.lineTo(x + 12, middleCY);
+                    ctx.stroke();
+                }
+            }
+
+            // Below bass staff
+            const bassBottom = bassTop + 4 * CONFIG.staff.lineSpacing;
+            if (y > bassBottom) {
+                for (let ly = bassBottom + lineY; ly <= y + lineY/2; ly += lineY) {
+                    ctx.beginPath();
+                    ctx.moveTo(x - 12, ly);
+                    ctx.lineTo(x + 12, ly);
+                    ctx.stroke();
+                }
+            }
+        }
+
+        function drawInterval(x, cfNote, cpNote) {
+            const interval = Interval.between(
+                state.cpPosition === 'upper' ? cfNote : cpNote,
+                state.cpPosition === 'upper' ? cpNote : cfNote
+            );
+
+            // Color based on consonance type
+            let color;
+            if (Interval.isPerfectConsonance(interval)) {
+                color = CONFIG.colors.perfectConsonance;
+            } else if (Interval.isImperfectConsonance(interval)) {
+                color = CONFIG.colors.imperfectConsonance;
+            } else {
+                color = CONFIG.colors.dissonance;
+            }
+
+            // Draw interval label between notes
+            const cfY = getNoteY(cfNote);
+            const cpY = getNoteY(cpNote);
+            const midY = (cfY + cpY) / 2;
+
+            ctx.fillStyle = color;
+            ctx.font = 'bold 11px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText(interval.simple.name, x + 18, midY + 4);
+        }
+
+        // ==================== INTERACTION ====================
+        canvas.addEventListener('click', handleCanvasClick);
+        canvas.addEventListener('mousemove', handleCanvasHover);
+
+        function handleCanvasClick(e) {
+            if (!state.currentExercise) return;
+
+            // Focus the canvas for keyboard input
+            canvas.focus();
+
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            // Determine which beat was clicked
+            const cf = state.currentExercise.notes;
+            const noteCount = cf.length;
+            const width = rect.width;
+            const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
+            const noteSpacing = (width - CONFIG.staff.x - 40 - CONFIG.staff.clefWidth - 30) / noteCount;
+
+            const beatIndex = Math.floor((x - startX + noteSpacing/2) / noteSpacing);
+
+            if (beatIndex < 0 || beatIndex >= noteCount) return;
+
+            // Select the beat
+            state.selectedBeat = beatIndex;
+
+            // Determine which note based on Y position
+            const noteStr = yToNote(y);
+            if (!noteStr) {
+                draw();
+                return;
+            }
+
+            // Check if note is in scale
+            if (!Scale.containsNote(noteStr, state.currentExercise.key, state.currentExercise.mode)) {
+                showFeedback('warning', 'Nota fuera de escala',
+                    `${noteStr} no pertenece a ${state.currentExercise.key} ${state.currentExercise.mode}`);
+                draw();
+                return;
+            }
+
+            // Save to history for undo
+            state.history.push([...state.counterpoint]);
+
+            // Place note
+            state.counterpoint[beatIndex] = noteStr;
+
+            // Auto-advance to next beat
+            if (state.selectedBeat < noteCount - 1) {
+                state.selectedBeat++;
+            }
+
+            draw();
+            validatePartial();
+        }
+
+        function handleCanvasHover(e) {
+            const rect = canvas.getBoundingClientRect();
+            const y = e.clientY - rect.top;
+
+            const noteStr = yToNote(y);
+            const preview = document.getElementById('notePreview');
+
+            if (noteStr) {
+                preview.textContent = noteStr;
+                preview.style.left = (e.clientX + 15) + 'px';
+                preview.style.top = (e.clientY - 10) + 'px';
+                preview.classList.add('visible');
+            } else {
+                preview.classList.remove('visible');
+            }
+        }
+
+        function yToNote(y) {
+            // Convert Y position to note string
+            const middleCY = CONFIG.staff.y + 60;
+            const stepSize = CONFIG.staff.lineSpacing / 2;
+
+            // Round to nearest step
+            const stepsFromC4 = Math.round((middleCY - y) / stepSize);
+
+            // Calculate note
+            const octaveOffset = Math.floor(stepsFromC4 / 7);
+            const letterOffset = ((stepsFromC4 % 7) + 7) % 7;
+
+            const octave = 4 + octaveOffset;
+            const letter = Pitch.DIATONIC_NAMES[letterOffset];
+
+            // Apply key signature accidentals
+            if (state.currentExercise) {
+                const key = state.currentExercise.key;
+                const keySig = Scale.KEY_SIGNATURES[key];
+
+                if (keySig) {
+                    if (keySig.sharpNotes && keySig.sharpNotes.includes(letter)) {
+                        return letter + '#' + octave;
+                    }
+                    if (keySig.flatNotes && keySig.flatNotes.includes(letter)) {
+                        return letter + 'b' + octave;
+                    }
+                }
+            }
+
+            return letter + octave;
+        }
+
+        // ==================== VALIDATION ====================
+        function validatePartial() {
+            // Quick validation as user works
+            const filled = state.counterpoint.filter(n => n).length;
+            const total = state.currentExercise.notes.length;
+
+            if (filled === 0) {
+                showFeedback('pending', 'Escribe tu contrapunto',
+                    'Haz clic en el pentagrama para colocar notas.');
+                return;
+            }
+
+            if (filled < total) {
+                showFeedback('pending', `Progreso: ${filled}/${total} notas`,
+                    'Continua colocando notas sobre el cantus firmus.');
+                return;
+            }
+
+            // All notes placed, do full validation
+            validateFull();
+        }
+
+        function validateFull() {
+            const result = FirstSpeciesValidator.validate({
+                cantusFirmus: state.currentExercise.notes,
+                counterpoint: state.counterpoint,
+                key: state.currentExercise.key,
+                mode: state.currentExercise.mode,
+                cpPosition: state.cpPosition
+            });
+
+            updateRulesDisplay(result);
+
+            document.getElementById('scoreValue').textContent = result.score;
+
+            if (result.valid) {
+                showFeedback('success', 'Perfecto!',
+                    'Tu contrapunto sigue todas las reglas.');
+
+                if (result.score >= 90) {
+                    showSuccessModal(result.score);
+                }
+            } else if (result.errors.length > 0) {
+                showFeedback('error', `${result.errors.length} errores`,
+                    result.errors[0].message);
+            } else if (result.warnings.length > 0) {
+                showFeedback('warning', 'Casi perfecto',
+                    result.warnings[0].message);
+            }
+
+            draw();  // Redraw with error highlights
+        }
+
+        function updateRulesDisplay(result) {
+            // Update rule indicators in sidebar
+            const ruleElements = document.querySelectorAll('.rule-item');
+
+            // Map rule results to display
+            const ruleStatus = {
+                0: checkRule(result, ['CONSONANCE']),
+                1: checkRule(result, ['PARALLEL_FIFTHS', 'PARALLEL_OCTAVES']),
+                2: checkRule(result, ['START_CONSONANCE']),
+                3: checkRule(result, ['END_CONSONANCE']),
+                4: checkRule(result, ['VOICE_CROSSING']),
+                5: checkRule(result, ['MOTION_TYPE'])
+            };
+
+            ruleElements.forEach((el, i) => {
+                const icon = el.querySelector('.rule-icon');
+                icon.classList.remove('pass', 'fail', 'warn', 'pending');
+
+                if (ruleStatus[i] === 'pass') {
+                    icon.classList.add('pass');
+                    icon.textContent = '✓';
+                } else if (ruleStatus[i] === 'fail') {
+                    icon.classList.add('fail');
+                    icon.textContent = '✗';
+                } else if (ruleStatus[i] === 'warn') {
+                    icon.classList.add('warn');
+                    icon.textContent = '!';
+                } else {
+                    icon.classList.add('pending');
+                    icon.textContent = i + 1;
+                }
+            });
+        }
+
+        function checkRule(result, ruleNames) {
+            const hasError = result.errors.some(e => ruleNames.includes(e.rule));
+            const hasWarning = result.warnings.some(w => ruleNames.includes(w.rule));
+
+            if (hasError) return 'fail';
+            if (hasWarning) return 'warn';
+            if (state.counterpoint.filter(n => n).length === state.currentExercise.notes.length) {
+                return 'pass';
+            }
+            return 'pending';
+        }
+
+        // ==================== UI HELPERS ====================
+        function showFeedback(type, title, message) {
+            const icon = document.getElementById('feedbackIcon');
+            const titleEl = document.getElementById('feedbackTitle');
+            const messageEl = document.getElementById('feedbackMessage');
+
+            icon.classList.remove('success', 'warning', 'error', 'pending');
+            icon.classList.add(type);
+
+            icon.textContent = type === 'success' ? '✓' :
+                              type === 'error' ? '✗' :
+                              type === 'warning' ? '!' : '?';
+
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+        }
+
+        function showSuccessModal(score) {
+            const modal = document.getElementById('successModal');
+            const message = document.getElementById('successMessage');
+
+            message.textContent = `Has completado el ejercicio con ${score} puntos. ` +
+                (score === 100 ? 'Ejecucion perfecta!' : 'Muy buen trabajo!');
+
+            modal.classList.add('active');
+        }
+
+        // ==================== EXERCISE LOADING ====================
+        function loadExercise(id) {
+            const cf = CantusFirmus.get(id);
+            if (!cf) return;
+
+            state.currentExercise = cf;
+            state.counterpoint = new Array(cf.notes.length).fill(null);
+            state.history = [];
+            state.selectedBeat = 0;  // Reset selection to first beat
+
+            document.getElementById('exerciseTitle').textContent =
+                `Primera Especie - ${cf.name}`;
+
+            // Update active state in list
+            document.querySelectorAll('.exercise-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.id === id);
+            });
+
+            draw();
+            validatePartial();
+        }
+
+        function populateExerciseList() {
+            const list = document.getElementById('exerciseList');
+            const exercises = CantusFirmus.getAll();
+
+            list.innerHTML = exercises.map(cf => `
+                <div class="exercise-item" data-id="${cf.id}">
+                    <div class="name">${cf.name}</div>
+                    <div class="meta">
+                        ${cf.key} ${cf.mode === 'major' ? 'Mayor' : 'menor'} •
+                        <span class="difficulty">
+                            ${[1,2,3].map(d => `<span class="difficulty-dot ${d <= cf.difficulty ? 'active' : ''}"></span>`).join('')}
+                        </span>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click handlers
+            list.querySelectorAll('.exercise-item').forEach(el => {
+                el.addEventListener('click', () => loadExercise(el.dataset.id));
+            });
+        }
+
+        // ==================== AUDIO ====================
+        function initAudio() {
+            if (!state.audioContext) {
+                state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+                // Create master compressor for smoother output
+                state.masterGain = state.audioContext.createGain();
+                state.masterGain.gain.value = 0.7;
+                state.masterGain.connect(state.audioContext.destination);
+            }
+        }
+
+        function playNote(noteStr, time, duration) {
+            const freq = Pitch.midiToFreq(Pitch.toMidi(noteStr));
+            const ctx = state.audioContext;
+
+            // Create oscillator with slight detune for warmth
+            const osc = ctx.createOscillator();
+            const osc2 = ctx.createOscillator();
+
+            osc.type = 'triangle';
+            osc2.type = 'sine';
+            osc.frequency.value = freq;
+            osc2.frequency.value = freq;
+            osc2.detune.value = 3;  // Slight detuning for chorus effect
+
+            // Lowpass filter with envelope (key improvement)
+            const filter = ctx.createBiquadFilter();
+            filter.type = 'lowpass';
+            filter.Q.value = 1.5;
+
+            // Filter envelope: opens on attack, closes on release
+            const baseFreq = Math.min(freq * 2, 2000);  // Relative to note pitch
+            const peakFreq = Math.min(freq * 4, 4000);
+            filter.frequency.setValueAtTime(baseFreq, time);
+            filter.frequency.linearRampToValueAtTime(peakFreq, time + 0.05);  // Quick attack
+            filter.frequency.exponentialRampToValueAtTime(baseFreq * 0.5, time + duration);  // Slow close
+
+            // Amplitude envelope (ADSR-like)
+            const gain = ctx.createGain();
+            const gain2 = ctx.createGain();
+
+            // Main oscillator envelope
+            gain.gain.setValueAtTime(0.001, time);
+            gain.gain.exponentialRampToValueAtTime(0.25, time + 0.02);  // Attack
+            gain.gain.exponentialRampToValueAtTime(0.18, time + 0.1);   // Decay to sustain
+            gain.gain.setValueAtTime(0.18, time + duration - 0.15);
+            gain.gain.exponentialRampToValueAtTime(0.001, time + duration);  // Release
+
+            // Secondary oscillator (softer, adds body)
+            gain2.gain.setValueAtTime(0.001, time);
+            gain2.gain.exponentialRampToValueAtTime(0.08, time + 0.03);
+            gain2.gain.exponentialRampToValueAtTime(0.001, time + duration);
+
+            // Connect: oscs -> gains -> filter -> master
+            osc.connect(gain);
+            osc2.connect(gain2);
+            gain.connect(filter);
+            gain2.connect(filter);
+            filter.connect(state.masterGain);
+
+            osc.start(time);
+            osc2.start(time);
+            osc.stop(time + duration + 0.1);
+            osc2.stop(time + duration + 0.1);
+        }
+
+        function playExercise() {
+            if (state.isPlaying) return;
+            if (!state.currentExercise) return;
+
+            initAudio();
+            state.isPlaying = true;
+
+            const cf = state.currentExercise.notes;
+            const tempo = 60;  // BPM
+            const beatDuration = 60 / tempo;
+            let time = state.audioContext.currentTime + 0.1;
+
+            for (let i = 0; i < cf.length; i++) {
+                // Play CF note
+                playNote(cf[i], time, beatDuration * 0.9);
+
+                // Play CP note if exists
+                if (state.counterpoint[i]) {
+                    playNote(state.counterpoint[i], time, beatDuration * 0.9);
+                }
+
+                time += beatDuration;
+            }
+
+            setTimeout(() => {
+                state.isPlaying = false;
+            }, cf.length * beatDuration * 1000 + 200);
+        }
+
+        // ==================== EVENT HANDLERS ====================
+        document.getElementById('btnPlay').addEventListener('click', playExercise);
+
+        document.getElementById('btnCheck').addEventListener('click', validateFull);
+
+        document.getElementById('btnClear').addEventListener('click', () => {
+            state.history.push([...state.counterpoint]);
+            state.counterpoint = new Array(state.currentExercise.notes.length).fill(null);
+            draw();
+            validatePartial();
+        });
+
+        document.getElementById('btnUndo').addEventListener('click', () => {
+            if (state.history.length > 0) {
+                state.counterpoint = state.history.pop();
+                draw();
+                validatePartial();
+            }
+        });
+
+        document.getElementById('btnNextExercise').addEventListener('click', () => {
+            document.getElementById('successModal').classList.remove('active');
+            // Load next exercise
+            const exercises = CantusFirmus.getAll();
+            const currentIdx = exercises.findIndex(e => e.id === state.currentExercise.id);
+            const nextIdx = (currentIdx + 1) % exercises.length;
+            loadExercise(exercises[nextIdx].id);
+        });
+
+        document.getElementById('successModal').addEventListener('click', (e) => {
+            if (e.target.id === 'successModal') {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Position toggle
+        document.querySelectorAll('[data-position]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-position]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.cpPosition = btn.dataset.position;
+
+                // Clear and redraw
+                state.counterpoint = new Array(state.currentExercise.notes.length).fill(null);
+                state.history = [];
+                draw();
+                validatePartial();
+            });
+        });
+
+        // Keyboard shortcuts - canvas specific (arrows, delete)
+        canvas.addEventListener('keydown', (e) => {
+            if (!state.currentExercise) return;
+
+            const noteCount = state.currentExercise.notes.length;
+
+            // Arrow navigation
+            if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                if (state.selectedBeat > 0) {
+                    state.selectedBeat--;
+                    draw();
+                }
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                if (state.selectedBeat < noteCount - 1) {
+                    state.selectedBeat++;
+                    draw();
+                }
+            } else if (e.code === 'ArrowUp') {
+                e.preventDefault();
+                // Shift+↑ = chromatic (semitone), normal = diatonic
+                moveNoteAtSelectedBeat(1, e.shiftKey);
+            } else if (e.code === 'ArrowDown') {
+                e.preventDefault();
+                // Shift+↓ = chromatic (semitone), normal = diatonic
+                moveNoteAtSelectedBeat(-1, e.shiftKey)
+            } else if (e.code === 'Delete' || e.code === 'Backspace') {
+                e.preventDefault();
+                deleteNoteAtSelectedBeat();
+            } else if (e.code === 'Tab') {
+                e.preventDefault();
+                // Tab advances, Shift+Tab goes back
+                if (e.shiftKey) {
+                    if (state.selectedBeat > 0) {
+                        state.selectedBeat--;
+                        draw();
+                    }
+                } else {
+                    if (state.selectedBeat < noteCount - 1) {
+                        state.selectedBeat++;
+                        draw();
+                    }
+                }
+            } else if (e.code === 'Space') {
+                e.preventDefault();
+                playExercise();
+            }
+        });
+
+        // Global keyboard shortcuts (work anywhere)
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Enter') {
+                validateFull();
+            } else if (e.code === 'Escape') {
+                document.getElementById('btnClear').click();
+            } else if (e.ctrlKey && e.code === 'KeyZ') {
+                e.preventDefault();
+                document.getElementById('btnUndo').click();
+            }
+        });
+
+        function moveNoteAtSelectedBeat(direction, chromatic = false) {
+            if (state.selectedBeat === null) return;
+
+            const currentNote = state.counterpoint[state.selectedBeat];
+            const cfNote = state.currentExercise.notes[state.selectedBeat];
+
+            // Save history
+            state.history.push([...state.counterpoint]);
+
+            if (!currentNote) {
+                // No note yet, create one based on CF position
+                // Start at a consonant interval from CF
+                const cfMidi = Pitch.toMidi(cfNote);
+                let startMidi;
+
+                if (state.cpPosition === 'upper') {
+                    // Start at octave above CF
+                    startMidi = cfMidi + 12;
+                } else {
+                    // Start at octave below CF
+                    startMidi = cfMidi - 12;
+                }
+
+                state.counterpoint[state.selectedBeat] = Pitch.fromMidi(startMidi);
+            } else if (chromatic) {
+                // Chromatic movement: move by semitone (for accidentals)
+                const currentMidi = Pitch.toMidi(currentNote);
+                const newMidi = currentMidi + direction;
+
+                // Clamp to reasonable range
+                if (newMidi >= 36 && newMidi <= 84) {  // C2 to C6
+                    state.counterpoint[state.selectedBeat] = Pitch.fromMidi(newMidi);
+                }
+            } else {
+                // Diatonic movement: move by scale step
+                const currentMidi = Pitch.toMidi(currentNote);
+                const key = state.currentExercise.key;
+                const mode = state.currentExercise.mode;
+
+                // Get all diatonic notes in a reasonable range
+                const diatonicNotes = Scale.getDiatonicRange(key, mode, 'C2', 'C7');
+                const currentIndex = diatonicNotes.findIndex(n => Pitch.toMidi(n) === currentMidi);
+
+                if (currentIndex !== -1) {
+                    const newIndex = currentIndex + direction;
+                    if (newIndex >= 0 && newIndex < diatonicNotes.length) {
+                        state.counterpoint[state.selectedBeat] = diatonicNotes[newIndex];
+                    }
+                } else {
+                    // Note not in scale (has accidental), move by semitone to next note
+                    // Then snap to diatonic if not using chromatic mode
+                    let newMidi = currentMidi + direction;
+                    state.counterpoint[state.selectedBeat] = Pitch.fromMidi(newMidi);
+                }
+            }
+
+            // Play the note
+            playCurrentNote();
+
+            draw();
+            validatePartial();
+        }
+
+        function deleteNoteAtSelectedBeat() {
+            if (state.selectedBeat === null) return;
+            if (!state.counterpoint[state.selectedBeat]) return;
+
+            state.history.push([...state.counterpoint]);
+            state.counterpoint[state.selectedBeat] = null;
+            draw();
+            validatePartial();
+        }
+
+        function playCurrentNote() {
+            if (!state.counterpoint[state.selectedBeat]) return;
+
+            initAudio();
+            const note = state.counterpoint[state.selectedBeat];
+            playNote(note, state.audioContext.currentTime, 0.3);
+
+            // Also play CF note for context
+            const cfNote = state.currentExercise.notes[state.selectedBeat];
+            playNote(cfNote, state.audioContext.currentTime, 0.3);
+        }
+
+        // ==================== INIT ====================
+        function init() {
+            setupCanvas();
+            populateExerciseList();
+
+            // Load first exercise
+            const exercises = CantusFirmus.getAll();
+            if (exercises.length > 0) {
+                loadExercise(exercises[0].id);
+            }
+        }
+
+        init();
+
+        // Debounced resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                setupCanvas();
+                draw();
+            }, 100);
+        });
+    </script>
+</body>
+</html>
