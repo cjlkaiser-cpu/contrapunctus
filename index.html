@@ -492,6 +492,116 @@
             line-height: 1.6;
         }
 
+        /* Theory Modal */
+        .theory-modal {
+            max-width: 700px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .theory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .theory-header h2 {
+            margin: 0;
+        }
+
+        .theory-content {
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .theory-section {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .theory-section:last-child {
+            border-bottom: none;
+        }
+
+        .theory-section h3 {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .theory-section h4 {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .theory-section p {
+            margin-bottom: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .theory-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .theory-section li {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .theory-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0.75rem 0;
+            font-size: 0.8rem;
+        }
+
+        .theory-table th,
+        .theory-table td {
+            padding: 0.5rem;
+            text-align: left;
+            border: 1px solid var(--bg-tertiary);
+        }
+
+        .theory-table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .theory-table td {
+            color: var(--text-secondary);
+        }
+
+        .theory-table .good { color: var(--success); font-weight: 500; }
+        .theory-table .caution { color: var(--warning); font-weight: 500; }
+        .theory-table .bad { color: var(--error); font-weight: 500; }
+
+        .theory-note {
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            border-left: 3px solid var(--accent);
+        }
+
+        .theory-section.source {
+            opacity: 0.7;
+            font-style: italic;
+        }
+
+        .theory-section.source p {
+            font-size: 0.8rem;
+        }
+
         /* Note hover preview */
         .note-preview {
             position: absolute;
@@ -631,32 +741,67 @@
 
         <!-- Right Sidebar -->
         <aside class="sidebar-right">
+            <!-- Theory Button -->
+            <button class="btn btn-secondary" id="btnTheory" style="width: 100%; margin-bottom: 1rem;">
+                📖 Ver Teoría (Schoenberg)
+            </button>
+
             <div class="rules-section">
-                <h3>Reglas de Primera Especie</h3>
+                <h3>Reglas Fundamentales</h3>
                 <div id="rulesList">
-                    <div class="rule-item">
+                    <div class="rule-item" data-rules="CONSONANCE">
                         <div class="rule-icon pending">1</div>
                         <div class="rule-text">Solo consonancias (3as, 5as, 6as, 8as)</div>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item" data-rules="PARALLEL_FIFTHS,PARALLEL_OCTAVES">
                         <div class="rule-icon pending">2</div>
                         <div class="rule-text">Sin quintas u octavas paralelas</div>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item" data-rules="START_CONSONANCE">
                         <div class="rule-icon pending">3</div>
                         <div class="rule-text">Comenzar en consonancia perfecta</div>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item" data-rules="END_CONSONANCE">
                         <div class="rule-icon pending">4</div>
-                        <div class="rule-text">Terminar en unisono u octava</div>
+                        <div class="rule-text">Terminar en unísono u octava</div>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item" data-rules="VOICE_CROSSING">
                         <div class="rule-icon pending">5</div>
                         <div class="rule-text">Sin cruce de voces</div>
                     </div>
-                    <div class="rule-item">
+                    <div class="rule-item" data-rules="MOTION_TYPE">
                         <div class="rule-icon pending">6</div>
                         <div class="rule-text">Preferir movimiento contrario</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-section">
+                <h3>Reglas Avanzadas (Schoenberg)</h3>
+                <div id="advancedRulesList">
+                    <div class="rule-item" data-rules="HIDDEN_FIFTHS,HIDDEN_OCTAVES">
+                        <div class="rule-icon pending">7</div>
+                        <div class="rule-text">Sin quintas/octavas ocultas</div>
+                    </div>
+                    <div class="rule-item" data-rules="BATTUTA_FIFTHS,BATTUTA_OCTAVES">
+                        <div class="rule-icon pending">8</div>
+                        <div class="rule-text">Sin paralelas intermitentes (§8)</div>
+                    </div>
+                    <div class="rule-item" data-rules="COMPOUND_TRITONE">
+                        <div class="rule-icon pending">9</div>
+                        <div class="rule-text">Sin tritonos compuestos (§7c)</div>
+                    </div>
+                    <div class="rule-item" data-rules="COMPOUND_DISSONANT_LEAP">
+                        <div class="rule-icon pending">10</div>
+                        <div class="rule-text">Sin saltos disonantes compuestos (§7e)</div>
+                    </div>
+                    <div class="rule-item" data-rules="PROLONGED_DIRECTION">
+                        <div class="rule-icon pending">11</div>
+                        <div class="rule-text">Máx 8-9 notas en una dirección (§7f)</div>
+                    </div>
+                    <div class="rule-item" data-rules="ARPEGGIO,EXCESSIVE_PARALLELS">
+                        <div class="rule-icon pending">12</div>
+                        <div class="rule-text">Evitar arpegios y 3as/6as excesivas (§7h)</div>
                     </div>
                 </div>
             </div>
@@ -732,6 +877,297 @@
             <h2>🎉 Excelente!</h2>
             <p id="successMessage">Has completado el ejercicio correctamente.</p>
             <button class="btn btn-primary" id="btnNextExercise">Siguiente Ejercicio →</button>
+        </div>
+    </div>
+
+    <!-- Theory Modal -->
+    <div class="modal-overlay" id="theoryModal">
+        <div class="modal theory-modal">
+            <div class="theory-header">
+                <h2>📖 Schoenberg - Primera Especie</h2>
+                <button class="btn btn-secondary btn-icon" id="btnCloseTheory">✕</button>
+            </div>
+            <div class="theory-content" id="theoryContent">
+                <!-- Introducción -->
+                <section class="theory-section">
+                    <h3>Definición General</h3>
+                    <p>Adición de una voz (superior o inferior) a una voz dada llamada <em>cantus firmus</em> (CF). En la primera especie, la voz añadida se compone siempre de <strong>redondas</strong> (nota contra nota).</p>
+                </section>
+
+                <!-- §1 -->
+                <section class="theory-section">
+                    <h3>§1. Regla Fundamental</h3>
+                    <p>A cada nota del <em>cantus firmus</em> se le ha de añadir una <strong>nota consonante</strong>. La adición de notas consonantes solo está condicionada por las exigencias de la <strong>correcta conducción de las voces</strong>.</p>
+                </section>
+
+                <!-- §2 -->
+                <section class="theory-section">
+                    <h3>§2. Consonancias</h3>
+                    <p>Son consonancias (intervalos consonantes) las siguientes relaciones entre dos notas:</p>
+                    <table class="theory-table">
+                        <tr><th>Intervalo</th><th>Nombre</th><th>Observación</th></tr>
+                        <tr><td><strong>1</strong></td><td>Primera (unísono)</td><td>No es un intervalo propiamente dicho</td></tr>
+                        <tr><td><strong>8</strong></td><td>Octava</td><td>Por encima o por debajo</td></tr>
+                        <tr><td><strong>5</strong></td><td>Quinta justa</td><td>Debe ser justa (no disminuida)</td></tr>
+                        <tr><td><strong>3</strong></td><td>Tercera</td><td>Mayor o menor</td></tr>
+                        <tr><td><strong>6</strong></td><td>Sexta</td><td>Mayor o menor</td></tr>
+                    </table>
+                </section>
+
+                <!-- §3 -->
+                <section class="theory-section">
+                    <h3>§3. Disonancias</h3>
+                    <p>En la primera especie <strong>no se debe utilizar ningún intervalo disonante</strong>.</p>
+                    <table class="theory-table">
+                        <tr><th>Intervalo</th><th>Nombre</th><th>Observación</th></tr>
+                        <tr><td><strong>2</strong></td><td>Segunda</td><td>Mayor o menor</td></tr>
+                        <tr><td><strong>7</strong></td><td>Séptima</td><td>Mayor o menor</td></tr>
+                        <tr><td><strong>9</strong></td><td>Novena</td><td>Segunda + octava</td></tr>
+                        <tr><td><strong>4</strong></td><td>Cuarta</td><td class="caution">Tratada como disonancia a 2 voces</td></tr>
+                        <tr><td><strong>+4</strong></td><td>Cuarta aumentada</td><td class="bad">Tritono</td></tr>
+                        <tr><td><strong>-5</strong></td><td>Quinta disminuida</td><td class="bad">Inversión del tritono</td></tr>
+                    </table>
+                </section>
+
+                <!-- §4 -->
+                <section class="theory-section">
+                    <h3>§4. Intervalos Compuestos</h3>
+                    <p>Todo intervalo <strong>conserva su calificación</strong> de consonancia o disonancia aunque esté ampliado en una o más octavas.</p>
+                    <ul>
+                        <li>10ª (3ª + 8ª) = <span class="good">consonancia</span></li>
+                        <li>12ª (5ª + 8ª) = <span class="good">consonancia</span></li>
+                        <li>9ª (2ª + 8ª) = <span class="bad">disonancia</span></li>
+                        <li>14ª (7ª + 8ª) = <span class="bad">disonancia</span></li>
+                    </ul>
+                </section>
+
+                <!-- §6 -->
+                <section class="theory-section">
+                    <h3>§6. Selección de Voces</h3>
+                    <p>El estudiante debe seleccionar siempre <strong>dos voces vecinas</strong>:</p>
+                    <table class="theory-table">
+                        <tr><th>Combinación</th><th>Válida</th></tr>
+                        <tr><td>Soprano - Contralto</td><td class="good">✓</td></tr>
+                        <tr><td>Contralto - Tenor</td><td class="good">✓</td></tr>
+                        <tr><td>Tenor - Bajo</td><td class="good">✓</td></tr>
+                        <tr><td>Soprano - Tenor</td><td class="bad">✗</td></tr>
+                        <tr><td>Soprano - Bajo</td><td class="bad">✗</td></tr>
+                        <tr><td>Contralto - Bajo</td><td class="bad">✗</td></tr>
+                    </table>
+                </section>
+
+                <!-- §7 -->
+                <section class="theory-section">
+                    <h3>§7. Conducción Melódica de las Voces</h3>
+                    <p>Las voces han de ser <strong>melodiosas</strong> o, al menos, <strong>no amelódicas</strong>.</p>
+
+                    <h4>§7a-b. Intervalos aumentados y tritono</h4>
+                    <ul>
+                        <li>Usar solo notas naturales de la escala diatónica</li>
+                        <li>Quedan excluidas las progresiones cromáticas</li>
+                        <li>La <strong>cuarta aumentada</strong> (tritono) entre las notas 4ª y 7ª debe ser <strong>estrictamente evitada</strong></li>
+                    </ul>
+
+                    <h4>§7c. Tritonos compuestos</h4>
+                    <p>Progresiones donde una o más notas quedan insertas entre las notas 4ª y 7ª de la escala. Aunque no sean consecutivas, forman un tritono "oculto".</p>
+
+                    <h4>§7d-e. Saltos disonantes</h4>
+                    <p>Evitar saltos con intervalos disonantes (7ª, 9ª, 11ª). También evitar dos saltos sucesivos en la misma dirección que produzcan intervalos disonantes:</p>
+                    <table class="theory-table">
+                        <tr><th>Situación</th><th>Resultado</th></tr>
+                        <tr><td>4ª + 4ª = 7ª</td><td class="bad">Mal</td></tr>
+                        <tr><td>3ª + 5ª = 7ª</td><td class="bad">Mal</td></tr>
+                        <tr><td>5ª + 3ª = 7ª</td><td class="bad">Mal</td></tr>
+                        <tr><td>2ª + 6ª = 7ª</td><td class="caution">Tolerable</td></tr>
+                        <tr><td>3ª + 3ª = 5ª</td><td class="good">Correcto</td></tr>
+                    </table>
+
+                    <h4>§7f. Dirección prolongada</h4>
+                    <p>Máximo <strong>8 o 9 notas</strong> en la misma dirección. Después de un salto, <strong>equilibrar</strong> mediante movimiento por grados conjuntos o salto en dirección opuesta. El mejor procedimiento: moverse en <strong>"ondas"</strong> arriba y abajo.</p>
+
+                    <h4>§7g. Salto de sexta</h4>
+                    <p>Produce en muchos casos <strong>octavas o quintas ocultas</strong>. Es mejor evitarlo. En emergencia, puede emplearse la <strong>sexta menor ascendente</strong>.</p>
+
+                    <h4>§7h. Arpegios</h4>
+                    <p>Evitar acordes arpegiados por dos razones:</p>
+                    <ol>
+                        <li>Expresan una armonía, restringiendo el libre movimiento de las otras voces</li>
+                        <li>Dan frecuentemente la impresión de un acompañamiento de estilo homofónico</li>
+                    </ol>
+
+                    <h4>§7i-j. Monotonía y secuencias</h4>
+                    <ul>
+                        <li>No repetir frecuentemente una nota</li>
+                        <li>No permanecer demasiado tiempo en el ámbito de una cuarta o una quinta</li>
+                        <li>Evitar repeticiones secuenciales (podrían producir un "motivo" obligatorio)</li>
+                    </ul>
+
+                    <h4>§7k. Salto de octava</h4>
+                    <p><strong>Solo en emergencia:</strong> si se hubiese rebasado el ámbito de la voz o si las voces se hubiesen acercado o alejado demasiado. <strong>No se permite salto alguno mayor que la octava.</strong></p>
+
+                    <h4>§7l. Principio general</h4>
+                    <p class="theory-note">Una buena melodía ha de <strong>mezclar los saltos con el movimiento por grados conjuntos</strong> y no proceder demasiado tiempo en una misma dirección. Normalmente, el mejor procedimiento será moverse en "ondas" arriba y abajo.</p>
+                </section>
+
+                <!-- §8 -->
+                <section class="theory-section">
+                    <h3>§8. Independencia de las Voces</h3>
+                    <p>Las voces deben:</p>
+                    <ol>
+                        <li>Encontrarse en determinados puntos, en armonías comprensibles</li>
+                        <li>Expresar claramente la tonalidad</li>
+                        <li>Ser tan independientes como resulte posible</li>
+                    </ol>
+
+                    <h4>I. Tres Tipos de Movimiento</h4>
+                    <table class="theory-table">
+                        <tr><th>Tipo</th><th>Descripción</th><th>Independencia</th></tr>
+                        <tr><td><strong>Paralelo</strong></td><td>Misma dirección</td><td class="bad">Menor independencia</td></tr>
+                        <tr><td><strong>Contrario</strong></td><td>Direcciones opuestas</td><td class="good">Mayor independencia</td></tr>
+                        <tr><td><strong>Oblicuo</strong></td><td>Una voz estacionaria</td><td class="caution">No aplicable en 1ª especie</td></tr>
+                    </table>
+
+                    <h4>II. Reglas sobre Paralelas</h4>
+                    <table class="theory-table">
+                        <tr><th>Tipo</th><th>Regla</th></tr>
+                        <tr><td>Octavas paralelas explícitas</td><td class="bad">Evitar estrictamente</td></tr>
+                        <tr><td>Quintas paralelas explícitas</td><td class="bad">Evitar estrictamente</td></tr>
+                        <tr><td>Octavas/quintas ocultas</td><td class="bad">Evitar (mov. paralelo hacia 8ª o 5ª)</td></tr>
+                        <tr><td>Terceras paralelas</td><td class="good">No son incorrectas</td></tr>
+                        <tr><td>Sextas paralelas</td><td class="good">No son incorrectas</td></tr>
+                    </table>
+                    <p class="theory-note"><strong>Sobre terceras y sextas:</strong> No son nunca incorrectas, aunque el movimiento paralelo no debe utilizarse demasiado tiempo (máx. 3-4 consecutivas).</p>
+                </section>
+
+                <!-- §9 -->
+                <section class="theory-section">
+                    <h3>§9. Cruzamiento de las Voces</h3>
+                    <p><strong>Debe evitarse el cruzamiento de las voces.</strong> Aunque no es incorrecto, resulta un camino demasiado fácil para tratar los problemas.</p>
+                    <p class="theory-note"><strong>Regla:</strong> Una voz inferior <strong>nunca</strong> debe utilizar una nota por encima de una voz superior, y viceversa.</p>
+                </section>
+
+                <!-- §10 -->
+                <section class="theory-section">
+                    <h3>§10. Establecimiento de la Tonalidad</h3>
+                    <p>La adhesión a una tonalidad es un modo básico y efectivo de producir unidad.</p>
+
+                    <h4>Regla para el comienzo y final:</h4>
+                    <ul>
+                        <li>Comenzar y acabar con elementos de la <strong>tónica (I)</strong> en posición fundamental</li>
+                        <li>La voz inferior solo puede tener <strong>la tónica</strong> en el comienzo y final</li>
+                    </ul>
+
+                    <h4>La voz superior puede:</h4>
+                    <ul>
+                        <li>Duplicar la tónica (a la primera o a la octava)</li>
+                        <li>Añadir la <strong>quinta</strong> (preferentemente)</li>
+                        <li>Añadir la <strong>tercera</strong> (en el comienzo, solo si al final no puede alcanzarse de otro modo)</li>
+                    </ul>
+
+                    <table class="theory-table">
+                        <tr><th>Intervalo</th><th>Función</th></tr>
+                        <tr><td>1ª y 8ª</td><td>Reservar para inicio y final</td></tr>
+                        <tr><td>3ª, 5ª, 6ª</td><td>Preferir durante el ejercicio</td></tr>
+                    </table>
+                </section>
+
+                <!-- §11 -->
+                <section class="theory-section">
+                    <h3>§11. Nota Antefinal (Penúltima)</h3>
+                    <p>La nota antefinal se elegirá siempre de las pertenecientes al <strong>acorde de dominante (V)</strong>:</p>
+                    <ul>
+                        <li><strong>Grado II</strong> de la escala (5ª del acorde de V)</li>
+                        <li><strong>Grado VII</strong> (sensible → resuelve a tónica)</li>
+                    </ul>
+                    <p class="theory-note"><strong>Nunca</strong> usar la fundamental del IV grado (que coincide con la quinta disminuida del VII).</p>
+                </section>
+
+                <!-- Paralelas intermitentes -->
+                <section class="theory-section">
+                    <h3>Paralelas Intermitentes (Battuta)</h3>
+                    <p>Han de evitarse las <strong>octavas y quintas paralelas intermitentes</strong> (llamadas también <em>salteadas</em> o <em>no consecutivas</em>).</p>
+                    <p>Aun cuando se insertase otra armonía u otro intervalo entre dos encuentros casuales en una octava o quinta, se consideraría a éstas <strong>paralelas explícitas</strong>.</p>
+
+                    <h4>Excepción de Beethoven:</h4>
+                    <p class="theory-note">Cuando una de las voces realiza un <strong>salto de cuarta o de quinta</strong>, las paralelas intermitentes pueden permitirse si, además, la segunda octava o quinta se aborda por <strong>movimiento contrario</strong>.</p>
+                </section>
+
+                <!-- Pecados -->
+                <section class="theory-section">
+                    <h3>Discriminación entre "Pecados"</h3>
+                    <p>Las severas restricciones hacen <strong>casi imposible escribir muchos ejemplos que no violen alguna que otra regla</strong>. Existe la posibilidad de discriminar entre "pecados" mayores y menores.</p>
+
+                    <h4>Pecados menores (tolerables):</h4>
+                    <table class="theory-table">
+                        <tr><th>Situación</th><th>Tolerancia</th></tr>
+                        <tr><td>Sucesión ocasional de notas de un acorde arpegiado</td><td class="caution">Tolerable si compensada</td></tr>
+                        <tr><td>Progresión larga en la misma dirección</td><td class="caution">Tolerable si compensada</td></tr>
+                        <tr><td>Sucesión de saltos</td><td class="caution">Tolerable si compensada por mérito</td></tr>
+                    </table>
+                    <p class="theory-note">¡El estudiante no va a publicar sus ejercicios, después de todo!</p>
+                </section>
+
+                <!-- Método de trabajo -->
+                <section class="theory-section">
+                    <h3>Método de Trabajo Recomendado</h3>
+                    <p><strong>Siempre es aconsejable ir planteando los ejercicios un poco por delante</strong> y preguntarse qué dos o tres notas podrían seguir a una dada.</p>
+                    <p>Esta planificación es <strong>casi imperativa para los finales</strong>. A menudo hay solo unas pocas posibilidades.</p>
+
+                    <h4>Orden sistemático:</h4>
+                    <p>Proceder de modo sistemático, acometiendo ejemplos que comiencen con:</p>
+                    <ol>
+                        <li>La <strong>primera</strong> (unísono)</li>
+                        <li>La <strong>octava</strong></li>
+                        <li>La <strong>quinta</strong></li>
+                        <li>La <strong>tercera</strong></li>
+                    </ol>
+                </section>
+
+                <!-- Resumen -->
+                <section class="theory-section">
+                    <h3>Resumen de Reglas Principales</h3>
+
+                    <h4>Intervalos permitidos:</h4>
+                    <p><strong>1 (unísono), 3, 5, 6, 8</strong></p>
+
+                    <h4>Intervalos prohibidos:</h4>
+                    <p><strong>2, 4, 7, 9 y todos los aumentados/disminuidos</strong></p>
+
+                    <h4>Movimiento:</h4>
+                    <ul>
+                        <li>Preferir <strong>contrario</strong> sobre paralelo</li>
+                        <li>Evitar <strong>todas</strong> las 8vas y 5tas paralelas (explícitas, ocultas e intermitentes)</li>
+                    </ul>
+
+                    <h4>Melodía:</h4>
+                    <ul>
+                        <li>Mezclar saltos con grados conjuntos</li>
+                        <li>Moverse en "ondas"</li>
+                        <li>Evitar tritono y sus compuestos</li>
+                        <li>Máximo 8-9 notas en una dirección</li>
+                    </ul>
+
+                    <h4>Voces:</h4>
+                    <ul>
+                        <li>Solo voces vecinas</li>
+                        <li>No cruzar voces</li>
+                        <li>Mantener el ámbito</li>
+                    </ul>
+
+                    <h4>Tonalidad:</h4>
+                    <ul>
+                        <li>Comenzar y terminar en tónica (I)</li>
+                        <li>Voz inferior = tónica en inicio y final</li>
+                        <li>Penúltima nota del acorde de V</li>
+                    </ul>
+                </section>
+
+                <!-- Fuente -->
+                <section class="theory-section source">
+                    <h3>Fuente</h3>
+                    <p>Arnold Schoenberg, <em>"Ejercicios Preliminares de Contrapunto"</em>, Primera Parte: Contrapunto Simple a Dos Voces, Primera Especie (pp. 19-33).</p>
+                </section>
+            </div>
         </div>
     </div>
 
@@ -1231,30 +1667,24 @@
         }
 
         function updateRulesDisplay(result) {
-            // Update rule indicators in sidebar
-            const ruleElements = document.querySelectorAll('.rule-item');
-
-            // Map rule results to display
-            const ruleStatus = {
-                0: checkRule(result, ['CONSONANCE']),
-                1: checkRule(result, ['PARALLEL_FIFTHS', 'PARALLEL_OCTAVES']),
-                2: checkRule(result, ['START_CONSONANCE']),
-                3: checkRule(result, ['END_CONSONANCE']),
-                4: checkRule(result, ['VOICE_CROSSING']),
-                5: checkRule(result, ['MOTION_TYPE'])
-            };
+            // Update rule indicators in sidebar using data-rules attributes
+            const ruleElements = document.querySelectorAll('.rule-item[data-rules]');
 
             ruleElements.forEach((el, i) => {
                 const icon = el.querySelector('.rule-icon');
+                const rulesAttr = el.dataset.rules;
+                const ruleNames = rulesAttr.split(',');
+                const status = checkRule(result, ruleNames);
+
                 icon.classList.remove('pass', 'fail', 'warn', 'pending');
 
-                if (ruleStatus[i] === 'pass') {
+                if (status === 'pass') {
                     icon.classList.add('pass');
                     icon.textContent = '✓';
-                } else if (ruleStatus[i] === 'fail') {
+                } else if (status === 'fail') {
                     icon.classList.add('fail');
                     icon.textContent = '✗';
-                } else if (ruleStatus[i] === 'warn') {
+                } else if (status === 'warn') {
                     icon.classList.add('warn');
                     icon.textContent = '!';
                 } else {
@@ -1265,11 +1695,14 @@
         }
 
         function checkRule(result, ruleNames) {
+            // Check if any of the rule names match errors or warnings
             const hasError = result.errors.some(e => ruleNames.includes(e.rule));
             const hasWarning = result.warnings.some(w => ruleNames.includes(w.rule));
+            const hasSuggestion = result.suggestions && result.suggestions.some(s => ruleNames.includes(s.rule));
 
             if (hasError) return 'fail';
             if (hasWarning) return 'warn';
+            if (hasSuggestion) return 'warn';
             if (state.counterpoint.filter(n => n).length === state.currentExercise.notes.length) {
                 return 'pass';
             }
@@ -1474,6 +1907,21 @@
 
         document.getElementById('successModal').addEventListener('click', (e) => {
             if (e.target.id === 'successModal') {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Theory modal handlers
+        document.getElementById('btnTheory').addEventListener('click', () => {
+            document.getElementById('theoryModal').classList.add('active');
+        });
+
+        document.getElementById('btnCloseTheory').addEventListener('click', () => {
+            document.getElementById('theoryModal').classList.remove('active');
+        });
+
+        document.getElementById('theoryModal').addEventListener('click', (e) => {
+            if (e.target.id === 'theoryModal') {
                 e.target.classList.remove('active');
             }
         });

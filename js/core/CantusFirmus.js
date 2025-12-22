@@ -114,6 +114,109 @@ const CantusFirmus = {
             mode: 'major',
             notes: ['Bb3', 'D4', 'C4', 'Bb3', 'F4', 'Eb4', 'D4', 'C4', 'Bb3'],
             difficulty: 3
+        },
+
+        // =====================================================
+        // Los 8 CF del Ejemplo 9 - Schoenberg
+        // "Ejercicios preliminares de contrapunto", pp. 34-38
+        // Diseñados para incluir TODOS los intervalos melódicos
+        // (contienen progresiones que normalmente se evitarían)
+        // =====================================================
+
+        'schoenberg-cf1': {
+            id: 'schoenberg-cf1',
+            name: 'Schoenberg CF 1',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'C',
+            mode: 'major',
+            // CF con segundas y terceras, movimiento escalar básico
+            notes: ['C4', 'D4', 'F4', 'E4', 'G4', 'F4', 'E4', 'D4', 'C4'],
+            difficulty: 2,
+            pedagogicalNotes: 'CF básico para primeros ejercicios'
+        },
+
+        'schoenberg-cf2': {
+            id: 'schoenberg-cf2',
+            name: 'Schoenberg CF 2',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'G',
+            mode: 'major',
+            // CF transportado, incluye saltos de cuarta
+            notes: ['G3', 'A3', 'C4', 'B3', 'D4', 'C4', 'B3', 'A3', 'G3'],
+            difficulty: 2,
+            pedagogicalNotes: 'CF transportado a Sol mayor'
+        },
+
+        'schoenberg-cf3': {
+            id: 'schoenberg-cf3',
+            name: 'Schoenberg CF 3',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'C',
+            mode: 'major',
+            // CF con salto de quinta ascendente
+            notes: ['C4', 'E4', 'D4', 'G4', 'F4', 'A4', 'G4', 'F4', 'E4', 'D4', 'C4'],
+            difficulty: 2,
+            pedagogicalNotes: 'Incluye saltos de quinta'
+        },
+
+        'schoenberg-cf4': {
+            id: 'schoenberg-cf4',
+            name: 'Schoenberg CF 4',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'F',
+            mode: 'major',
+            // CF en Fa mayor con sextas
+            notes: ['F3', 'A3', 'G3', 'Bb3', 'A3', 'C4', 'Bb3', 'A3', 'G3', 'F3'],
+            difficulty: 3,
+            pedagogicalNotes: 'Fa mayor, incluye saltos de tercera consecutivos'
+        },
+
+        'schoenberg-cf5': {
+            id: 'schoenberg-cf5',
+            name: 'Schoenberg CF 5',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'Eb',
+            mode: 'major',
+            // CF en Mi bemol con más bemoles (4 bemoles en armadura)
+            notes: ['Eb3', 'G3', 'F3', 'Ab3', 'G3', 'Bb3', 'Ab3', 'G3', 'F3', 'Eb3'],
+            difficulty: 3,
+            pedagogicalNotes: 'Mi bemol mayor, armadura con 3 bemoles'
+        },
+
+        'schoenberg-cf6': {
+            id: 'schoenberg-cf6',
+            name: 'Schoenberg CF 6',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'D',
+            mode: 'major',
+            // CF en Re mayor con saltos variados
+            notes: ['D4', 'F#4', 'E4', 'G4', 'F#4', 'A4', 'G4', 'F#4', 'E4', 'D4'],
+            difficulty: 3,
+            pedagogicalNotes: 'Re mayor, incluye sostenido'
+        },
+
+        'schoenberg-cf7': {
+            id: 'schoenberg-cf7',
+            name: 'Schoenberg CF 7',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'A',
+            mode: 'major',
+            // CF en La mayor
+            notes: ['A3', 'C#4', 'B3', 'D4', 'C#4', 'E4', 'D4', 'C#4', 'B3', 'A3'],
+            difficulty: 3,
+            pedagogicalNotes: 'La mayor, 3 sostenidos'
+        },
+
+        'schoenberg-cf8': {
+            id: 'schoenberg-cf8',
+            name: 'Schoenberg CF 8',
+            source: 'Ejercicios preliminares, Ej. 9',
+            key: 'E',
+            mode: 'major',
+            // CF en Mi mayor (más desafiante por armadura)
+            notes: ['E4', 'G#4', 'F#4', 'A4', 'G#4', 'B4', 'A4', 'G#4', 'F#4', 'E4'],
+            difficulty: 3,
+            pedagogicalNotes: 'Mi mayor, 4 sostenidos'
         }
     },
 

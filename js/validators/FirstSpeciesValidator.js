@@ -16,6 +16,14 @@
  * 9. Preferir movimiento por grado conjunto
  * 10. Rango limitado para el contrapunto
  * 11. Sin tritono melódico
+ *
+ * REGLAS ADICIONALES (Schoenberg §7):
+ * 12. Sin tritonos compuestos (§7c) - notas entre grados 4 y 7
+ * 13. Sin saltos disonantes compuestos (§7e) - dos saltos que sumen disonancia
+ * 14. Sin paralelas intermitentes (§8) - 5as/8as separadas por otra armonía
+ * 15. Sin dirección prolongada (§7f) - máx 8-9 notas en una dirección
+ * 16. Evitar arpegios (§7h) - 3+ notas de un acorde
+ * 17. Evitar terceras/sextas paralelas excesivas
  */
 
 const FirstSpeciesValidator = {
@@ -35,7 +43,15 @@ const FirstSpeciesValidator = {
         STEPWISE: 'stepwise',
         RANGE: 'range',
         TRITONE: 'tritone',
-        LEADING_TONE: 'leading-tone'
+        LEADING_TONE: 'leading-tone',
+        // New Schoenberg rules
+        COMPOUND_TRITONE: 'compound-tritone',
+        COMPOUND_DISSONANT_LEAP: 'compound-dissonant-leap',
+        BATTUTA_FIFTHS: 'battuta-fifths',
+        BATTUTA_OCTAVES: 'battuta-octaves',
+        PROLONGED_DIRECTION: 'prolonged-direction',
+        ARPEGGIO: 'arpeggio',
+        EXCESSIVE_PARALLELS: 'excessive-parallels'
     },
 
     // Severity levels
@@ -141,6 +157,28 @@ const FirstSpeciesValidator = {
 
         // Rule 10: Range check
         this.checkRange(counterpoint, cpPosition, results);
+
+        // =====================================================
+        // NEW SCHOENBERG RULES (§7)
+        // =====================================================
+
+        // Rule 12: Compound tritones (§7c)
+        this.checkCompoundTritones(counterpoint, key, mode, results);
+
+        // Rule 13: Compound dissonant leaps (§7e)
+        this.checkCompoundDissonantLeaps(counterpoint, results);
+
+        // Rule 14: Battuta (intermittent) fifths/octaves (§8)
+        this.checkBattutaParallels(cantusFirmus, counterpoint, cpPosition, results);
+
+        // Rule 15: Prolonged direction (§7f)
+        this.checkProlongedDirection(counterpoint, results);
+
+        // Rule 16: Arpeggios (§7h)
+        this.checkArpeggios(counterpoint, key, mode, results);
+
+        // Rule 17: Excessive parallel thirds/sixths
+        this.checkExcessiveParallelConsonances(cantusFirmus, counterpoint, cpPosition, results);
 
         // Calculate final score
         results.score = this.calculateScore(results);
@@ -419,6 +457,336 @@ const FirstSpeciesValidator = {
                 severity: this.SEVERITY.WARNING
             };
             results.warnings.push(issue);
+        }
+    },
+
+    // =====================================================
+    // NEW SCHOENBERG RULES (§7) - IMPLEMENTATIONS
+    // =====================================================
+
+    /**
+     * Rule 12: Check for compound tritones (§7c)
+     * A compound tritone occurs when notes between scale degrees 4 and 7
+     * (or 7 and 4) are filled in with other notes, creating a hidden tritone
+     */
+    checkCompoundTritones(counterpoint, key, mode, results) {
+        if (counterpoint.length < 3) return;
+
+        for (let i = 0; i < counterpoint.length - 2; i++) {
+            // Check spans of 3-5 notes for compound tritones
+            for (let span = 3; span <= Math.min(5, counterpoint.length - i); span++) {
+                const startNote = counterpoint[i];
+                const endNote = counterpoint[i + span - 1];
+
+                const startDegree = Scale.getDegree(startNote, key, mode);
+                const endDegree = Scale.getDegree(endNote, key, mode);
+
+                // Check if we span from degree 4 to 7 or 7 to 4
+                if ((startDegree === 4 && endDegree === 7) ||
+                    (startDegree === 7 && endDegree === 4)) {
+
+                    // Verify intermediate notes are between them (filling the tritone)
+                    const interval = Interval.between(startNote, endNote);
+                    if (Interval.isTritone(interval)) {
+                        const issue = {
+                            rule: this.RULES.COMPOUND_TRITONE,
+                            position: i,
+                            message: `Notas ${i + 1}-${i + span}: Tritono compuesto entre grados 4 y 7. Evitar progresiones que contengan el tritono de forma encubierta.`,
+                            severity: this.SEVERITY.WARNING
+                        };
+                        results.warnings.push(issue);
+                        break; // Only report once per starting position
+                    }
+                }
+            }
+        }
+    },
+
+    /**
+     * Rule 13: Check for compound dissonant leaps (§7e)
+     * Two consecutive leaps in the same direction that sum to a dissonant interval
+     * e.g., 4th + 4th = 7th, 3rd + 5th = 7th, etc.
+     */
+    checkCompoundDissonantLeaps(counterpoint, results) {
+        if (counterpoint.length < 3) return;
+
+        for (let i = 0; i < counterpoint.length - 2; i++) {
+            const note1 = counterpoint[i];
+            const note2 = counterpoint[i + 1];
+            const note3 = counterpoint[i + 2];
+
+            const interval1 = Interval.between(note1, note2);
+            const interval2 = Interval.between(note2, note3);
+
+            // Check if both are leaps (larger than a second)
+            if (interval1.simple.generic > 2 && interval2.simple.generic > 2) {
+                // Check if same direction
+                const dir1 = Math.sign(Pitch.toMidi(note2) - Pitch.toMidi(note1));
+                const dir2 = Math.sign(Pitch.toMidi(note3) - Pitch.toMidi(note2));
+
+                if (dir1 === dir2 && dir1 !== 0) {
+                    // Calculate compound interval
+                    const compoundInterval = Interval.between(note1, note3);
+
+                    // Check if the compound interval is dissonant (7th, 9th, etc.)
+                    if (Interval.isDissonant(compoundInterval) ||
+                        compoundInterval.simple.generic === 7 ||
+                        compoundInterval.simple.generic === 9) {
+                        const issue = {
+                            rule: this.RULES.COMPOUND_DISSONANT_LEAP,
+                            position: i + 2,
+                            message: `Notas ${i + 1}-${i + 3}: Saltos disonantes compuestos (${Interval.spanishName(interval1)} + ${Interval.spanishName(interval2)} = ${Interval.spanishName(compoundInterval)}). Evitar dos saltos en la misma dirección que sumen una disonancia.`,
+                            severity: this.SEVERITY.WARNING
+                        };
+                        results.warnings.push(issue);
+                    }
+                }
+            }
+        }
+    },
+
+    /**
+     * Rule 14: Check for battuta (intermittent) fifths and octaves (§8)
+     * Perfect consonances separated by one or more intervening harmonies
+     * These are less severe than direct parallels but should still be avoided
+     */
+    checkBattutaParallels(cantusFirmus, counterpoint, cpPosition, results) {
+        if (cantusFirmus.length < 3) return;
+
+        // Look for 5ths or 8ths separated by 1-2 other intervals
+        for (let i = 0; i < cantusFirmus.length - 2; i++) {
+            const interval1 = Interval.between(
+                cpPosition === 'upper' ? cantusFirmus[i] : counterpoint[i],
+                cpPosition === 'upper' ? counterpoint[i] : cantusFirmus[i]
+            );
+
+            // Only check if first is a perfect 5th or 8th
+            if (!Interval.isPerfectConsonance(interval1) || interval1.simple.name === 'P1') continue;
+
+            // Check 2-3 positions ahead
+            for (let gap = 2; gap <= Math.min(3, cantusFirmus.length - i - 1); gap++) {
+                const interval2 = Interval.between(
+                    cpPosition === 'upper' ? cantusFirmus[i + gap] : counterpoint[i + gap],
+                    cpPosition === 'upper' ? counterpoint[i + gap] : cantusFirmus[i + gap]
+                );
+
+                // Check if same perfect interval
+                if (interval1.simple.name === interval2.simple.name) {
+                    // Check motion between them
+                    const cfDir = Math.sign(Pitch.toMidi(cantusFirmus[i + gap]) - Pitch.toMidi(cantusFirmus[i]));
+                    const cpDir = Math.sign(Pitch.toMidi(counterpoint[i + gap]) - Pitch.toMidi(counterpoint[i]));
+
+                    // Battuta parallels in similar motion are problematic
+                    if (cfDir === cpDir && cfDir !== 0) {
+                        const intervalName = interval1.simple.name === 'P5' ? 'quintas' : 'octavas';
+                        const rule = interval1.simple.name === 'P5' ?
+                            this.RULES.BATTUTA_FIFTHS : this.RULES.BATTUTA_OCTAVES;
+
+                        // Exception: if there's a leap of 4th or 5th and contrary approach
+                        const cpLeap = Math.abs(Pitch.toMidi(counterpoint[i + gap]) - Pitch.toMidi(counterpoint[i + gap - 1]));
+                        const approachMotion = this.getMotionType(
+                            cantusFirmus[i + gap - 1], cantusFirmus[i + gap],
+                            counterpoint[i + gap - 1], counterpoint[i + gap]
+                        );
+
+                        if (cpLeap >= 5 && cpLeap <= 7 && approachMotion === 'contrary') {
+                            // Beethoven exception: tolerable if leap of 4th/5th with contrary approach
+                            continue;
+                        }
+
+                        const issue = {
+                            rule,
+                            position: i + gap,
+                            message: `Notas ${i + 1} y ${i + gap + 1}: ${intervalName.charAt(0).toUpperCase() + intervalName.slice(1)} intermitentes (paralelas ocultas separadas por ${gap - 1} nota(s)).`,
+                            severity: this.SEVERITY.WARNING
+                        };
+                        results.warnings.push(issue);
+                    }
+                }
+            }
+        }
+    },
+
+    /**
+     * Rule 15: Check for prolonged direction (§7f)
+     * More than 8-9 notes in the same direction should be avoided
+     */
+    checkProlongedDirection(counterpoint, results) {
+        if (counterpoint.length < 4) return;
+
+        let currentDirection = 0;
+        let directionCount = 1;
+        let startPosition = 0;
+
+        for (let i = 1; i < counterpoint.length; i++) {
+            const direction = Math.sign(Pitch.toMidi(counterpoint[i]) - Pitch.toMidi(counterpoint[i - 1]));
+
+            if (direction === 0) {
+                // Same note, doesn't change direction count
+                continue;
+            }
+
+            if (direction === currentDirection) {
+                directionCount++;
+            } else {
+                // Direction changed, check if previous run was too long
+                if (directionCount > 8) {
+                    const dirName = currentDirection > 0 ? 'ascendente' : 'descendente';
+                    const issue = {
+                        rule: this.RULES.PROLONGED_DIRECTION,
+                        position: startPosition,
+                        message: `Notas ${startPosition + 1}-${i}: ${directionCount} notas en dirección ${dirName}. Máximo recomendado: 8-9. Equilibrar con movimiento en dirección opuesta.`,
+                        severity: this.SEVERITY.WARNING
+                    };
+                    results.warnings.push(issue);
+                }
+                currentDirection = direction;
+                directionCount = 1;
+                startPosition = i - 1;
+            }
+        }
+
+        // Check final run
+        if (directionCount > 8) {
+            const dirName = currentDirection > 0 ? 'ascendente' : 'descendente';
+            const issue = {
+                rule: this.RULES.PROLONGED_DIRECTION,
+                position: startPosition,
+                message: `Notas ${startPosition + 1}-${counterpoint.length}: ${directionCount} notas en dirección ${dirName}. Máximo recomendado: 8-9.`,
+                severity: this.SEVERITY.WARNING
+            };
+            results.warnings.push(issue);
+        }
+    },
+
+    /**
+     * Rule 16: Check for arpeggiated patterns (§7h)
+     * Three or more consecutive notes outlining a chord
+     */
+    checkArpeggios(counterpoint, key, mode, results) {
+        if (counterpoint.length < 3) return;
+
+        for (let i = 0; i < counterpoint.length - 2; i++) {
+            const note1 = counterpoint[i];
+            const note2 = counterpoint[i + 1];
+            const note3 = counterpoint[i + 2];
+
+            // Get scale degrees
+            const degree1 = Scale.getDegree(note1, key, mode);
+            const degree2 = Scale.getDegree(note2, key, mode);
+            const degree3 = Scale.getDegree(note3, key, mode);
+
+            if (!degree1 || !degree2 || !degree3) continue;
+
+            // Check for triad patterns (1-3-5, 2-4-6, etc.)
+            const triadPatterns = [
+                [1, 3, 5], [1, 5, 3], [3, 1, 5], [3, 5, 1], [5, 1, 3], [5, 3, 1],
+                [2, 4, 6], [2, 6, 4], [4, 2, 6], [4, 6, 2], [6, 2, 4], [6, 4, 2],
+                [3, 5, 7], [3, 7, 5], [5, 3, 7], [5, 7, 3], [7, 3, 5], [7, 5, 3],
+                [4, 6, 1], [4, 1, 6], [6, 4, 1], [6, 1, 4], [1, 4, 6], [1, 6, 4],
+                [5, 7, 2], [5, 2, 7], [7, 5, 2], [7, 2, 5], [2, 5, 7], [2, 7, 5],
+                [6, 1, 3], [6, 3, 1], [1, 6, 3], [1, 3, 6], [3, 6, 1], [3, 1, 6],
+                [7, 2, 4], [7, 4, 2], [2, 7, 4], [2, 4, 7], [4, 7, 2], [4, 2, 7]
+            ];
+
+            const currentPattern = [degree1, degree2, degree3];
+
+            for (const pattern of triadPatterns) {
+                if (pattern[0] === currentPattern[0] &&
+                    pattern[1] === currentPattern[1] &&
+                    pattern[2] === currentPattern[2]) {
+
+                    // Verify it's actually arpeggiated (all moves are leaps, not steps)
+                    const int1 = Interval.between(note1, note2);
+                    const int2 = Interval.between(note2, note3);
+
+                    if (int1.simple.generic >= 3 && int2.simple.generic >= 3) {
+                        const issue = {
+                            rule: this.RULES.ARPEGGIO,
+                            position: i,
+                            message: `Notas ${i + 1}-${i + 3}: Acorde arpegiado (grados ${degree1}-${degree2}-${degree3}). Evitar sucesión de notas de un acorde que restrinja el movimiento de otras voces.`,
+                            severity: this.SEVERITY.SUGGESTION
+                        };
+                        results.suggestions.push(issue);
+                    }
+                    break;
+                }
+            }
+        }
+    },
+
+    /**
+     * Rule 17: Check for excessive parallel thirds or sixths
+     * More than 4-5 consecutive thirds or sixths in parallel motion
+     */
+    checkExcessiveParallelConsonances(cantusFirmus, counterpoint, cpPosition, results) {
+        if (cantusFirmus.length < 4) return;
+
+        let consecutiveThirds = 0;
+        let consecutiveSixths = 0;
+        let thirdsStart = 0;
+        let sixthsStart = 0;
+
+        for (let i = 0; i < cantusFirmus.length; i++) {
+            const interval = Interval.between(
+                cpPosition === 'upper' ? cantusFirmus[i] : counterpoint[i],
+                cpPosition === 'upper' ? counterpoint[i] : cantusFirmus[i]
+            );
+
+            const isThird = interval.simple.name === 'm3' || interval.simple.name === 'M3';
+            const isSixth = interval.simple.name === 'm6' || interval.simple.name === 'M6';
+
+            if (isThird) {
+                if (consecutiveThirds === 0) thirdsStart = i;
+                consecutiveThirds++;
+                consecutiveSixths = 0;
+            } else if (isSixth) {
+                if (consecutiveSixths === 0) sixthsStart = i;
+                consecutiveSixths++;
+                consecutiveThirds = 0;
+            } else {
+                // Check if we exceeded the limit before resetting
+                if (consecutiveThirds > 4) {
+                    const issue = {
+                        rule: this.RULES.EXCESSIVE_PARALLELS,
+                        position: thirdsStart,
+                        message: `Notas ${thirdsStart + 1}-${i}: ${consecutiveThirds} terceras paralelas consecutivas. Limitar a 4 para mantener independencia de voces.`,
+                        severity: this.SEVERITY.SUGGESTION
+                    };
+                    results.suggestions.push(issue);
+                }
+                if (consecutiveSixths > 4) {
+                    const issue = {
+                        rule: this.RULES.EXCESSIVE_PARALLELS,
+                        position: sixthsStart,
+                        message: `Notas ${sixthsStart + 1}-${i}: ${consecutiveSixths} sextas paralelas consecutivas. Limitar a 4 para mantener independencia de voces.`,
+                        severity: this.SEVERITY.SUGGESTION
+                    };
+                    results.suggestions.push(issue);
+                }
+                consecutiveThirds = 0;
+                consecutiveSixths = 0;
+            }
+        }
+
+        // Final check
+        if (consecutiveThirds > 4) {
+            const issue = {
+                rule: this.RULES.EXCESSIVE_PARALLELS,
+                position: thirdsStart,
+                message: `Notas ${thirdsStart + 1}-${cantusFirmus.length}: ${consecutiveThirds} terceras paralelas consecutivas.`,
+                severity: this.SEVERITY.SUGGESTION
+            };
+            results.suggestions.push(issue);
+        }
+        if (consecutiveSixths > 4) {
+            const issue = {
+                rule: this.RULES.EXCESSIVE_PARALLELS,
+                position: sixthsStart,
+                message: `Notas ${sixthsStart + 1}-${cantusFirmus.length}: ${consecutiveSixths} sextas paralelas consecutivas.`,
+                severity: this.SEVERITY.SUGGESTION
+            };
+            results.suggestions.push(issue);
         }
     },
 

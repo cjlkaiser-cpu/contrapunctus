@@ -1,6 +1,6 @@
 # ROADMAP - Contrapunctus
 
-Plan de desarrollo basado en "Ejercicios preliminares de contrapunto" de Arnold Schoenberg.
+Plan de desarrollo basado en "Ejercicios preliminares de contrapunto" de Arnold Schoenberg (1963).
 
 ---
 
@@ -8,15 +8,25 @@ Plan de desarrollo basado en "Ejercicios preliminares de contrapunto" de Arnold 
 
 > "El contrapunto es la base de toda composición." — J.S. Bach
 
-Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus estudiantes en 1725 y como Schoenberg sistematizó en el siglo XX. No avanzamos hasta dominar la capa anterior.
+Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus estudiantes en 1725 y como Schoenberg sistematizó en el siglo XX. **No avanzamos hasta dominar la capa anterior.**
+
+### Principios de Desarrollo
+
+1. **Fuente autorizada**: Cada regla implementada tiene referencia directa al tratado de Schoenberg (sección y página)
+2. **Rigor pedagógico**: No simplificamos las reglas. Implementamos los matices (§7c tritonos compuestos, §8 paralelas intermitentes, "pecados menores")
+3. **Teoría accesible**: El estudiante puede consultar la teoría completa sin salir de la aplicación
+4. **Validación fiel**: El código implementa exactamente lo que dice el libro
+5. **Progresión estricta**: Cada especie debe dominarse antes de avanzar a la siguiente
 
 ---
 
 ## Estado Actual
 
 ```
-[████████░░░░░░░░░░░░] 20% - Primera Especie Completa
+[██████████░░░░░░░░░░] 25% - Primera Especie + Teoría Completa
 ```
+
+**Última actualización**: Diciembre 2024
 
 ---
 
@@ -24,62 +34,102 @@ Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus e
 
 **Nota contra nota - La base de todo**
 
+*Referencia: Schoenberg, pp. 19-47*
+
 ### Implementado
+
+#### Núcleo Teórico
 - [x] Módulo Pitch (notación científica, MIDI, frecuencias)
 - [x] Módulo Interval (cálculo, clasificación consonancia/disonancia)
 - [x] Módulo Scale (mayor/menor, armaduras, grados)
-- [x] Módulo CantusFirmus (colección Fux + tradicionales)
-- [x] FirstSpeciesValidator con reglas completas
-- [x] Interfaz de pentagrama (Canvas 2D)
+- [x] Módulo CantusFirmus (colección Fux + Schoenberg Ej. 9)
+
+#### Validador Primera Especie
+- [x] FirstSpeciesValidator con reglas completas (17 reglas)
+
+#### Interfaz
+- [x] Pentagrama interactivo (Canvas 2D)
 - [x] Navegación por teclado (flechas diatónicas/cromáticas)
-- [x] Audio engine con filtro lowpass
+- [x] Audio engine con filtro lowpass y ADSR
 - [x] Sistema de puntuación
+- [x] Panel de reglas con feedback visual
+- [x] Modal de teoría completa (Schoenberg §1-§14)
+
+#### Infraestructura
 - [x] GitHub Pages desplegado
 
-### Reglas Implementadas (Schoenberg Cap. 1-2)
-- [x] Solo consonancias (P1, P5, P8, m3, M3, m6, M6)
-- [x] Sin quintas paralelas
-- [x] Sin octavas paralelas
-- [x] Sin quintas ocultas (sin grado conjunto)
-- [x] Sin octavas ocultas (sin grado conjunto)
-- [x] Comenzar en consonancia perfecta
-- [x] Terminar en unísono u octava
-- [x] Sin cruce de voces
-- [x] Unísono solo al inicio/final
-- [x] Sin tritono melódico
-- [x] Preferir movimiento contrario
-- [x] Preferir grados conjuntos
-- [x] Cadencia apropiada (sensible→tónica o supertónica→tónica)
+### Reglas Fundamentales Implementadas (Schoenberg §1-§6)
+
+| Regla | Sección | Descripción |
+|-------|---------|-------------|
+| Consonancias | §2 | Solo P1, P5, P8, m3, M3, m6, M6 |
+| Disonancias | §3 | Prohibidas: 2, 4, 7, 9, tritono |
+| Quintas paralelas | §8.II | Estrictamente prohibidas |
+| Octavas paralelas | §8.II | Estrictamente prohibidas |
+| Quintas ocultas | §8.II | Prohibidas sin grado conjunto |
+| Octavas ocultas | §8.II | Prohibidas sin grado conjunto |
+| Inicio | §10 | Consonancia perfecta sobre tónica |
+| Final | §10 | Unísono u octava sobre tónica |
+| Cruce de voces | §9 | Prohibido |
+| Unísono | §10 | Solo al inicio/final |
+
+### Reglas Avanzadas Implementadas (Schoenberg §7-§8)
+
+| Regla | Sección | Descripción |
+|-------|---------|-------------|
+| Tritono melódico | §7b | Prohibido entre grados 4-7 |
+| Tritonos compuestos | §7c | Detecta tritono "oculto" con notas intermedias |
+| Saltos disonantes compuestos | §7e | Dos saltos que sumen 7ª, 9ª o tritono |
+| Dirección prolongada | §7f | Máximo 8-9 notas en una dirección |
+| Arpegios | §7h | Evitar 3+ notas que delineen acorde |
+| Paralelas intermitentes | §8 | Quintas/octavas separadas por una armonía |
+| Excepción Beethoven | §8 | Permitido con salto 4ª/5ª + mov. contrario |
+| Terceras/sextas excesivas | §8.II | No más de 3-4 consecutivas |
+| Movimiento contrario | §8.I | Preferido sobre paralelo |
+| Grados conjuntos | §7l | Preferidos, moverse en "ondas" |
+| Cadencia | §11 | Penúltima = grado VII o II |
+
+### Cantus Firmi Disponibles
+
+- **Fux**: Re Dórico I, Re Dórico II
+- **Tradicionales**: Do Mayor, Sol Mayor, Fa Mayor, La menor, Re menor, Mi bemol Mayor
+- **Schoenberg Ejemplo 9**: 8 CF en Do, Sol, Fa, Mi♭, Re, La, Mi Mayor (pp. 34-38)
 
 ---
 
-## Fase 2: Expansión de Primera Especie
+## Fase 2: Consolidación de Primera Especie 🔄 EN PROGRESO
 
 **Consolidar antes de avanzar**
 
-### 2.1 Contenido
-- [ ] Extraer TODOS los Cantus Firmi del libro de Schoenberg
-- [ ] Añadir CF en modo menor (natural, armónico, melódico)
-- [ ] Organizar por dificultad progresiva
+*Referencia: Schoenberg, pp. 34-47 (Ejemplos comentados)*
+
+### 2.1 Contenido ✅ PARCIAL
+- [x] 8 Cantus Firmi del Ejemplo 9 de Schoenberg
+- [x] Modal de teoría completa (§1-§14)
+- [ ] CF en modo menor (natural, armónico, melódico)
+- [ ] Organizar por dificultad progresiva (1-5 estrellas)
 - [ ] Sistema de niveles/logros
 
-### 2.2 Feedback Mejorado
-- [ ] Mostrar TODAS las violaciones (no solo la primera)
+### 2.2 Feedback Pedagógico
+- [ ] Mostrar TODAS las violaciones simultáneamente
 - [ ] Highlight visual de notas problemáticas en rojo
-- [ ] Sugerencias de corrección ("Prueba con...")
-- [ ] Explicación pedagógica de cada error
+- [ ] Sugerencias de corrección ("Prueba subir a...")
+- [ ] Explicación pedagógica contextual (referencia a §)
+- [ ] Comparación con soluciones de Schoenberg
 
-### 2.3 UX
+### 2.3 Experiencia de Usuario
 - [ ] Guardar progreso en localStorage
 - [ ] Historial de ejercicios completados
 - [ ] Estadísticas (errores más comunes, mejora temporal)
 - [ ] Tutorial interactivo para nuevos usuarios
+- [ ] Onboarding: "¿Qué es el contrapunto?"
 
-### 2.4 Audio
-- [ ] Diferentes timbres (órgano, clavecín, cuerdas)
-- [ ] Tempo ajustable
+### 2.4 Audio Mejorado
+- [ ] Diferentes timbres (órgano, clavecín, cuerdas, voz)
+- [ ] Tempo ajustable (Largo → Allegro)
 - [ ] Reproducir solo CF / solo CP / ambos
-- [ ] Metronomo opcional
+- [ ] Metrónomo opcional
+- [ ] Reproducción nota por nota (paso a paso)
 
 ---
 
@@ -87,27 +137,52 @@ Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus e
 
 **Dos notas de contrapunto por cada nota del CF**
 
-### Nuevos Conceptos
+*Referencia: Schoenberg, pp. 48-72*
+
+### Diagrama
 ```
 CF:     𝅝      𝅝      𝅝      𝅝
 CP:    𝅗𝅥 𝅗𝅥   𝅗𝅥 𝅗𝅥   𝅗𝅥 𝅗𝅥   𝅝
        ↑ ↑    ↑ ↑    ↑ ↑    ↑
        T D    T D    T D    Final
+
+T = Tiempo fuerte (DEBE ser consonante)
+D = Tiempo débil (puede ser disonante SI es nota de paso)
 ```
 
-### Reglas Nuevas (Schoenberg Cap. 3)
-- [ ] Tiempo fuerte: DEBE ser consonante
-- [ ] Tiempo débil: puede ser disonante SI es nota de paso
-- [ ] Nota de paso: conecta dos consonancias por grado conjunto
-- [ ] No repetir la misma nota en tiempo débil→fuerte
-- [ ] Saltos permitidos en tiempo débil (con restricciones)
-- [ ] La última nota debe ser redonda (no blanca)
+### Conceptos Nuevos (Schoenberg §15-§23)
 
-### Implementación
+| Concepto | Sección | Descripción |
+|----------|---------|-------------|
+| Nota de paso | §16 | Conecta dos consonancias por grado conjunto |
+| Tiempo fuerte | §15 | SIEMPRE consonante |
+| Tiempo débil | §16 | Disonante solo como nota de paso |
+| Repetición prohibida | §17 | No repetir nota en débil→fuerte |
+| Saltos en tiempo débil | §18 | Permitidos con restricciones |
+| Final | §19 | Última nota DEBE ser redonda |
+| Comienzo | §20 | Puede empezar en tiempo débil (silencio) |
+
+### Reglas Específicas a Implementar
+
+1. **§15**: Consonancia obligatoria en tiempo fuerte
+2. **§16**: Nota de paso válida = grado conjunto entre dos consonancias
+3. **§17**: Prohibido repetir nota weak→strong
+4. **§18**: Saltos permitidos en tiempo débil si:
+   - No producen paralelas ocultas
+   - Se compensan con movimiento contrario
+5. **§19**: Penúltimo compás: blanca + blanca, último: redonda
+6. **§20**: Inicio en anacrusa permitido
+7. **§21**: Mantener reglas de primera especie para tiempos fuertes
+8. **§22**: Paralelas entre tiempos fuertes siguen prohibidas
+9. **§23**: Cambio de dirección después de salto
+
+### Implementación Técnica
 - [ ] SecondSpeciesValidator.js
-- [ ] Renderizado de blancas en el pentagrama
-- [ ] Detección de notas de paso válidas
-- [ ] UI para colocar 2 notas por beat
+- [ ] Renderizado de blancas (𝅗𝅥) en el pentagrama
+- [ ] Detección automática de notas de paso válidas
+- [ ] UI para colocar 2 notas por compás
+- [ ] Validación de relación weak-strong
+- [ ] Modal de teoría Segunda Especie
 
 ---
 
@@ -115,29 +190,45 @@ CP:    𝅗𝅥 𝅗𝅥   𝅗𝅥 𝅗𝅥   𝅗𝅥 𝅗𝅥   𝅝
 
 **Cuatro notas de contrapunto por cada nota del CF**
 
-### Nuevos Conceptos
+*Referencia: Schoenberg, pp. 73-95*
+
+### Diagrama
 ```
 CF:     𝅝          𝅝          𝅝
 CP:    𝅘𝅥 𝅘𝅥 𝅘𝅥 𝅘𝅥   𝅘𝅥 𝅘𝅥 𝅘𝅥 𝅘𝅥   𝅝
        1 2 3 4    1 2 3 4    Final
        ↑         ↑
-       Consonante (tiempos 1 y 3 preferiblemente)
+       Consonante (tiempo 1 obligatorio, tiempo 3 preferible)
 ```
 
-### Reglas Nuevas (Schoenberg Cap. 4)
-- [ ] Tiempo 1: DEBE ser consonante
-- [ ] Tiempos 2, 3, 4: pueden ser disonantes por paso
-- [ ] Bordadura (neighbor tone): nota que sale y vuelve por grado
-- [ ] Escapada (échappée): sale por grado, vuelve por salto
-- [ ] Cambiata: patrón específico de 4 notas
-- [ ] Doble nota de paso
-- [ ] No más de 4 notas en la misma dirección
+### Conceptos Nuevos (Schoenberg §24-§35)
 
-### Implementación
+| Concepto | Sección | Descripción |
+|----------|---------|-------------|
+| Bordadura | §26 | Nota que sale y vuelve por grado (neighbor) |
+| Escapada | §27 | Sale por grado, vuelve por salto (échappée) |
+| Cambiata | §28 | Patrón específico de 4 notas |
+| Doble nota de paso | §29 | Dos notas de paso consecutivas |
+| Salto desde disonancia | §30 | Casos específicos permitidos |
+
+### Reglas Específicas a Implementar
+
+1. **§24**: Tiempo 1 DEBE ser consonante
+2. **§25**: Tiempos 2, 3, 4 pueden ser disonantes por paso
+3. **§26**: Bordadura: consonante → disonante por grado → misma consonante
+4. **§27**: Escapada: consonante → disonante por grado → consonante por salto
+5. **§28**: Cambiata: patrón C-D-C-C con salto de tercera
+6. **§29**: Doble nota de paso: dos grados conjuntos en la misma dirección
+7. **§30**: No más de 4 notas en la misma dirección sin compensar
+8. **§31-35**: Casos especiales y excepciones
+
+### Implementación Técnica
 - [ ] ThirdSpeciesValidator.js
-- [ ] Renderizado de negras
-- [ ] Detección de ornamentos (bordadura, escapada, cambiata)
+- [ ] Renderizado de negras (𝅘𝅥)
+- [ ] Detección de patrones ornamentales
 - [ ] UI para entrada rápida de 4 notas
+- [ ] Visualización de patrones reconocidos
+- [ ] Modal de teoría Tercera Especie
 
 ---
 
@@ -145,30 +236,45 @@ CP:    𝅘𝅥 𝅘𝅥 𝅘𝅥 𝅘𝅥   𝅘𝅥 𝅘𝅥 𝅘𝅥 𝅘𝅥
 
 **Suspensiones - El corazón expresivo del contrapunto**
 
-### Nuevos Conceptos
+*Referencia: Schoenberg, pp. 96-120*
+
+### Diagrama
 ```
 CF:     𝅝      𝅝      𝅝      𝅝
 CP:    𝅗𝅥‿𝅗𝅥   𝅗𝅥‿𝅗𝅥   𝅗𝅥‿𝅗𝅥   𝅝
           ↑       ↑       ↑
-       suspensión (disonante en tiempo fuerte!)
+       Suspensión (¡disonante en tiempo fuerte!)
 
 Preparación → Suspensión → Resolución
 (consonante)   (disonante)  (consonante, baja por grado)
 ```
 
-### Reglas Nuevas (Schoenberg Cap. 5)
-- [ ] Suspensión: nota ligada que se vuelve disonante
-- [ ] Preparación: tiempo débil anterior, DEBE ser consonante
-- [ ] Resolución: DEBE bajar por grado conjunto
-- [ ] Suspensiones válidas: 7-6, 4-3, 9-8 (2-1 en el bajo)
-- [ ] Cadenas de suspensiones
-- [ ] Cuándo romper la síncopa (consonancia en tiempo fuerte)
+### Conceptos Nuevos (Schoenberg §36-§48)
 
-### Implementación
+| Concepto | Sección | Descripción |
+|----------|---------|-------------|
+| Suspensión | §36 | Nota ligada que se vuelve disonante |
+| Preparación | §37 | Tiempo débil anterior, DEBE ser consonante |
+| Resolución | §38 | DEBE bajar por grado conjunto |
+| Cadena de suspensiones | §42 | Suspensiones consecutivas (7-6-7-6...) |
+| Ruptura de síncopa | §44 | Cuándo usar consonancia en tiempo fuerte |
+
+### Suspensiones Válidas
+
+| Superior | Inferior | Resolución |
+|----------|----------|------------|
+| 7-6 | — | Baja a sexta |
+| 4-3 | — | Baja a tercera |
+| 9-8 | — | Baja a octava |
+| — | 2-3 | Sube a tercera (bajo) |
+
+### Implementación Técnica
 - [ ] FourthSpeciesValidator.js
-- [ ] Renderizado de ligaduras
+- [ ] Renderizado de ligaduras (‿)
+- [ ] Detección de preparación-suspensión-resolución
 - [ ] Detección de cadenas de suspensiones
 - [ ] UI para ligaduras entre compases
+- [ ] Modal de teoría Cuarta Especie
 
 ---
 
@@ -176,75 +282,106 @@ Preparación → Suspensión → Resolución
 
 **Contrapunto florido - Combinación libre de todas las especies**
 
-### Concepto
+*Referencia: Schoenberg, pp. 121-145*
+
+### Diagrama
 ```
 CF:     𝅝          𝅝          𝅝          𝅝
 CP:    𝅗𝅥 𝅘𝅥 𝅘𝅥    𝅘𝅥 𝅘𝅥 𝅗𝅥    𝅗𝅥‿𝅗𝅥      𝅝
        (2da esp) (3ra esp) (4ta esp)  (1ra)
 ```
 
-### Reglas (Schoenberg Cap. 6)
-- [ ] Mezclar libremente 1ra, 2da, 3ra y 4ta especie
-- [ ] Mantener coherencia rítmica
-- [ ] Variedad es esencial
-- [ ] Punto culminante melódico
-- [ ] Preparar la cadencia final
+### Conceptos Nuevos (Schoenberg §49-§60)
 
-### Implementación
-- [ ] FifthSpeciesValidator.js (combina todos los anteriores)
+| Concepto | Sección | Descripción |
+|----------|---------|-------------|
+| Mezcla de especies | §49 | Libre combinación de 1ª-4ª |
+| Coherencia rítmica | §50 | No cambios abruptos de densidad |
+| Variedad | §51 | Esencial para interés musical |
+| Clímax melódico | §52 | Punto culminante único |
+| Preparación cadencial | §53 | Cómo cerrar con elegancia |
+
+### Reglas de Mezcla
+
+1. **§49**: Todas las reglas de especies anteriores aplican en su contexto
+2. **§50**: Transiciones suaves entre densidades rítmicas
+3. **§51**: No repetir el mismo patrón rítmico más de 2-3 veces
+4. **§52**: Un solo punto culminante melódico
+5. **§53**: Los últimos 2-3 compases preparan la cadencia (simplificar ritmo)
+
+### Implementación Técnica
+- [ ] FifthSpeciesValidator.js (combina 1ª-4ª)
 - [ ] Selector de valores rítmicos libre
 - [ ] Análisis de variedad rítmica
+- [ ] Detección de clímax melódico
 - [ ] Sugerencias de ornamentación
+- [ ] Modal de teoría Quinta Especie
 
 ---
 
-## Fase 7: Tres Voces
+## Fase 7: Contrapunto a Tres Voces
 
-**El contrapunto se vuelve armonía**
+**El contrapunto se convierte en armonía**
 
-### Nuevos Conceptos
-- Tres líneas independientes que forman acordes
-- La CUARTA se vuelve consonante (cuando hay un bajo debajo)
-- Duplicaciones: qué nota del acorde doblar
+*Referencia: Schoenberg, Parte II, pp. 146-180*
 
-### Reglas Nuevas (Schoenberg Parte II)
-- [ ] Evitar duplicar la sensible
-- [ ] Preferir duplicar la fundamental o la quinta
-- [ ] Espaciamiento: no más de octava entre voces superiores
-- [ ] Nuevas reglas de movimiento paralelo
-- [ ] Acordes completos vs incompletos
+### Conceptos Nuevos
 
-### Implementación
+| Concepto | Descripción |
+|----------|-------------|
+| Tríadas | Tres notas forman acordes completos |
+| Cuarta consonante | La 4ª es consonante cuando hay bajo debajo |
+| Duplicaciones | Qué nota del acorde doblar (fundamental, 5ª) |
+| Espaciamiento | Máximo una octava entre voces superiores |
+
+### Reglas Específicas (Schoenberg §61-§72)
+
+1. **§61**: Evitar duplicar la sensible
+2. **§62**: Preferir duplicar fundamental o quinta
+3. **§63**: No más de octava entre soprano-contralto o contralto-tenor
+4. **§64**: Bajo puede estar a más distancia
+5. **§65**: Paralelas entre voces intermedias: más tolerancia
+6. **§66-72**: Aplicación de cada especie a tres voces
+
+### Implementación Técnica
 - [ ] ThreeVoiceValidator.js
-- [ ] Renderizado de 3 pentagramas o gran pentagrama
+- [ ] Renderizado de 3 pentagramas
 - [ ] Análisis de acordes resultantes
 - [ ] Visualización de duplicaciones
+- [ ] Detección de espaciamiento incorrecto
 
 ---
 
-## Fase 8: Cuatro Voces (SATB)
+## Fase 8: Contrapunto a Cuatro Voces (SATB)
 
 **El objetivo final: escritura coral**
 
-### Voces
+*Referencia: Schoenberg, Parte III, pp. 181-220*
+
+### Rangos Vocales
 ```
-Soprano: ───────── (C4-G5)
-Alto:    ───────── (F3-C5)
-Tenor:   ───────── (C3-G4)
-Bajo:    ───────── (E2-C4)
+Soprano: ───────── (C4-G5)  Do4-Sol5
+Alto:    ───────── (F3-C5)  Fa3-Do5
+Tenor:   ───────── (C3-G4)  Do3-Sol4
+Bajo:    ───────── (E2-C4)  Mi2-Do4
 ```
 
-### Reglas Nuevas (Schoenberg Parte III)
-- [ ] Rangos vocales estrictos
-- [ ] Cruce de voces prohibido
-- [ ] Superposición limitada
-- [ ] Espaciamiento SATB
-- [ ] Movimiento del bajo (fundamental)
+### Reglas Específicas (Schoenberg §73-§85)
 
-### Implementación
+| Regla | Sección | Descripción |
+|-------|---------|-------------|
+| Rangos | §73 | Estrictos para cada voz |
+| Cruce | §74 | Absolutamente prohibido |
+| Superposición | §75 | Limitada (no más de una 2ª) |
+| Espaciamiento | §76 | SATB típico |
+| Movimiento del bajo | §77 | Preferir saltos de 4ª/5ª |
+| Acordes completos | §78 | Preferir sobre incompletos |
+
+### Implementación Técnica
 - [ ] FourVoiceValidator.js
 - [ ] Sistema SATB completo
-- [ ] Análisis armónico (I, IV, V, etc.)
+- [ ] Análisis armónico (I, IV, V, vi, etc.)
+- [ ] Detección de funciones armónicas
 - [ ] Preparación para armonía funcional
 
 ---
@@ -253,63 +390,103 @@ Bajo:    ───────── (E2-C4)
 
 **Más allá de las especies puras**
 
-### Contenido (Schoenberg Parte IV)
-- [ ] Cadencias (auténtica, plagal, rota, semicadencia)
-- [ ] Modulación (cambio de tonalidad)
-- [ ] Imitación (una voz copia a otra)
-- [ ] Canon (imitación estricta)
-- [ ] Invención a 2 voces (estilo Bach)
+*Referencia: Schoenberg, Parte IV, pp. 221-280*
+
+### Cadencias (§86-§89)
+
+| Tipo | Movimiento | Función |
+|------|------------|---------|
+| Auténtica | V → I | Conclusiva |
+| Plagal | IV → I | "Amén" |
+| Rota | V → vi | Engaño |
+| Semicadencia | ? → V | Suspensiva |
+
+### Modulación (§90-§95)
+
+- Modulación diatónica (tonos vecinos)
+- Modulación cromática
+- Pivote armónico
+
+### Imitación y Canon (§96-§105)
+
+| Técnica | Descripción |
+|---------|-------------|
+| Imitación libre | Una voz copia a otra aproximadamente |
+| Imitación estricta | Copia exacta a otro intervalo |
+| Canon | Imitación estricta continua |
+| Invención | Dos voces en imitación libre (Bach) |
+
+### Implementación Técnica
+- [ ] CadenceAnalyzer.js
+- [ ] ModulationDetector.js
+- [ ] ImitationValidator.js
+- [ ] CanonBuilder.js
+- [ ] Generador de invenciones a 2 voces
 
 ---
 
-## Fase 10: Herramientas Adicionales
+## Fase 10: Herramientas Pedagógicas
 
 ### Para Estudiantes
-- [ ] Modo examen (sin ayudas)
-- [ ] Certificados de completación
+- [ ] Modo examen (sin ayudas visuales)
+- [ ] Certificados de completación por especie
 - [ ] Comparación con soluciones de Schoenberg
 - [ ] Exportar ejercicios como PDF
+- [ ] Portafolio de ejercicios completados
 
 ### Para Profesores
 - [ ] Crear ejercicios personalizados
 - [ ] Banco de Cantus Firmi personalizado
 - [ ] Seguimiento de progreso de estudiantes
-- [ ] Modo clase (proyector)
+- [ ] Modo clase (proyector, fuente grande)
+- [ ] Exportar estadísticas de clase
 
 ### Técnico
-- [ ] MIDI input (tocar en teclado)
-- [ ] MIDI output (exportar)
-- [ ] MusicXML export
-- [ ] PWA (instalable offline)
+- [ ] MIDI input (tocar desde teclado externo)
+- [ ] MIDI output (exportar secuencia)
+- [ ] MusicXML export (abrir en Sibelius, Finale, MuseScore)
+- [ ] PWA (instalable, funciona offline)
 - [ ] Tema claro/oscuro
+- [ ] Accesibilidad (ARIA, navegación por teclado completa)
 
 ---
 
-## Hitos
+## Versiones
 
 | Versión | Contenido | Estado |
 |---------|-----------|--------|
-| 0.1.0 | Primera Especie MVP | ✅ |
-| 0.2.0 | CF de Schoenberg + mejoras UX | 🔲 |
-| 0.3.0 | Segunda Especie | 🔲 |
-| 0.4.0 | Tercera Especie | 🔲 |
-| 0.5.0 | Cuarta Especie | 🔲 |
-| 0.6.0 | Quinta Especie | 🔲 |
-| 0.7.0 | Tres Voces | 🔲 |
-| 0.8.0 | Cuatro Voces (SATB) | 🔲 |
-| 0.9.0 | Aplicaciones avanzadas | 🔲 |
+| 0.1.0 | Primera Especie MVP | ✅ Dic 2024 |
+| 0.2.0 | Reglas Schoenberg + Teoría | ✅ Dic 2024 |
+| 0.3.0 | Consolidación 1ª Especie | 🔲 |
+| 0.4.0 | Segunda Especie | 🔲 |
+| 0.5.0 | Tercera Especie | 🔲 |
+| 0.6.0 | Cuarta Especie | 🔲 |
+| 0.7.0 | Quinta Especie | 🔲 |
+| 0.8.0 | Tres Voces | 🔲 |
+| 0.9.0 | Cuatro Voces (SATB) | 🔲 |
+| 0.10.0 | Aplicaciones avanzadas | 🔲 |
 | 1.0.0 | Release completo | 🔲 |
 
 ---
 
-## Referencias
+## Referencias Bibliográficas
 
-- Fux, J.J. (1725). *Gradus ad Parnassum*
-- Schoenberg, A. (1963). *Ejercicios preliminares de contrapunto*
+### Fuentes Primarias
+- **Schoenberg, A.** (1963). *Ejercicios preliminares de contrapunto*. Editorial Labor.
+- **Fux, J.J.** (1725). *Gradus ad Parnassum*. Viena.
+
+### Fuentes Secundarias
 - Jeppesen, K. (1939). *Counterpoint: The Polyphonic Vocal Style of the 16th Century*
-- Salzer & Schachter. *Counterpoint in Composition*
-- Kennan, K. (1999). *Counterpoint*
+- Salzer, F. & Schachter, C. (1969). *Counterpoint in Composition*
+- Kennan, K. (1999). *Counterpoint* (4th ed.)
+- Gauldin, R. (1985). *A Practical Approach to Sixteenth-Century Counterpoint*
+
+### Recursos en Línea
+- IMSLP: Partituras de Fux, Bach, Palestrina
+- Open Music Theory: teoria.esmuva.org
 
 ---
 
-*"Aprende las reglas como un profesional, para poder romperlas como un artista."* — Picasso
+> *"Aprende las reglas como un profesional, para poder romperlas como un artista."* — Picasso
+
+> *"Las restricciones son libertad disfrazada."* — Stravinsky
