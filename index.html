@@ -753,6 +753,7 @@
                     <button class="btn btn-secondary btn-icon" id="btnClear" title="Limpiar">✕</button>
                     <button class="btn btn-secondary" id="btnPlay">▶ Reproducir</button>
                     <button class="btn btn-primary" id="btnCheck">Verificar</button>
+                    <button class="btn btn-secondary" id="btnExport" title="Exportar a MuseScore">↓ XML</button>
                 </div>
             </div>
 
@@ -1306,8 +1307,9 @@
             const cf = state.currentExercise.notes;
             const noteCount = cf.length;
 
-            // Calculate spacing
-            const availableWidth = width - CONFIG.staff.x - 40;
+            // Calculate note positions - ensure all notes fit within staff
+            const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
+            const availableWidth = width - startX - 60;
             const noteSpacing = availableWidth / noteCount;
 
             // Draw grand staff (treble + bass)
@@ -1349,8 +1351,6 @@
                 CONFIG.staff.x + CONFIG.staff.clefWidth + 5, CONFIG.staff.y - 10);
 
             // Draw notes
-            const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
-
             for (let i = 0; i < noteCount; i++) {
                 const x = startX + i * noteSpacing;
 
@@ -1583,7 +1583,8 @@
             const noteCount = cf.length;
             const width = rect.width;
             const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
-            const noteSpacing = (width - CONFIG.staff.x - 40 - CONFIG.staff.clefWidth - 30) / noteCount;
+            const availableWidth = width - startX - 60;
+            const noteSpacing = availableWidth / noteCount;
 
             const beatIndex = Math.floor((x - startX + noteSpacing/2) / noteSpacing);
 
@@ -2025,6 +2026,134 @@
             }, cf.length * beatDuration * 1000 + 200);
         }
 
+        // ==================== MUSICXML EXPORT ====================
+
+        function generateMusicXML() {
+            if (!state.currentExercise) return null;
+
+            const cf = state.currentExercise.notes;
+            const cp = state.counterpoint;
+            const title = state.currentExercise.name;
+            const key = state.currentExercise.key;
+
+            // Parse note to MusicXML format
+            function parseNote(noteStr) {
+                const parsed = Pitch.parse(noteStr);
+                let step = parsed.name;
+                let alter = 0;
+                if (parsed.accidental === '#') alter = 1;
+                if (parsed.accidental === 'b') alter = -1;
+                return { step, alter, octave: parsed.octave };
+            }
+
+            // Generate measures
+            let cfMeasures = '';
+            let cpMeasures = '';
+
+            for (let i = 0; i < cf.length; i++) {
+                const cfNote = parseNote(cf[i]);
+                const cpNote = cp[i] ? parseNote(cp[i]) : null;
+
+                // CF measure
+                cfMeasures += `
+      <measure number="${i + 1}">
+        ${i === 0 ? `<attributes>
+          <divisions>1</divisions>
+          <key><fifths>${getKeyFifths(key)}</fifths></key>
+          <time><beats>4</beats><beat-type>4</beat-type></time>
+          <clef><sign>F</sign><line>4</line></clef>
+        </attributes>` : ''}
+        <note>
+          <pitch>
+            <step>${cfNote.step}</step>
+            ${cfNote.alter !== 0 ? `<alter>${cfNote.alter}</alter>` : ''}
+            <octave>${cfNote.octave}</octave>
+          </pitch>
+          <duration>4</duration>
+          <type>whole</type>
+        </note>
+      </measure>`;
+
+                // CP measure
+                cpMeasures += `
+      <measure number="${i + 1}">
+        ${i === 0 ? `<attributes>
+          <divisions>1</divisions>
+          <key><fifths>${getKeyFifths(key)}</fifths></key>
+          <time><beats>4</beats><beat-type>4</beat-type></time>
+          <clef><sign>G</sign><line>2</line></clef>
+        </attributes>` : ''}
+        ${cpNote ? `<note>
+          <pitch>
+            <step>${cpNote.step}</step>
+            ${cpNote.alter !== 0 ? `<alter>${cpNote.alter}</alter>` : ''}
+            <octave>${cpNote.octave}</octave>
+          </pitch>
+          <duration>4</duration>
+          <type>whole</type>
+        </note>` : `<note><rest/><duration>4</duration><type>whole</type></note>`}
+      </measure>`;
+            }
+
+            // Build complete MusicXML
+            const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
+<score-partwise version="3.1">
+  <work>
+    <work-title>${title} - Primera Especie</work-title>
+  </work>
+  <identification>
+    <creator type="composer">Contrapunctus</creator>
+    <encoding>
+      <software>Contrapunctus - Species Counterpoint Trainer</software>
+      <encoding-date>${new Date().toISOString().split('T')[0]}</encoding-date>
+    </encoding>
+  </identification>
+  <part-list>
+    <score-part id="P1">
+      <part-name>Contrapunto</part-name>
+    </score-part>
+    <score-part id="P2">
+      <part-name>Cantus Firmus</part-name>
+    </score-part>
+  </part-list>
+  <part id="P1">${cpMeasures}
+  </part>
+  <part id="P2">${cfMeasures}
+  </part>
+</score-partwise>`;
+
+            return xml;
+        }
+
+        function getKeyFifths(key) {
+            // Circle of fifths: C=0, G=1, D=2, etc. F=-1, Bb=-2, etc.
+            const fifths = {
+                'C': 0, 'G': 1, 'D': 2, 'A': 3, 'E': 4, 'B': 5,
+                'F': -1, 'Bb': -2, 'Eb': -3, 'Ab': -4, 'Db': -5
+            };
+            return fifths[key] || 0;
+        }
+
+        function exportMusicXML() {
+            const xml = generateMusicXML();
+            if (!xml) {
+                alert('No hay ejercicio para exportar');
+                return;
+            }
+
+            // Create and download file
+            const blob = new Blob([xml], { type: 'application/vnd.recordare.musicxml+xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `contrapunctus-${state.currentExercise.id}.musicxml`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
         // ==================== EVENT HANDLERS ====================
         document.getElementById('btnPlay').addEventListener('click', playExercise);
 
@@ -2079,6 +2208,9 @@
         document.getElementById('instrumentSelect').addEventListener('change', (e) => {
             loadInstrument(e.target.value);
         });
+
+        // Export to MusicXML
+        document.getElementById('btnExport').addEventListener('click', exportMusicXML);
 
         // Position toggle
         document.querySelectorAll('[data-position]').forEach(btn => {
