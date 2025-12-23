@@ -1793,7 +1793,12 @@
             message.textContent = `Has completado el ejercicio con ${score} puntos. ` +
                 (score === 100 ? 'Ejecucion perfecta!' : 'Muy buen trabajo!');
 
+            // Small delay to prevent click event propagation from closing modal immediately
+            modal.dataset.opening = 'true';
             modal.classList.add('active');
+            setTimeout(() => {
+                delete modal.dataset.opening;
+            }, 100);
         }
 
         // ==================== EXERCISE LOADING ====================
@@ -2184,6 +2189,8 @@
         });
 
         document.getElementById('successModal').addEventListener('click', (e) => {
+            // Ignore clicks while modal is opening (prevents immediate close from event propagation)
+            if (e.target.dataset.opening) return;
             if (e.target.id === 'successModal') {
                 e.target.classList.remove('active');
             }

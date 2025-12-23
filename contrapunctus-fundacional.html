@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTRAPUNCTUS - Documento Fundacional v2</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #141414;
+            --bg-tertiary: #1e1e1e;
+            --bg-card: #252525;
+            --text-primary: #f0f0f0;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666;
+            --accent-gold: #d4a574;
+            --accent-blue: #6b9bd2;
+            --accent-green: #7cb87c;
+            --accent-red: #d27070;
+            --accent-purple: #a07cd2;
+            --border: #333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+
+        header {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Crimson Text', serif;
+            font-size: 4rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .version {
+            margin-top: 2rem;
+            padding: 0.5rem 1.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .badge {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover { color: var(--accent-gold); }
+
+        main {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        section { margin-bottom: 5rem; }
+
+        h2 {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.2rem;
+            font-weight: 400;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--accent-blue);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .vision-box {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.1), rgba(107, 155, 210, 0.1));
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .vision-box p {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-style: italic;
+            text-align: center;
+            margin: 0;
+        }
+
+        .quote-source {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-gold);
+        }
+
+        .card-icon { font-size: 2rem; margin-bottom: 1rem; }
+        .card h4 { color: var(--text-primary); margin: 0 0 0.75rem; }
+        .card p { font-size: 0.95rem; margin: 0; }
+
+        pre {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--border);
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        pre code { color: var(--text-secondary); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: var(--bg-tertiary);
+            color: var(--accent-gold);
+            font-weight: 500;
+        }
+
+        td { color: var(--text-secondary); }
+        tr:hover td { background: var(--bg-secondary); }
+
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+            color: var(--text-secondary);
+        }
+
+        li { margin-bottom: 0.5rem; }
+
+        .diagram {
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .diagram .hl { color: var(--accent-gold); }
+        .diagram .accent { color: var(--accent-blue); }
+        .diagram .green { color: var(--accent-green); }
+        .diagram .red { color: var(--accent-red); }
+
+        .species-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 900px) {
+            .species-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 600px) {
+            .species-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .species-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .species-card:hover {
+            border-color: var(--accent-gold);
+            transform: scale(1.02);
+        }
+
+        .species-number {
+            font-family: 'Crimson Text', serif;
+            font-size: 2.5rem;
+            color: var(--accent-gold);
+            line-height: 1;
+        }
+
+        .species-name {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            margin: 0.5rem 0;
+        }
+
+        .species-rhythm {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .level-track {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .level-node {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .level-node.completed {
+            background: var(--accent-green);
+            color: var(--bg-primary);
+        }
+
+        .level-node.current {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            box-shadow: 0 0 20px rgba(212, 165, 116, 0.5);
+        }
+
+        .level-node.locked {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+        }
+
+        .level-connector {
+            width: 20px;
+            height: 2px;
+            background: var(--border);
+        }
+
+        .rule-box {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .rule-box.warning { border-left-color: var(--accent-red); }
+        .rule-box.tip { border-left-color: var(--accent-green); }
+
+        .rule-box strong {
+            color: var(--text-primary);
+        }
+
+        .phase {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .phase-number {
+            background: var(--accent-gold);
+            color: var(--bg-primary);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .phase h4 { margin: 0; color: var(--text-primary); }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin: 0.25rem;
+        }
+
+        .tag.core { background: rgba(212, 165, 116, 0.2); color: var(--accent-gold); }
+        .tag.v2 { background: rgba(107, 155, 210, 0.2); color: var(--accent-blue); }
+        .tag.v3 { background: rgba(160, 124, 210, 0.2); color: var(--accent-purple); }
+
+        .historical-note {
+            background: linear-gradient(135deg, rgba(160, 124, 210, 0.1), rgba(107, 155, 210, 0.1));
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid var(--accent-purple);
+        }
+
+        .historical-note h4 {
+            color: var(--accent-purple);
+            margin-top: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-gold); text-decoration: none; }
+
+        .comparison-table {
+            margin: 2rem 0;
+        }
+
+        .comparison-table td:first-child {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .checkmark { color: var(--accent-green); }
+        .crossmark { color: var(--accent-red); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">CONTRAPUNCTUS</div>
+        <p class="tagline">Species Counterpoint Trainer — Método Schoenberg/Fux</p>
+        <div class="version">Documento Fundacional v2.0 <span class="badge">NUEVO ENFOQUE</span></div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#vision">Visión</a></li>
+            <li><a href="#metodo">Método</a></li>
+            <li><a href="#especies">5 Especies</a></li>
+            <li><a href="#reglas">Reglas</a></li>
+            <li><a href="#interfaz">Interfaz</a></li>
+            <li><a href="#niveles">Niveles</a></li>
+            <li><a href="#arquitectura">Arquitectura</a></li>
+            <li><a href="#fases">Fases</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- VISIÓN -->
+        <section id="vision">
+            <h2>I. Visión</h2>
+
+            <div class="vision-box">
+                <p>"Aprender contrapunto como aprendieron Bach, Mozart y Beethoven — pero con feedback instantáneo"</p>
+            </div>
+
+            <p>Contrapunctus es la <strong>primera implementación digital completa</strong> del método de especies de contrapunto, basado en:</p>
+
+            <ul>
+                <li><strong>Johann Joseph Fux</strong> — <em>Gradus ad Parnassum</em> (1725)</li>
+                <li><strong>Arnold Schoenberg</strong> — <em>Ejercicios Preliminares de Contrapunto</em> (1963)</li>
+            </ul>
+
+            <div class="historical-note">
+                <h4>📜 Contexto Histórico</h4>
+                <p>El método de especies fue THE sistema de enseñanza de composición en Europa durante 300 años. Bach lo aprendió de su hermano, Mozart de su padre, Beethoven de Haydn. Schoenberg lo codificó con rigor germánico en el siglo XX.</p>
+                <p>Hasta ahora, solo existía en papel. <strong>Contrapunctus lo hace interactivo.</strong></p>
+            </div>
+
+            <h3>Principios</h3>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">📖</div>
+                    <h4>Fidelidad al Método</h4>
+                    <p>Implementamos EXACTAMENTE las reglas de Schoenberg. No inventamos — codificamos tradición.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⚡</div>
+                    <h4>Feedback Instantáneo</h4>
+                    <p>Cada nota que escribes se analiza en tiempo real. Sabes inmediatamente si es correcta.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h4>Progresión Natural</h4>
+                    <p>De lo simple a lo complejo: 2→3→4 voces, 1ª→5ª especie. Desbloqueando niveles.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎵</div>
+                    <h4>Escuchar + Escribir</h4>
+                    <p>No solo teoría — produces música real que suena y puedes exportar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- MÉTODO -->
+        <section id="metodo">
+            <h2>II. El Método de Especies</h2>
+
+            <p>El contrapunto de especies es un sistema <strong>progresivo</strong> de aprendizaje. Empiezas con lo más simple (nota contra nota) y gradualmente introduces complejidad rítmica y melódica.</p>
+
+            <h3>Estructura del Método Schoenberg</h3>
+
+            <div class="diagram">
+<span class="hl">PRIMERA PARTE: Contrapunto a 2 voces</span>
+├── 1. Primera Especie (redondas)
+│   ├── Intervalos, consonancias, disonancias
+│   ├── Conducción melódica
+│   └── Independencia de voces
+├── 2. Segunda Especie (blancas)
+│   ├── Nota de paso
+│   └── Tiempo fuerte vs débil
+├── 3. Tercera Especie (negras)
+│   ├── Cambiata
+│   └── Bordadura
+├── 4. Cuarta Especie (síncopa)
+│   └── <span class="accent">SUSPENSIÓN</span> (preparación → disonancia → resolución)
+├── 5. Quinta Especie (floridus)
+│   └── Mezcla libre de valores
+├── 6. Modo Menor
+└── 7-8. Aplicaciones: Cadencias, Modulación
+
+<span class="hl">SEGUNDA PARTE: Contrapunto a 3 voces</span>
+├── Especies 1-5 con voz adicional
+├── Paralelas ocultas
+├── Suspensiones a 3 voces
+└── 9-10. Aplicaciones: Imitación, Canon
+
+<span class="hl">TERCERA PARTE: Contrapunto a 4 voces</span>
+├── Especies 1-5 (escritura coral)
+├── Adición de voces
+└── Imitaciones a 4 voces
+            </div>
+
+            <h3>El Cantus Firmus</h3>
+
+            <p>Todo ejercicio parte de un <strong>cantus firmus</strong> (CF) — una melodía dada en redondas. El estudiante añade una o más voces según las reglas de la especie.</p>
+
+            <div class="diagram">
+CF (dado):    ○───○───○───○───○───○───○───○───○───○───○
+              D   E   F   E   D   C   D   E   F   E   D
+
+Tu voz:       <span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>───<span class="green">●</span>
+              A   G   A   G   F   E   F   G   A   G   A
+              5   3   3   3   3   3   3   3   3   3   5
+            </div>
+        </section>
+
+        <!-- 5 ESPECIES -->
+        <section id="especies">
+            <h2>III. Las Cinco Especies</h2>
+
+            <div class="species-grid">
+                <div class="species-card">
+                    <div class="species-number">I</div>
+                    <div class="species-name">Primera Especie</div>
+                    <div class="species-rhythm">○ contra ○</div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Nota contra nota. Solo consonancias.</p>
+                </div>
+                <div class="species-card">
+                    <div class="species-number">II</div>
+                    <div class="species-name">Segunda Especie</div>
+                    <div class="species-rhythm">𝅗𝅥 contra ○</div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Dos notas contra una. Nota de paso.</p>
+                </div>
+                <div class="species-card">
+                    <div class="species-number">III</div>
+                    <div class="species-name">Tercera Especie</div>
+                    <div class="species-rhythm">♩ contra ○</div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Cuatro notas contra una. Cambiata.</p>
+                </div>
+                <div class="species-card">
+                    <div class="species-number">IV</div>
+                    <div class="species-name">Cuarta Especie</div>
+                    <div class="species-rhythm">𝅗𝅥‿𝅗𝅥 síncopa</div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Suspensiones. Disonancia preparada.</p>
+                </div>
+                <div class="species-card">
+                    <div class="species-number">V</div>
+                    <div class="species-name">Quinta Especie</div>
+                    <div class="species-rhythm">Floridus</div>
+                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Mezcla libre. Contrapunto florido.</p>
+                </div>
+            </div>
+
+            <h3>Detalle por Especie</h3>
+
+            <h4>Primera Especie — Nota contra nota</h4>
+            <div class="rule-box">
+                <strong>Regla fundamental:</strong> Solo consonancias (1, 3, 5, 6, 8). La 4ª se trata como disonancia a 2 voces.
+            </div>
+            <ul>
+                <li>Comenzar y terminar en consonancia perfecta (1, 5, 8)</li>
+                <li>Preferir movimiento contrario</li>
+                <li>Evitar paralelismo de 5as y 8as</li>
+                <li>Evitar saltos mayores a 6ª (excepción: 8ª ascendente)</li>
+            </ul>
+
+            <h4>Segunda Especie — Dos contra una</h4>
+            <div class="rule-box">
+                <strong>Novedad:</strong> Tiempo fuerte (consonancia) + Tiempo débil (puede ser disonancia de paso)
+            </div>
+            <ul>
+                <li>Primera nota del compás: consonancia obligatoria</li>
+                <li>Segunda nota: consonancia O nota de paso por grado conjunto</li>
+                <li>No repetir la misma nota</li>
+            </ul>
+
+            <h4>Tercera Especie — Cuatro contra una</h4>
+            <div class="rule-box">
+                <strong>Novedad:</strong> Cambiata — patrón melódico que permite salto desde disonancia
+            </div>
+            <ul>
+                <li>1ª y 3ª nota del compás: preferir consonancias</li>
+                <li>2ª y 4ª nota: pueden ser disonancias de paso</li>
+                <li>Cambiata: cons. → dis.(grado) → salto 3ª → grado → cons.</li>
+                <li>Bordadura: cons. → dis.(grado) → cons. (misma nota)</li>
+            </ul>
+
+            <h4>Cuarta Especie — Síncopa y Suspensión</h4>
+            <div class="rule-box tip">
+                <strong>La suspensión es la reina del contrapunto.</strong> Tres fases: Preparación (cons. tiempo débil) → Suspensión (dis. tiempo fuerte) → Resolución (cons. grado descendente)
+            </div>
+
+            <div class="diagram">
+              preparación    suspensión    resolución
+                   ↓            ↓             ↓
+         ─────────<span class="green">●</span>───────────<span class="red">●</span>───────────<span class="green">●</span>─────────
+                 cons.        <span class="red">DIS.</span>         cons.
+                   ↓            ↓             ↓
+               t.débil      t.FUERTE      t.débil
+            </div>
+
+            <div class="rule-box warning">
+                <strong>§42 Schoenberg:</strong> La séptima NO puede usarse como suspensión en voz inferior (resolvería en octava paralela).
+            </div>
+
+            <h4>Quinta Especie — Floridus</h4>
+            <div class="rule-box">
+                <strong>Mezcla libre:</strong> Combinar redondas, blancas, negras, síncopas. El contrapunto "florido" de la música real.
+            </div>
+            <ul>
+                <li>Usar variedad rítmica con propósito</li>
+                <li>Mantener todas las reglas anteriores</li>
+                <li>Resolución interrumpida permitida</li>
+            </ul>
+        </section>
+
+        <!-- REGLAS -->
+        <section id="reglas">
+            <h2>IV. Reglas Codificadas (Schoenberg)</h2>
+
+            <p>Todas las reglas extraídas del libro, organizadas para implementación:</p>
+
+            <h3>Intervalos</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Intervalo</th>
+                        <th>Tipo</th>
+                        <th>Código</th>
+                        <th>Notas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1 (unísono)</td>
+                        <td>Consonancia perfecta</td>
+                        <td><code>PERF</code></td>
+                        <td>Solo al inicio/final</td>
+                    </tr>
+                    <tr>
+                        <td>3 (tercera)</td>
+                        <td>Consonancia imperfecta</td>
+                        <td><code>IMP</code></td>
+                        <td>Mayor o menor</td>
+                    </tr>
+                    <tr>
+                        <td>5 (quinta)</td>
+                        <td>Consonancia perfecta</td>
+                        <td><code>PERF</code></td>
+                        <td>Debe ser justa</td>
+                    </tr>
+                    <tr>
+                        <td>6 (sexta)</td>
+                        <td>Consonancia imperfecta</td>
+                        <td><code>IMP</code></td>
+                        <td>Mayor o menor</td>
+                    </tr>
+                    <tr>
+                        <td>8 (octava)</td>
+                        <td>Consonancia perfecta</td>
+                        <td><code>PERF</code></td>
+                        <td>Evitar en medio</td>
+                    </tr>
+                    <tr>
+                        <td>2 (segunda)</td>
+                        <td>Disonancia</td>
+                        <td><code>DIS</code></td>
+                        <td>Solo de paso/suspensión</td>
+                    </tr>
+                    <tr>
+                        <td>4 (cuarta)</td>
+                        <td>Disonancia*</td>
+                        <td><code>DIS</code></td>
+                        <td>*A 2 voces; consonancia a 3+</td>
+                    </tr>
+                    <tr>
+                        <td>7 (séptima)</td>
+                        <td>Disonancia</td>
+                        <td><code>DIS</code></td>
+                        <td>Solo suspensión (voz sup.)</td>
+                    </tr>
+                    <tr>
+                        <td>+4 / -5</td>
+                        <td>Disonancia</td>
+                        <td><code>DIS</code></td>
+                        <td>Tritono — evitar</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Movimientos</h3>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Movimiento</th>
+                        <th>Definición</th>
+                        <th>Preferencia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Contrario</td>
+                        <td>Voces en direcciones opuestas</td>
+                        <td class="checkmark">★★★ Preferido</td>
+                    </tr>
+                    <tr>
+                        <td>Oblicuo</td>
+                        <td>Una voz quieta, otra se mueve</td>
+                        <td class="checkmark">★★ Bueno</td>
+                    </tr>
+                    <tr>
+                        <td>Paralelo</td>
+                        <td>Misma dirección, mismo intervalo</td>
+                        <td class="crossmark">★ Cuidado (3as/6as OK)</td>
+                    </tr>
+                    <tr>
+                        <td>Directo</td>
+                        <td>Misma dirección, diferente intervalo</td>
+                        <td>Depende del contexto</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Prohibiciones</h3>
+
+            <div class="rule-box warning">
+                <strong>§ Paralelas de 5as y 8as:</strong> Dos quintas (u octavas) consecutivas en la misma dirección. PROHIBIDO.
+            </div>
+
+            <div class="rule-box warning">
+                <strong>§ Quintas/Octavas directas:</strong> Llegar a 5ª u 8ª por movimiento directo con salto en voz superior. EVITAR.
+            </div>
+
+            <div class="rule-box warning">
+                <strong>§ Cruce de voces:</strong> La voz inferior cruza por encima de la superior (o viceversa). PROHIBIDO.
+            </div>
+
+            <div class="rule-box warning">
+                <strong>§ Tritono melódico:</strong> Salto de +4 o -5 en una voz. PROHIBIDO (compensar si es necesario).
+            </div>
+        </section>
+
+        <!-- INTERFAZ -->
+        <section id="interfaz">
+            <h2>V. Interfaz de Usuario</h2>
+
+            <h3>Pantalla Principal: Species Trainer</h3>
+
+            <div class="diagram">
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  <span class="hl">CONTRAPUNCTUS</span>              2 Voces │ 1ª Especie │ Do Mayor    [≡] [?] [♪]  │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─── CANTUS FIRMUS ────────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │    ○     ○     ○     ○     ○     ○     ○     ○     ○     ○     ○        │  │
+│  │    D     E     F     E     D     C     D     E     F     E     D        │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌─── TU CONTRAPUNTO ───────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │    <span class="green">●</span>     <span class="green">●</span>     <span class="green">●</span>     <span class="green">●</span>     <span class="accent">◐</span>     ·     ·     ·     ·     ·     ·        │  │
+│  │    A     G     A     G     <span class="accent">_</span>                                             │  │
+│  │    5     3     3     3                                                   │  │
+│  │                                                                          │  │
+│  │  Click en una nota para colocarla · Teclado: A-G · Flechas: octava     │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌─── TECLADO VIRTUAL ──────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │   ┌──┐ ┌──┐    ┌──┐ ┌──┐ ┌──┐    ┌──┐ ┌──┐                              │  │
+│  │   │▓▓│ │▓▓│    │▓▓│ │▓▓│ │▓▓│    │▓▓│ │▓▓│                              │  │
+│  │  ┌┴┬─┴┬┴┬─┴┐  ┌┴┬─┴┬┴┬─┴┬┴┬─┴┐  ┌┴┬─┴┬┴┬─┴┐                             │  │
+│  │  │C│D│E│F│G│A│B│C│D│E│F│G│A│B│C│D│E│                                    │  │
+│  │  │ │ │ │<span class="green">★</span>│ │ │ │ │ │ │<span class="accent">◆</span>│ │ │ │ │ │ │   <span class="green">★</span>=recomendado <span class="accent">◆</span>=posible       │  │
+│  │  └─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┴─┘                                    │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌─── FEEDBACK ─────────────────────────────────────────────────────────────┐  │
+│  │                                                                          │  │
+│  │  <span class="green">✓</span> Intervalo D-A: Quinta justa (consonancia perfecta)                   │  │
+│  │  <span class="green">✓</span> Movimiento: Contrario (excelente)                                     │  │
+│  │  <span class="green">✓</span> Sin paralelas problemáticas                                           │  │
+│  │                                                                          │  │
+│  │  <span class="hl">Sugerencias para siguiente nota:</span>                                       │  │
+│  │  • <span class="green">F (3ª)</span> — movimiento contrario, consonancia imperfecta ★★★             │  │
+│  │  • <span class="accent">A (5ª)</span> — movimiento oblicuo, consonancia perfecta ★★                  │  │
+│  │  • <span class="red">C (8ª)</span> — crearía octavas directas, evitar ✗                           │  │
+│  │                                                                          │  │
+│  └──────────────────────────────────────────────────────────────────────────┘  │
+│                                                                                 │
+│  ┌─────────────────────────────────────────────────────────────────────────┐   │
+│  │  [▶ Escuchar]  [⟲ Deshacer]  [↺ Reiniciar]  [✓ Verificar]  [→ Siguiente] │   │
+│  └─────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+            </div>
+
+            <h3>Panel de Progreso</h3>
+
+            <div class="diagram">
+┌─── PROGRESO ────────────────────────────────────────────────────────────────────┐
+│                                                                                 │
+│  <span class="hl">2 VOCES</span>                                                                       │
+│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                                       │
+│  │ <span class="green">I</span>   │→│ <span class="green">II</span>  │→│ <span class="accent">III</span> │→│ IV  │→│ V   │  Mayor                            │
+│  │ <span class="green">✓✓✓</span> │ │ <span class="green">✓✓✓</span> │ │ <span class="accent">◐◐○</span> │ │ ○○○ │ │ ○○○ │  ──────                            │
+│  └─────┘ └─────┘ └─────┘ └─────┘ └─────┘  Menor: 🔒                            │
+│                                                                                 │
+│  <span class="hl">3 VOCES</span> 🔒                                                                    │
+│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                                       │
+│  │  I  │→│ II  │→│ III │→│ IV  │→│  V  │  Desbloquea al completar             │
+│  │ 🔒  │ │ 🔒  │ │ 🔒  │ │ 🔒  │ │ 🔒  │  2 voces 5ª especie                   │
+│  └─────┘ └─────┘ └─────┘ └─────┘ └─────┘                                       │
+│                                                                                 │
+│  <span class="hl">4 VOCES</span> 🔒                                                                    │
+│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                                       │
+│  │  I  │→│ II  │→│ III │→│ IV  │→│  V  │  Desbloquea al completar             │
+│  │ 🔒  │ │ 🔒  │ │ 🔒  │ │ 🔒  │ │ 🔒  │  3 voces 5ª especie                   │
+│  └─────┘ └─────┘ └─────┘ └─────┘ └─────┘                                       │
+│                                                                                 │
+│  <span class="hl">APLICACIONES</span> 🔒                                                              │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐ ┌─────────────┐               │
+│  │  Cadencias  │ │ Modulación  │ │  Imitación  │ │   Canon     │               │
+│  │     🔒      │ │     🔒      │ │     🔒      │ │     🔒      │               │
+│  └─────────────┘ └─────────────┘ └─────────────┘ └─────────────┘               │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+            </div>
+        </section>
+
+        <!-- NIVELES -->
+        <section id="niveles">
+            <h2>VI. Sistema de Niveles</h2>
+
+            <p>Cada combinación voces × especie × modo es un "nivel" con 3 ejercicios (cantus firmi diferentes).</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nivel</th>
+                        <th>Voces</th>
+                        <th>Especie</th>
+                        <th>Modo</th>
+                        <th>Ejercicios</th>
+                        <th>Desbloqueo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>1ª</td>
+                        <td>Mayor</td>
+                        <td>3 CF</td>
+                        <td>—</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>2ª</td>
+                        <td>Mayor</td>
+                        <td>3 CF</td>
+                        <td>Nivel 1</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>3ª</td>
+                        <td>Mayor</td>
+                        <td>3 CF</td>
+                        <td>Nivel 2</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>2</td>
+                        <td>4ª</td>
+                        <td>Mayor</td>
+                        <td>3 CF</td>
+                        <td>Nivel 3</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>5ª</td>
+                        <td>Mayor</td>
+                        <td>3 CF</td>
+                        <td>Nivel 4</td>
+                    </tr>
+                    <tr>
+                        <td>6-10</td>
+                        <td>2</td>
+                        <td>1ª-5ª</td>
+                        <td>Menor</td>
+                        <td>3 CF c/u</td>
+                        <td>Nivel 5</td>
+                    </tr>
+                    <tr>
+                        <td>11-20</td>
+                        <td>3</td>
+                        <td>1ª-5ª</td>
+                        <td>Mayor/Menor</td>
+                        <td>3 CF c/u</td>
+                        <td>Nivel 10</td>
+                    </tr>
+                    <tr>
+                        <td>21-30</td>
+                        <td>4</td>
+                        <td>1ª-5ª</td>
+                        <td>Mayor/Menor</td>
+                        <td>3 CF c/u</td>
+                        <td>Nivel 20</td>
+                    </tr>
+                    <tr>
+                        <td>31+</td>
+                        <td>2-4</td>
+                        <td>Aplicaciones</td>
+                        <td>—</td>
+                        <td>Libre</td>
+                        <td>Nivel 30</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Cantus Firmi Históricos</h3>
+
+            <p>Usamos los CF del libro de Schoenberg + fuentes históricas:</p>
+
+            <ul>
+                <li><strong>Schoenberg:</strong> ~40 CF en el libro (extraer todos)</li>
+                <li><strong>Fux:</strong> Los CF originales de Gradus ad Parnassum</li>
+                <li><strong>Jeppesen:</strong> CF de "Counterpoint" (1939)</li>
+                <li><strong>Generados:</strong> Algoritmo que genera CF válidos siguiendo las reglas</li>
+            </ul>
+        </section>
+
+        <!-- ARQUITECTURA -->
+        <section id="arquitectura">
+            <h2>VII. Arquitectura Técnica</h2>
+
+            <h3>Estructura de Archivos</h3>
+
+            <pre><code>contrapunctus/
+├── index.html                    # App principal
+│
+├── js/
+│   ├── core/
+│   │   ├── pitch.js             # Pitch class, intervalos
+│   │   ├── interval.js          # Cálculo y clasificación de intervalos
+│   │   ├── motion.js            # Tipos de movimiento (contrario, paralelo...)
+│   │   └── voice.js             # Representación de una voz
+│   │
+│   ├── rules/
+│   │   ├── species1.js          # Reglas 1ª especie
+│   │   ├── species2.js          # Reglas 2ª especie
+│   │   ├── species3.js          # Reglas 3ª especie
+│   │   ├── species4.js          # Reglas 4ª especie (suspensiones)
+│   │   ├── species5.js          # Reglas 5ª especie
+│   │   ├── common.js            # Reglas comunes (paralelas, cruces...)
+│   │   └── validator.js         # Valida ejercicio completo
+│   │
+│   ├── analysis/
+│   │   ├── analyzer.js          # Analiza nota por nota
+│   │   ├── suggestions.js       # Genera sugerencias
+│   │   └── feedback.js          # Mensajes de feedback
+│   │
+│   ├── cantus/
+│   │   ├── schoenberg.json      # CF del libro
+│   │   ├── fux.json             # CF históricos
+│   │   ├── generator.js         # Genera CF algorítmicamente
+│   │   └── loader.js            # Carga y gestiona CF
+│   │
+│   ├── audio/
+│   │   └── synth.js             # Playback (heredado)
+│   │
+│   ├── ui/
+│   │   ├── staff.js             # Renderizado del pentagrama
+│   │   ├── keyboard.js          # Teclado virtual
+│   │   ├── progress.js          # Panel de progreso
+│   │   └── feedback-panel.js    # Panel de feedback
+│   │
+│   └── app.js                   # Controlador principal
+│
+├── data/
+│   ├── cantus-firmi.json        # Todos los CF
+│   └── user-progress.json       # Progreso del usuario (localStorage)
+│
+└── README.md</code></pre>
+
+            <h3>Modelo de Datos: Ejercicio</h3>
+
+            <pre><code>const exercise = {
+    id: "2v-1sp-maj-01",
+    voices: 2,
+    species: 1,
+    mode: "major",
+    key: "D",
+
+    cantusFirmus: {
+        position: "lower",  // CF en voz inferior
+        notes: ["D4", "E4", "F4", "E4", "D4", "C4", "D4", "E4", "F4", "E4", "D4"]
+    },
+
+    counterpoint: {
+        position: "upper",
+        notes: []  // El usuario rellena
+    },
+
+    analysis: {
+        intervals: [],      // Calculado en tiempo real
+        motions: [],        // Calculado en tiempo real
+        errors: [],         // Violaciones de reglas
+        suggestions: []     // Para la siguiente nota
+    }
+};</code></pre>
+
+            <h3>Algoritmo: Validación de Nota</h3>
+
+            <pre><code>function validateNote(exercise, newNote, position) {
+    const errors = [];
+    const warnings = [];
+
+    const cfNote = exercise.cantusFirmus.notes[position];
+    const interval = calculateInterval(cfNote, newNote);
+
+    // 1. Verificar consonancia/disonancia según especie
+    if (exercise.species === 1) {
+        if (!isConsonance(interval)) {
+            errors.push({
+                type: 'DISSONANCE_IN_FIRST_SPECIES',
+                message: `${interval.name} es disonancia. Primera especie solo permite consonancias.`
+            });
+        }
+    }
+
+    // 2. Verificar paralelas con nota anterior
+    if (position > 0) {
+        const prevCfNote = exercise.cantusFirmus.notes[position - 1];
+        const prevCpNote = exercise.counterpoint.notes[position - 1];
+        const prevInterval = calculateInterval(prevCfNote, prevCpNote);
+
+        if (isParallelFifthOrOctave(prevInterval, interval, prevCpNote, newNote)) {
+            errors.push({
+                type: 'PARALLEL_FIFTHS_OR_OCTAVES',
+                message: `Paralelas de ${interval.name} prohibidas.`
+            });
+        }
+    }
+
+    // 3. Verificar movimiento
+    const motion = getMotionType(prevCfNote, cfNote, prevCpNote, newNote);
+    if (motion === 'direct' && isPerfectConsonance(interval)) {
+        warnings.push({
+            type: 'DIRECT_TO_PERFECT',
+            message: `Movimiento directo a ${interval.name}. Preferir movimiento contrario.`
+        });
+    }
+
+    // 4. Verificar rango y cruce de voces
+    if (exercise.counterpoint.position === 'upper' && newNote < cfNote) {
+        errors.push({
+            type: 'VOICE_CROSSING',
+            message: 'La voz superior no puede cruzar por debajo del CF.'
+        });
+    }
+
+    return { errors, warnings, valid: errors.length === 0 };
+}</code></pre>
+        </section>
+
+        <!-- FASES -->
+        <section id="fases">
+            <h2>VIII. Fases de Desarrollo</h2>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">1</div>
+                    <h4>MVP — 2 Voces, 1ª Especie</h4>
+                </div>
+                <ul>
+                    <li>Interfaz básica: pentagrama + teclado + feedback</li>
+                    <li>Reglas de 1ª especie completas</li>
+                    <li>3 cantus firmi de Schoenberg</li>
+                    <li>Validación nota por nota</li>
+                    <li>Sugerencias básicas</li>
+                    <li>Playback</li>
+                </ul>
+                <span class="tag core">Core</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">2</div>
+                    <h4>2ª y 3ª Especie</h4>
+                </div>
+                <ul>
+                    <li>Reglas de nota de paso</li>
+                    <li>Reglas de cambiata y bordadura</li>
+                    <li>Tiempo fuerte vs débil</li>
+                    <li>Más cantus firmi</li>
+                </ul>
+                <span class="tag core">Core</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">3</div>
+                    <h4>4ª Especie — Suspensiones</h4>
+                </div>
+                <ul>
+                    <li>Lógica de preparación-suspensión-resolución</li>
+                    <li>Validación de síncopa correcta</li>
+                    <li>§42: séptima solo en voz superior</li>
+                </ul>
+                <span class="tag core">Core</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">4</div>
+                    <h4>5ª Especie + Modo Menor</h4>
+                </div>
+                <ul>
+                    <li>Mezcla libre de valores rítmicos</li>
+                    <li>Resolución interrumpida</li>
+                    <li>Adaptación de reglas a modo menor</li>
+                    <li>Sensible en menor armónico</li>
+                </ul>
+                <span class="tag core">Core</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">5</div>
+                    <h4>3 Voces</h4>
+                </div>
+                <ul>
+                    <li>CF + 2 voces añadidas</li>
+                    <li>Paralelas ocultas</li>
+                    <li>Triadas completas</li>
+                    <li>Suspensiones a 3 voces</li>
+                </ul>
+                <span class="tag v2">v2</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">6</div>
+                    <h4>4 Voces</h4>
+                </div>
+                <ul>
+                    <li>Escritura coral SATB</li>
+                    <li>Todas las especies</li>
+                    <li>Duplicaciones correctas</li>
+                </ul>
+                <span class="tag v2">v2</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">7</div>
+                    <h4>Aplicaciones Compositivas</h4>
+                </div>
+                <ul>
+                    <li>Cadencias sin CF dado</li>
+                    <li>Modulación a regiones cercanas</li>
+                    <li>Imitación y canon</li>
+                    <li>Modo "libre" para composición</li>
+                </ul>
+                <span class="tag v3">v3</span>
+            </div>
+
+            <div class="phase">
+                <div class="phase-header">
+                    <div class="phase-number">8</div>
+                    <h4>Export y MIDI</h4>
+                </div>
+                <ul>
+                    <li>Export MIDI</li>
+                    <li>Export MusicXML</li>
+                    <li>MIDI input (tocar en teclado)</li>
+                </ul>
+                <span class="tag v3">v3</span>
+            </div>
+        </section>
+
+        <!-- COMPARATIVA -->
+        <section>
+            <h2>IX. ¿Por qué Species Trainer?</h2>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspecto</th>
+                        <th>Enfoque "Harmonize"</th>
+                        <th>Species Trainer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Base teórica</td>
+                        <td>Probabilidades inventadas</td>
+                        <td class="checkmark">300 años de tradición</td>
+                    </tr>
+                    <tr>
+                        <td>Reglas</td>
+                        <td>Implícitas en corpus</td>
+                        <td class="checkmark">Explícitas y codificadas</td>
+                    </tr>
+                    <tr>
+                        <td>Progresión</td>
+                        <td>Ad hoc</td>
+                        <td class="checkmark">Estructurada (Fux/Schoenberg)</td>
+                    </tr>
+                    <tr>
+                        <td>Feedback</td>
+                        <td>"Suena bien/mal"</td>
+                        <td class="checkmark">"§42: séptima no puede..."</td>
+                    </tr>
+                    <tr>
+                        <td>Dependencias</td>
+                        <td>Necesita corpus (Bach, etc.)</td>
+                        <td class="checkmark">Autónomo (reglas = ley)</td>
+                    </tr>
+                    <tr>
+                        <td>Valor educativo</td>
+                        <td>Produce output</td>
+                        <td class="checkmark">Enseña composición</td>
+                    </tr>
+                    <tr>
+                        <td>Histórico</td>
+                        <td>Enfoque moderno</td>
+                        <td class="checkmark">Cómo aprendió Bach</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="vision-box" style="margin-top: 3rem;">
+                <p>"El estudiante que domina las especies puede escribir cualquier cosa."</p>
+                <div class="quote-source">— Johann Joseph Fux, Gradus ad Parnassum (1725)</div>
+            </div>
+        </section>
+
+        <!-- RECURSOS -->
+        <section>
+            <h2>X. Recursos</h2>
+
+            <h3>Fuentes Primarias</h3>
+            <ul>
+                <li><strong>Schoenberg, Arnold.</strong> <em>Ejercicios Preliminares de Contrapunto</em>. SpanPress, 1963. [TENEMOS EL LIBRO COMPLETO]</li>
+                <li><strong>Fux, Johann Joseph.</strong> <em>Gradus ad Parnassum</em>. 1725. [Disponible en IMSLP]</li>
+            </ul>
+
+            <h3>Fuentes Secundarias</h3>
+            <ul>
+                <li>Jeppesen, Knud. <em>Counterpoint</em>. 1939.</li>
+                <li>Salzer & Schachter. <em>Counterpoint in Composition</em>. 1969.</li>
+            </ul>
+
+            <h3>Implementaciones de Referencia</h3>
+            <ul>
+                <li>music21 (Python) — tiene módulo de análisis de contrapunto</li>
+                <li>Counterpointer (app iOS) — limitada a 2 voces</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p><strong>CONTRAPUNCTUS</strong> — Species Counterpoint Trainer</p>
+        <p style="margin-top: 0.5rem;">Basado en el método Schoenberg/Fux</p>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">
+            Documento Fundacional v2.0 · Diciembre 2025 · <a href="#">EigenLab</a>
+        </p>
+    </footer>
+</body>
+</html>
