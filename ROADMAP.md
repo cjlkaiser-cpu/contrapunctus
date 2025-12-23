@@ -130,7 +130,34 @@ Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus e
 - [ ] Reproducir solo CF / solo CP / ambos
 - [ ] Metrónomo opcional
 - [ ] Reproducción nota por nota (paso a paso)
+- a discutir:
 
+Nivel Básico (SoundFonts):
+
+Usa Soundfont-player o Smplr. Son librerías JS que cargan pequeños archivos de muestras (mp3/ogg) de instrumentos reales (Piano, Coro, Clavicémbalo).
+
+Recomendación: Busca un SoundFont de "Choir Aahs" o "Vocal Oohs". Escuchar las voces cantadas ayuda a detectar errores de conducción mucho mejor que un piano.
+
+Nivel Pro (Tone.js):
+
+Si quieres control total (reverb, envolventes), integra Tone.js. Puedes crear un sintetizador que suene suave y "humano" sin cargar archivos pesados.
+
+3. Integración con MuseScore (MusicXML)
+MuseScore no tiene una "API en tiempo real" para conectarse a una web (no puedes tener MuseScore abierto y que tu web escriba en él mágicamente). La integración estándar es a través de archivos.
+
+La Clave: MusicXML
+
+MuseScore (y Sibelius/Finale/Dorico) usan MusicXML como lenguaje universal.
+
+Tu objetivo debe ser generar un archivo .musicxml desde tu web.
+
+Cómo hacerlo:
+
+Tu aplicación ya tiene la información de las notas (pitch, duración).
+
+Usa una librería como musicxml-interfaces (o escribe un generador XML simple, ya que la 1ra especie es matemáticamente muy sencilla) para convertir tus datos en un archivo .xml.
+
+Flujo para el usuario: El alumno termina el ejercicio -> Clic en "Exportar a MuseScore" -> Se descarga un archivo .mxl -> Lo abre en MuseScore y ya tiene la partitura lista para imprimir o orquestar.
 ---
 
 ## Fase 3: Segunda Especie (2:1)

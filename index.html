@@ -436,6 +436,48 @@
         }
 
         /* Keyboard shortcuts */
+        /* Instrument selector */
+        .instrument-select {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--bg-tertiary);
+            border-radius: 6px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: border-color 0.2s;
+        }
+
+        .instrument-select:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .instrument-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .instrument-status {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            min-height: 1rem;
+        }
+
+        .instrument-status.loading {
+            color: var(--warning);
+        }
+
+        .instrument-status.ready {
+            color: var(--success);
+        }
+
+        .instrument-status.error {
+            color: var(--error);
+        }
+
         .shortcuts {
             font-size: 0.75rem;
             color: var(--text-muted);
@@ -829,6 +871,19 @@
             </div>
 
             <div class="rules-section">
+                <h3>Instrumento</h3>
+                <select id="instrumentSelect" class="instrument-select">
+                    <option value="synth">Sintetizador (built-in)</option>
+                    <option value="choir_aahs">Coro (Aahs)</option>
+                    <option value="church_organ">Órgano</option>
+                    <option value="harpsichord">Clavecín</option>
+                    <option value="acoustic_grand_piano">Piano</option>
+                    <option value="string_ensemble_1">Cuerdas</option>
+                </select>
+                <div id="instrumentStatus" class="instrument-status"></div>
+            </div>
+
+            <div class="rules-section">
                 <h3>Atajos de Teclado</h3>
                 <div class="shortcuts">
                     <div class="shortcut">
@@ -1209,7 +1264,11 @@
             audioContext: null,
             isPlaying: false,
             history: [],
-            selectedBeat: 0  // Currently selected beat for keyboard input
+            selectedBeat: 0,  // Currently selected beat for keyboard input
+            // SoundFont state
+            currentInstrument: 'synth',
+            soundfont: null,
+            soundfontLoading: false
         };
 
         // ==================== CANVAS SETUP ====================
@@ -1781,6 +1840,20 @@
         }
 
         // ==================== AUDIO ====================
+
+        // smplr library for SoundFonts (loaded dynamically)
+        let Soundfont = null;
+
+        async function loadSmplr() {
+            if (Soundfont) return;
+            try {
+                const module = await import('https://unpkg.com/smplr@0.15.1/dist/index.mjs');
+                Soundfont = module.Soundfont;
+            } catch (e) {
+                console.warn('Could not load smplr, using synth fallback:', e);
+            }
+        }
+
         function initAudio() {
             if (!state.audioContext) {
                 state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -1792,7 +1865,82 @@
             }
         }
 
+        async function loadInstrument(instrumentName) {
+            if (instrumentName === 'synth') {
+                state.currentInstrument = 'synth';
+                state.soundfont = null;
+                updateInstrumentStatus('Sintetizador activo', 'ready');
+                return;
+            }
+
+            initAudio();
+
+            // Load smplr if not loaded
+            if (!Soundfont) {
+                updateInstrumentStatus('Cargando librería...', 'loading');
+                await loadSmplr();
+                if (!Soundfont) {
+                    updateInstrumentStatus('Error cargando librería', 'error');
+                    document.getElementById('instrumentSelect').value = 'synth';
+                    return;
+                }
+            }
+
+            state.soundfontLoading = true;
+            updateInstrumentStatus('Cargando samples...', 'loading');
+
+            try {
+                const sf = new Soundfont(state.audioContext, {
+                    instrument: instrumentName
+                });
+                await sf.load;
+
+                state.soundfont = sf;
+                state.currentInstrument = instrumentName;
+                state.soundfontLoading = false;
+
+                const names = {
+                    'choir_aahs': 'Coro',
+                    'church_organ': 'Órgano',
+                    'harpsichord': 'Clavecín',
+                    'acoustic_grand_piano': 'Piano',
+                    'string_ensemble_1': 'Cuerdas'
+                };
+                updateInstrumentStatus(`${names[instrumentName] || instrumentName} listo`, 'ready');
+            } catch (e) {
+                console.error('Error loading instrument:', e);
+                state.soundfontLoading = false;
+                updateInstrumentStatus('Error cargando instrumento', 'error');
+                document.getElementById('instrumentSelect').value = 'synth';
+                state.currentInstrument = 'synth';
+            }
+        }
+
+        function updateInstrumentStatus(message, className) {
+            const status = document.getElementById('instrumentStatus');
+            status.textContent = message;
+            status.className = 'instrument-status ' + className;
+        }
+
         function playNote(noteStr, time, duration) {
+            const midi = Pitch.toMidi(noteStr);
+
+            // Use SoundFont if available
+            if (state.soundfont && state.currentInstrument !== 'synth') {
+                state.soundfont.start({
+                    note: midi,
+                    velocity: 80,
+                    time: time,
+                    duration: duration
+                });
+                return;
+            }
+
+            // Fallback to synth
+            playNoteSynth(noteStr, time, duration);
+        }
+
+        function playNoteSynth(noteStr, time, duration) {
             const freq = Pitch.midiToFreq(Pitch.toMidi(noteStr));
             const ctx = state.audioContext;
 
@@ -1850,6 +1998,7 @@
         function playExercise() {
             if (state.isPlaying) return;
             if (!state.currentExercise) return;
+            if (state.soundfontLoading) return;  // Wait for instrument to load
 
             initAudio();
             state.isPlaying = true;
@@ -1924,6 +2073,11 @@
             if (e.target.id === 'theoryModal') {
                 e.target.classList.remove('active');
             }
+        });
+
+        // Instrument selector
+        document.getElementById('instrumentSelect').addEventListener('change', (e) => {
+            loadInstrument(e.target.value);
         });
 
         // Position toggle
