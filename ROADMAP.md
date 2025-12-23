@@ -124,40 +124,14 @@ Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus e
 - [ ] Tutorial interactivo para nuevos usuarios
 - [ ] Onboarding: "¿Qué es el contrapunto?"
 
-### 2.4 Audio Mejorado
-- [ ] Diferentes timbres (órgano, clavecín, cuerdas, voz)
+### 2.4 Audio y Exportación
+- [x] **SoundFonts (smplr)** - Instrumentos reales: Coro, Órgano, Clavecín, Piano, Cuerdas
+- [x] **MusicXML export** - Exportar a MuseScore/Sibelius/Finale/Dorico
 - [ ] Tempo ajustable (Largo → Allegro)
 - [ ] Reproducir solo CF / solo CP / ambos
 - [ ] Metrónomo opcional
 - [ ] Reproducción nota por nota (paso a paso)
-- a discutir:
 
-Nivel Básico (SoundFonts):
-
-Usa Soundfont-player o Smplr. Son librerías JS que cargan pequeños archivos de muestras (mp3/ogg) de instrumentos reales (Piano, Coro, Clavicémbalo).
-
-Recomendación: Busca un SoundFont de "Choir Aahs" o "Vocal Oohs". Escuchar las voces cantadas ayuda a detectar errores de conducción mucho mejor que un piano.
-
-Nivel Pro (Tone.js):
-
-Si quieres control total (reverb, envolventes), integra Tone.js. Puedes crear un sintetizador que suene suave y "humano" sin cargar archivos pesados.
-
-3. Integración con MuseScore (MusicXML)
-MuseScore no tiene una "API en tiempo real" para conectarse a una web (no puedes tener MuseScore abierto y que tu web escriba en él mágicamente). La integración estándar es a través de archivos.
-
-La Clave: MusicXML
-
-MuseScore (y Sibelius/Finale/Dorico) usan MusicXML como lenguaje universal.
-
-Tu objetivo debe ser generar un archivo .musicxml desde tu web.
-
-Cómo hacerlo:
-
-Tu aplicación ya tiene la información de las notas (pitch, duración).
-
-Usa una librería como musicxml-interfaces (o escribe un generador XML simple, ya que la 1ra especie es matemáticamente muy sencilla) para convertir tus datos en un archivo .xml.
-
-Flujo para el usuario: El alumno termina el ejercicio -> Clic en "Exportar a MuseScore" -> Se descarga un archivo .mxl -> Lo abre en MuseScore y ya tiene la partitura lista para imprimir o orquestar.
 ---
 
 ## Fase 3: Segunda Especie (2:1)
@@ -469,12 +443,15 @@ Bajo:    ───────── (E2-C4)  Mi2-Do4
 - [ ] Exportar estadísticas de clase
 
 ### Técnico
-- [ ] MIDI input (tocar desde teclado externo)
-- [ ] MIDI output (exportar secuencia)
-- [ ] MusicXML export (abrir en Sibelius, Finale, MuseScore)
+- [x] MusicXML export (abrir en Sibelius, Finale, MuseScore)
+- [x] SoundFonts (instrumentos reales vía smplr)
 - [ ] PWA (instalable, funciona offline)
 - [ ] Tema claro/oscuro
 - [ ] Accesibilidad (ARIA, navegación por teclado completa)
+
+### Futuro Lejano
+- [ ] MIDI input (tocar desde teclado externo)
+- [ ] MIDI output (exportar secuencia)
 
 ---
 
@@ -484,14 +461,15 @@ Bajo:    ───────── (E2-C4)  Mi2-Do4
 |---------|-----------|--------|
 | 0.1.0 | Primera Especie MVP | ✅ Dic 2024 |
 | 0.2.0 | Reglas Schoenberg + Teoría | ✅ Dic 2024 |
-| 0.3.0 | Consolidación 1ª Especie | 🔲 |
-| 0.4.0 | Segunda Especie | 🔲 |
-| 0.5.0 | Tercera Especie | 🔲 |
-| 0.6.0 | Cuarta Especie | 🔲 |
-| 0.7.0 | Quinta Especie | 🔲 |
-| 0.8.0 | Tres Voces | 🔲 |
-| 0.9.0 | Cuatro Voces (SATB) | 🔲 |
-| 0.10.0 | Aplicaciones avanzadas | 🔲 |
+| 0.3.0 | SoundFonts + MusicXML export | ✅ Dic 2024 |
+| 0.4.0 | Consolidación 1ª Especie | 🔲 |
+| 0.5.0 | Segunda Especie | 🔲 |
+| 0.6.0 | Tercera Especie | 🔲 |
+| 0.7.0 | Cuarta Especie | 🔲 |
+| 0.8.0 | Quinta Especie | 🔲 |
+| 0.9.0 | Tres Voces | 🔲 |
+| 0.10.0 | Cuatro Voces (SATB) | 🔲 |
+| 0.11.0 | Aplicaciones avanzadas | 🔲 |
 | 1.0.0 | Release completo | 🔲 |
 
 ---

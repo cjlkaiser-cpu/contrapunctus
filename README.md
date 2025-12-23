@@ -16,7 +16,7 @@ Contrapunctus implementa el método tradicional de **contrapunto de especies** (
 | 4ta | Sincopa | Notas ligadas, suspensiones |
 | 5ta | Floridus | Combinacion libre de especies |
 
-> **MVP actual**: Primera Especie completamente implementada.
+> **Estado actual**: Primera Especie completa + SoundFonts + MusicXML export
 
 ## Reglas de Primera Especie
 
@@ -66,10 +66,29 @@ Basadas en el *"Ejercicios preliminares de contrapunto"* de Arnold Schoenberg:
 ### Controles
 
 - **Clic en el pentagrama**: Coloca una nota de contrapunto
+- **Flechas ↑↓**: Mover nota diatónicamente
+- **Shift + ↑↓**: Mover nota cromáticamente
+- **Flechas ←→**: Navegar entre beats
 - **Espacio**: Reproducir ejercicio
 - **Enter**: Verificar solución
-- **Ctrl+Z**: Deshacer
-- **Esc**: Limpiar
+
+### Audio
+
+Selector de instrumentos con SoundFonts reales (vía smplr):
+- Sintetizador (built-in)
+- Coro (Aahs) - *recomendado para detectar errores de conducción*
+- Órgano de iglesia
+- Clavecín
+- Piano
+- Cuerdas
+
+### Exportación
+
+**MusicXML**: Botón "↓ XML" genera archivo `.musicxml` compatible con:
+- MuseScore
+- Sibelius
+- Finale
+- Dorico
 
 ### Feedback Visual
 
@@ -151,35 +170,39 @@ Los *Ejercicios preliminares de contrapunto* (publicados póstumamente) aplican 
 
 ## Roadmap
 
-### Fase 1: Primera Especie (MVP) ✅
+### Fase 1: Primera Especie ✅
 - [x] Módulos core (Pitch, Interval, Scale)
-- [x] Cantus Firmi de Fux
-- [x] FirstSpeciesValidator
-- [x] Interfaz de pentagrama
-- [x] Audio playback
-- [x] Sistema de puntuación
+- [x] Cantus Firmi (Fux + 8 de Schoenberg Ej. 9)
+- [x] FirstSpeciesValidator (17 reglas Schoenberg)
+- [x] Interfaz de pentagrama interactivo
+- [x] Modal de teoría completa (§1-§14)
+- [x] SoundFonts (smplr) - 6 instrumentos
+- [x] MusicXML export
 
-### Fase 2: Expansión
-- [ ] Segunda especie (2:1)
-- [ ] Más cantus firmi (Schoenberg)
+### Fase 2: Consolidación
 - [ ] Modo menor completo
+- [ ] Feedback pedagógico mejorado
 - [ ] Guardar/cargar progreso
+- [ ] Tutorial interactivo
 
-### Fase 3: Tres Voces
-- [ ] Tercera y cuarta especie
-- [ ] Contrapunto a 3 voces
-- [ ] Análisis de acordes resultantes
+### Fase 3: Segunda Especie
+- [ ] Notas de paso
+- [ ] SecondSpeciesValidator
+- [ ] UI para 2 notas por compás
 
-### Fase 4: Avanzado
-- [ ] Quinta especie (floridus)
-- [ ] Cuatro voces
+### Fase 4+: Especies Avanzadas
+- [ ] 3ra, 4ta, 5ta especie
+- [ ] Tres y cuatro voces
 - [ ] Imitación y canon
-- [ ] MIDI input
+
+Ver [ROADMAP.md](ROADMAP.md) para el plan completo.
 
 ## Tecnologías
 
 - **Canvas 2D**: Notación musical
 - **Web Audio API**: Síntesis y playback
+- **smplr**: SoundFonts (instrumentos reales)
+- **MusicXML 3.1**: Exportación a software de notación
 - **JavaScript ES6+**: Módulos vanilla
 - **CSS Custom Properties**: Theming
 
