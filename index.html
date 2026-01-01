@@ -696,6 +696,291 @@
                 display: none;
             }
         }
+
+        /* ==================== SCHOENBERG EXAMPLES ==================== */
+        .examples-divider {
+            height: 1px;
+            background: var(--bg-tertiary);
+            margin: 1.5rem 0;
+        }
+
+        .example-item {
+            background: var(--bg-tertiary);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .example-item:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .example-item.active {
+            border-color: var(--accent);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .example-item .title {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .example-item .info {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Examples Modal */
+        .examples-modal {
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .examples-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--bg-tertiary);
+        }
+
+        .examples-header h2 {
+            margin: 0;
+        }
+
+        .examples-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .examples-nav button {
+            padding: 0.5rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .examples-nav button:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .examples-nav button.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .examples-content {
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .cf-display {
+            background: var(--bg-tertiary);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .cf-display h4 {
+            color: var(--note-cf);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .cf-notes {
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            letter-spacing: 0.5em;
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .solution-card {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .solution-card:hover {
+            border-color: var(--accent-dim);
+        }
+
+        .solution-card.selected {
+            border-color: var(--accent);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        .solution-card.has-errors {
+            border-left: 3px solid var(--error);
+        }
+
+        .solution-card.has-warnings {
+            border-left: 3px solid var(--warning);
+        }
+
+        .solution-card.is-clean {
+            border-left: 3px solid var(--success);
+        }
+
+        .solution-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .solution-id {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .solution-position {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: var(--bg-secondary);
+            padding: 0.125rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .solution-intervals {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.3em;
+        }
+
+        .solution-marks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .mark-badge {
+            font-size: 0.7rem;
+            padding: 0.125rem 0.375rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .mark-badge.error {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--error);
+        }
+
+        .mark-badge.warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--warning);
+        }
+
+        .mark-badge.info {
+            background: rgba(100, 116, 139, 0.2);
+            color: var(--text-muted);
+        }
+
+        .solution-comment {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .solution-detail {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bg-tertiary);
+        }
+
+        .solution-detail h4 {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+            min-width: 80px;
+        }
+
+        .detail-value {
+            color: var(--text-primary);
+            font-family: monospace;
+        }
+
+        .marks-legend {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+
+        .marks-legend h5 {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .marks-legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .mark-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        /* Preview canvas for solutions */
+        .solution-preview-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-primary);
+            border-radius: 8px;
+        }
+
+        #solutionPreviewCanvas {
+            width: 100%;
+            height: 200px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
     </style>
 </head>
 <body>
@@ -740,6 +1025,18 @@
                 <div class="species-tabs">
                     <button class="species-tab active" data-position="upper">Superior</button>
                     <button class="species-tab" data-position="lower">Inferior</button>
+                </div>
+            </div>
+
+            <div class="examples-divider"></div>
+
+            <div class="sidebar-section">
+                <h3>Ejemplos de Schoenberg</h3>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+                    Estudia los ejemplos comentados del libro "Ejercicios Preliminares de Contrapunto"
+                </p>
+                <div id="schoenbergExamplesList">
+                    <!-- Filled by JS -->
                 </div>
             </div>
         </aside>
@@ -1227,12 +1524,31 @@
         </div>
     </div>
 
+    <!-- Schoenberg Examples Modal -->
+    <div class="modal-overlay" id="examplesModal">
+        <div class="modal examples-modal">
+            <div class="examples-header">
+                <h2 id="examplesModalTitle">Ejemplos de Schoenberg</h2>
+                <button class="btn btn-secondary btn-icon" id="btnCloseExamples">✕</button>
+            </div>
+
+            <div class="examples-nav" id="examplesNav">
+                <!-- Filled by JS -->
+            </div>
+
+            <div class="examples-content" id="examplesContent">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Core modules -->
     <script src="js/core/Pitch.js"></script>
     <script src="js/core/Interval.js"></script>
     <script src="js/core/Scale.js"></script>
     <script src="js/core/CantusFirmus.js"></script>
     <script src="js/validators/FirstSpeciesValidator.js"></script>
+    <script src="js/data/SchoenbergExamples.js"></script>
 
     <script>
         // ==================== CONFIGURATION ====================
@@ -1571,6 +1887,13 @@
         function handleCanvasClick(e) {
             if (!state.currentExercise) return;
 
+            // Block editing when viewing Schoenberg examples (read-only mode)
+            if (examplesState.isViewingExample) {
+                // Still allow focus for potential keyboard navigation
+                canvas.focus();
+                return;
+            }
+
             // Focus the canvas for keyboard input
             canvas.focus();
 
@@ -1805,6 +2128,17 @@
         function loadExercise(id) {
             const cf = CantusFirmus.get(id);
             if (!cf) return;
+
+            // Exit Schoenberg example mode if active
+            if (examplesState.isViewingExample) {
+                examplesState.isViewingExample = false;
+                examplesState.currentExample = null;
+                examplesState.currentSolution = null;
+                document.querySelectorAll('#schoenbergExamplesList .example-item').forEach(el => {
+                    el.classList.remove('active');
+                });
+                canvas.style.cursor = 'crosshair';
+            }
 
             state.currentExercise = cf;
             state.counterpoint = new Array(cf.notes.length).fill(null);
@@ -2211,6 +2545,316 @@
             }
         });
 
+        // ==================== SCHOENBERG EXAMPLES ====================
+
+        // State for examples viewer
+        const examplesState = {
+            currentExample: null,
+            currentSolution: null,
+            isViewingExample: false  // Flag to indicate we're viewing an example (read-only mode)
+        };
+
+        // Populate the sidebar list with Schoenberg examples
+        function populateSchoenbergExamplesList() {
+            const container = document.getElementById('schoenbergExamplesList');
+            if (!container || typeof SchoenbergExamples === 'undefined') return;
+
+            container.innerHTML = '';
+
+            const examples = SchoenbergExamples.getAll();
+            examples.forEach(example => {
+                const div = document.createElement('div');
+                div.className = 'example-item';
+                div.dataset.exampleId = example.id;
+                div.innerHTML = `
+                    <div class="title">${example.title}</div>
+                    <div class="info">${example.cf.description} · ${example.solutions.length} soluciones · p.${example.page}</div>
+                `;
+                div.addEventListener('click', () => loadSchoenbergExample(example.id));
+                container.appendChild(div);
+            });
+        }
+
+        // Load a Schoenberg example into the main canvas
+        function loadSchoenbergExample(exampleId, solutionId = 'a') {
+            const example = SchoenbergExamples.get(exampleId);
+            if (!example) return;
+
+            const solution = example.solutions.find(s => s.id === solutionId) || example.solutions[0];
+            if (!solution) return;
+
+            // Update state
+            examplesState.currentExample = exampleId;
+            examplesState.currentSolution = solution.id;
+            examplesState.isViewingExample = true;
+
+            // Calculate CP notes from intervals
+            const cpNotes = SchoenbergExamples.calculateCPNotes(
+                example.cf.notes,
+                solution.intervals,
+                solution.position,
+                example.key,
+                example.mode
+            );
+
+            // Update main state (same as regular exercises)
+            state.currentExercise = {
+                id: `schoenberg-${exampleId}`,
+                name: `${example.title} - ${example.cf.description}`,
+                key: example.key,
+                mode: example.mode,
+                notes: example.cf.notes,
+                source: `Schoenberg p.${example.page}`
+            };
+            state.counterpoint = cpNotes;
+            state.cpPosition = solution.position === 'arriba' ? 'upper' : 'lower';
+
+            // Update UI
+            updateExampleUI(example, solution);
+
+            // Highlight selected example in sidebar
+            document.querySelectorAll('#schoenbergExamplesList .example-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.exampleId === exampleId);
+            });
+
+            // Open the solution selector modal
+            openSolutionSelector(example, solution);
+
+            // Redraw canvas
+            draw();
+        }
+
+        // Update UI elements for viewing an example
+        function updateExampleUI(example, solution) {
+            // Update title
+            document.getElementById('exerciseTitle').textContent =
+                `${example.title} (${solution.id.toUpperCase()}) - ${example.key} ${example.mode === 'major' ? 'Mayor' : 'menor'}`;
+
+            // Update feedback bar with Schoenberg marks
+            updateFeedbackWithMarks(solution);
+
+            // Disable editing UI (visual indication)
+            canvas.style.cursor = 'default';
+        }
+
+        // Update the feedback bar with Schoenberg marks
+        function updateFeedbackWithMarks(solution) {
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackTitle = document.getElementById('feedbackTitle');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            const scoreValue = document.getElementById('scoreValue');
+
+            // Determine severity
+            const hasErrors = solution.marks.some(m =>
+                SchoenbergExamples.MARKS[m]?.severity === 'error'
+            );
+            const hasWarnings = solution.marks.some(m =>
+                SchoenbergExamples.MARKS[m]?.severity === 'warning'
+            );
+            const isClean = solution.marks.length === 0 && !solution.isError;
+
+            // Update icon
+            feedbackIcon.className = 'feedback-icon';
+            if (solution.isError) {
+                feedbackIcon.classList.add('error');
+                feedbackIcon.textContent = '✗';
+            } else if (hasErrors) {
+                feedbackIcon.classList.add('error');
+                feedbackIcon.textContent = '!';
+            } else if (hasWarnings) {
+                feedbackIcon.classList.add('warning');
+                feedbackIcon.textContent = '⚠';
+            } else if (isClean) {
+                feedbackIcon.classList.add('success');
+                feedbackIcon.textContent = '✓';
+            } else {
+                feedbackIcon.textContent = '📖';
+            }
+
+            // Update title
+            feedbackTitle.textContent = isClean
+                ? 'Solución correcta'
+                : solution.isError
+                    ? 'Ejemplo de error'
+                    : 'Solución con observaciones';
+
+            // Build marks display
+            let marksHtml = '';
+            if (solution.marks.length > 0) {
+                marksHtml = solution.marks.map(markKey => {
+                    const mark = SchoenbergExamples.MARKS[markKey];
+                    if (!mark) return '';
+                    return `<span class="mark-badge ${mark.severity}" title="${mark.name}">${mark.symbol}</span>`;
+                }).join(' ');
+            }
+
+            feedbackMessage.innerHTML = solution.comment
+                ? `${marksHtml} ${solution.comment}`
+                : marksHtml || 'Sin observaciones de Schoenberg';
+
+            // Score based on marks
+            if (isClean) {
+                scoreValue.textContent = '100';
+            } else {
+                const errorCount = solution.marks.filter(m =>
+                    SchoenbergExamples.MARKS[m]?.severity === 'error').length;
+                const warnCount = solution.marks.filter(m =>
+                    SchoenbergExamples.MARKS[m]?.severity === 'warning').length;
+                scoreValue.textContent = Math.max(0, 100 - errorCount * 25 - warnCount * 10);
+            }
+        }
+
+        // Open the solution selector modal
+        function openSolutionSelector(example, currentSolution) {
+            // Update modal title
+            document.getElementById('examplesModalTitle').textContent =
+                `${example.title} - Seleccionar Solución`;
+
+            // Render navigation between examples
+            renderExamplesNav();
+
+            // Render solution selector
+            renderSolutionSelector(example, currentSolution);
+
+            document.getElementById('examplesModal').classList.add('active');
+        }
+
+        // Render the navigation tabs for examples
+        function renderExamplesNav() {
+            const nav = document.getElementById('examplesNav');
+            const examples = SchoenbergExamples.getAll();
+
+            nav.innerHTML = examples.map(ex => `
+                <button data-example="${ex.id}" class="${ex.id === examplesState.currentExample ? 'active' : ''}">
+                    ${ex.title}
+                </button>
+            `).join('');
+
+            nav.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    loadSchoenbergExample(btn.dataset.example);
+                });
+            });
+        }
+
+        // Render solution selector inside modal
+        function renderSolutionSelector(example, currentSolution) {
+            const container = document.getElementById('examplesContent');
+
+            // CF display
+            const cfHtml = `
+                <div class="cf-display">
+                    <h4>Cantus Firmus (${example.cf.description})</h4>
+                    <div class="cf-notes">${example.cf.notes.join(' ')}</div>
+                </div>
+            `;
+
+            // Solutions grid
+            const solutionsHtml = `
+                <div class="solutions-grid">
+                    ${example.solutions.map(sol => renderSolutionCard(sol, example, currentSolution)).join('')}
+                </div>
+            `;
+
+            // Marks legend
+            const marksLegendHtml = `
+                <div class="marks-legend">
+                    <h5>Leyenda de marcas</h5>
+                    <div class="marks-legend-grid">
+                        ${Object.entries(SchoenbergExamples.MARKS).map(([key, mark]) => `
+                            <div class="mark-legend-item">
+                                <span class="mark-badge ${mark.severity}">${mark.symbol}</span>
+                                <span>${mark.name}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = cfHtml + solutionsHtml + marksLegendHtml;
+
+            // Add click handlers
+            container.querySelectorAll('.solution-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const solId = card.dataset.solution;
+                    loadSchoenbergExample(examplesState.currentExample, solId);
+                });
+            });
+        }
+
+        // Render a single solution card
+        function renderSolutionCard(solution, example, currentSolution) {
+            const isSelected = currentSolution && solution.id === currentSolution.id;
+            const hasErrors = solution.marks.some(m =>
+                SchoenbergExamples.MARKS[m]?.severity === 'error'
+            );
+            const hasWarnings = solution.marks.some(m =>
+                SchoenbergExamples.MARKS[m]?.severity === 'warning'
+            );
+            const isClean = solution.marks.length === 0 && !solution.isError;
+
+            let statusClass = '';
+            if (solution.isError) statusClass = 'has-errors';
+            else if (hasErrors) statusClass = 'has-errors';
+            else if (hasWarnings) statusClass = 'has-warnings';
+            else if (isClean) statusClass = 'is-clean';
+
+            const marksHtml = solution.marks.map(markKey => {
+                const mark = SchoenbergExamples.MARKS[markKey];
+                if (!mark) return '';
+                return `<span class="mark-badge ${mark.severity}">${mark.symbol}</span>`;
+            }).join('');
+
+            const intervalsStr = solution.intervals.map(i => i === null ? '?' : i).join(' ');
+
+            return `
+                <div class="solution-card ${statusClass} ${isSelected ? 'selected' : ''}" data-solution="${solution.id}">
+                    <div class="solution-header">
+                        <span class="solution-id">${solution.id.toUpperCase()})</span>
+                        <span class="solution-position">${solution.position === 'arriba' ? '↑ Sup' : '↓ Inf'}</span>
+                    </div>
+                    <div class="solution-intervals">${intervalsStr}</div>
+                    ${marksHtml ? `<div class="solution-marks">${marksHtml}</div>` : ''}
+                    ${solution.comment ? `<div class="solution-comment">${solution.comment}</div>` : ''}
+                </div>
+            `;
+        }
+
+        // Exit example viewing mode and return to practice
+        function exitExampleMode() {
+            examplesState.isViewingExample = false;
+            examplesState.currentExample = null;
+            examplesState.currentSolution = null;
+
+            // Clear selection in sidebar
+            document.querySelectorAll('#schoenbergExamplesList .example-item').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Restore cursor
+            canvas.style.cursor = 'crosshair';
+
+            // Load a regular exercise
+            const exercises = CantusFirmus.getAll();
+            if (exercises.length > 0) {
+                loadExercise(exercises[0].id);
+            }
+        }
+
+        // Close examples modal
+        document.getElementById('btnCloseExamples').addEventListener('click', () => {
+            document.getElementById('examplesModal').classList.remove('active');
+        });
+
+        document.getElementById('examplesModal').addEventListener('click', (e) => {
+            if (e.target.id === 'examplesModal') {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Initialize Schoenberg examples list
+        populateSchoenbergExamplesList();
+
         // Instrument selector
         document.getElementById('instrumentSelect').addEventListener('change', (e) => {
             loadInstrument(e.target.value);
@@ -2237,6 +2881,17 @@
         // Keyboard shortcuts - canvas specific (arrows, delete)
         canvas.addEventListener('keydown', (e) => {
             if (!state.currentExercise) return;
+
+            // Block note editing when viewing Schoenberg examples
+            // But allow Space for playback and navigation
+            const allowedInExampleMode = ['Space', 'Escape'];
+            if (examplesState.isViewingExample && !allowedInExampleMode.includes(e.code)) {
+                // Allow Escape to close modal if open
+                if (e.code === 'Escape') {
+                    document.getElementById('examplesModal').classList.remove('active');
+                }
+                return;
+            }
 
             const noteCount = state.currentExercise.notes.length;
 
