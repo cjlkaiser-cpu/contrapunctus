@@ -1006,7 +1006,7 @@
                 <h3>Especie</h3>
                 <div class="species-tabs">
                     <button class="species-tab active" data-species="1">1ra</button>
-                    <button class="species-tab locked" data-species="2">2da</button>
+                    <button class="species-tab" data-species="2">2da</button>
                     <button class="species-tab locked" data-species="3">3ra</button>
                     <button class="species-tab locked" data-species="4">4ta</button>
                     <button class="species-tab locked" data-species="5">5ta</button>
@@ -1241,6 +1241,8 @@
                 <button class="btn btn-secondary btn-icon" id="btnCloseTheory">✕</button>
             </div>
             <div class="theory-content" id="theoryContent">
+                <!-- ============ PRIMERA ESPECIE ============ -->
+                <div id="theoryFirstSpecies">
                 <!-- Introducción -->
                 <section class="theory-section">
                     <h3>Definición General</h3>
@@ -1520,6 +1522,181 @@
                     <h3>Fuente</h3>
                     <p>Arnold Schoenberg, <em>"Ejercicios Preliminares de Contrapunto"</em>, Primera Parte: Contrapunto Simple a Dos Voces, Primera Especie (pp. 19-33).</p>
                 </section>
+                </div><!-- /theoryFirstSpecies -->
+
+                <!-- ============ SEGUNDA ESPECIE ============ -->
+                <div id="theorySecondSpecies" style="display: none;">
+
+                <section class="theory-section">
+                    <h3>Definición General</h3>
+                    <p>En la segunda especie, la voz añadida se compone de <strong>blancas</strong> (dos notas contra cada nota del cantus firmus). La última nota es siempre una <strong>redonda</strong>.</p>
+                    <p>Se introduce así el concepto de <strong>tiempo fuerte</strong> (primera blanca del compás) y <strong>tiempo débil</strong> (segunda blanca del compás).</p>
+                </section>
+
+                <!-- §15 -->
+                <section class="theory-section">
+                    <h3>§15. Regla Fundamental de la Segunda Especie</h3>
+                    <p>De las dos blancas de cada compás, la primera, que cae en el <strong>tiempo fuerte</strong>, ha de ser <strong>consonante</strong> con la nota del cantus firmus. La segunda blanca, que cae en el <strong>tiempo débil</strong>, puede ser:</p>
+                    <ul>
+                        <li><strong>Consonante</strong> — cualquier consonancia es libre</li>
+                        <li><strong>Disonante</strong> — solo como <em>nota de paso</em></li>
+                    </ul>
+                </section>
+
+                <!-- §16 -->
+                <section class="theory-section">
+                    <h3>§16. Paralelas entre Tiempos Fuertes</h3>
+                    <p>Las reglas sobre quintas y octavas paralelas se aplican <strong>entre tiempos fuertes consecutivos</strong> (de compás a compás).</p>
+                    <table class="theory-table">
+                        <tr><th>Situación</th><th>Regla</th></tr>
+                        <tr><td>5ª → 5ª (F→F)</td><td class="bad">Prohibido</td></tr>
+                        <tr><td>8ª → 8ª (F→F)</td><td class="bad">Prohibido</td></tr>
+                        <tr><td>5ª → 5ª (F→D o D→F)</td><td class="caution">Evitar, menos grave</td></tr>
+                        <tr><td>3ª → 3ª (F→F)</td><td class="good">Permitido</td></tr>
+                    </table>
+                    <p class="theory-note">La nota del tiempo débil <strong>no elimina</strong> las paralelas entre tiempos fuertes. Aunque haya otra nota entre medias, las quintas y octavas consecutivas en tiempos fuertes siguen siendo paralelas.</p>
+                </section>
+
+                <!-- §17 -->
+                <section class="theory-section">
+                    <h3>§17. Quintas y Octavas Ocultas</h3>
+                    <p>Las quintas y octavas <strong>ocultas</strong> (por movimiento paralelo hacia una consonancia perfecta) siguen siendo de aplicación entre tiempos fuertes. La nota del tiempo débil puede atenuar el efecto, pero no lo elimina del todo.</p>
+                </section>
+
+                <!-- §18 -->
+                <section class="theory-section">
+                    <h3>§18. La Nota de Paso</h3>
+                    <p>La disonancia en tiempo débil solo se permite como <strong>nota de paso</strong>. Para que una nota sea de paso válida se requieren <strong>tres condiciones</strong>:</p>
+                    <ol>
+                        <li><strong>Grado conjunto</strong> desde la nota anterior (tiempo fuerte)</li>
+                        <li><strong>Grado conjunto</strong> hacia la nota siguiente (tiempo fuerte)</li>
+                        <li><strong>Misma dirección</strong>: las tres notas forman una escala ascendente o descendente</li>
+                    </ol>
+                    <table class="theory-table">
+                        <tr><th>Ejemplo</th><th>Válido</th><th>Razón</th></tr>
+                        <tr><td>C→D→E (ascendente)</td><td class="good">✓</td><td>Grados conjuntos, misma dirección</td></tr>
+                        <tr><td>E→D→C (descendente)</td><td class="good">✓</td><td>Grados conjuntos, misma dirección</td></tr>
+                        <tr><td>C→D→B (cambio)</td><td class="bad">✗</td><td>Cambio de dirección</td></tr>
+                        <tr><td>C→E→F (salto)</td><td class="bad">✗</td><td>Salto de tercera, no grado conjunto</td></tr>
+                    </table>
+                    <p class="theory-note">La nota de paso permite <strong>rellenar</strong> los saltos de tercera del cantus firmus con un movimiento escalar suave. Es el principal recurso expresivo de la segunda especie.</p>
+                </section>
+
+                <!-- §19 -->
+                <section class="theory-section">
+                    <h3>§19. Consonancias en Tiempo Débil</h3>
+                    <p>Las consonancias en el tiempo débil son <strong>enteramente libres</strong>: pueden alcanzarse por salto o por grado conjunto, en cualquier dirección. No están sujetas a las restricciones de las notas de paso.</p>
+                    <p>Sin embargo, la <strong>línea melódica general</strong> debe seguir siendo equilibrada: mezclar saltos con grados conjuntos, moverse en ondas, evitar arpegios prolongados.</p>
+                </section>
+
+                <!-- §20 -->
+                <section class="theory-section">
+                    <h3>§20. La Última Nota</h3>
+                    <p>La última nota del contrapunto es siempre una <strong>redonda</strong> (no una blanca). Esta nota cae en el tiempo fuerte del último compás y debe formar <strong>unísono u octava</strong> con la última nota del cantus firmus.</p>
+                    <p class="theory-note">La estructura rítmica es: blanca-blanca | blanca-blanca | ... | <strong>redonda</strong>.</p>
+                </section>
+
+                <!-- §21 -->
+                <section class="theory-section">
+                    <h3>§21. Cadencia — Voz Superior</h3>
+                    <p>Cuando el contrapunto está por encima del cantus firmus, la cadencia habitual es:</p>
+                    <ul>
+                        <li>La <strong>última blanca</strong> del penúltimo compás (tiempo débil) debe ser la <strong>sensible</strong> (grado VII)</li>
+                        <li>La sensible resuelve por grado conjunto ascendente a la <strong>tónica</strong> (redonda final)</li>
+                        <li>La primera blanca del penúltimo compás suele ser grado V o VI</li>
+                    </ul>
+                    <table class="theory-table">
+                        <tr><th>Posición</th><th>Función</th><th>Ejemplo (Do Mayor)</th></tr>
+                        <tr><td>Penúltimo F (tiempo fuerte)</td><td>Grado V o VI</td><td>Sol o La</td></tr>
+                        <tr><td>Penúltimo D (tiempo débil)</td><td>Sensible (VII)</td><td>Si</td></tr>
+                        <tr><td>Último (redonda)</td><td>Tónica (I)</td><td>Do</td></tr>
+                    </table>
+                </section>
+
+                <!-- §22 -->
+                <section class="theory-section">
+                    <h3>§22. Cadencia — Voz Inferior</h3>
+                    <p>Cuando el contrapunto está por debajo del cantus firmus:</p>
+                    <ul>
+                        <li>La última blanca del penúltimo compás puede ser grado II, V o VII</li>
+                        <li>Resuelve descendiendo (desde grado II) o ascendiendo (desde grado VII) a la tónica</li>
+                    </ul>
+                </section>
+
+                <!-- Anacrusa -->
+                <section class="theory-section">
+                    <h3>Anacrusa (Comienzo en Tiempo Débil)</h3>
+                    <p>En la segunda especie es frecuente comenzar con un <strong>silencio de blanca</strong> en el primer tiempo fuerte. El contrapunto entra en el <strong>tiempo débil</strong> del primer compás.</p>
+                    <p>Si se utiliza anacrusa, la primera nota sonora (tiempo débil) debe ser <strong>consonante</strong> con el cantus firmus, como si fuera un tiempo fuerte.</p>
+                    <p class="theory-note">La anacrusa es opcional. El contrapunto puede comenzar también en el tiempo fuerte del primer compás.</p>
+                </section>
+
+                <!-- Repetición de notas -->
+                <section class="theory-section">
+                    <h3>Repetición de Notas (D→F)</h3>
+                    <p>Se debe <strong>evitar repetir la misma nota</strong> entre el tiempo débil de un compás y el tiempo fuerte del siguiente. Esta repetición produce un efecto de ligadura que debilita la independencia rítmica.</p>
+                    <table class="theory-table">
+                        <tr><th>Situación</th><th>Regla</th></tr>
+                        <tr><td>Repetición F→D (mismo compás)</td><td class="caution">Tolerable</td></tr>
+                        <tr><td>Repetición D→F (entre compases)</td><td class="bad">Evitar</td></tr>
+                    </table>
+                </section>
+
+                <!-- Conducción melódica -->
+                <section class="theory-section">
+                    <h3>Conducción Melódica</h3>
+                    <p>Las reglas de conducción melódica de la primera especie (§7) siguen siendo de aplicación:</p>
+                    <ul>
+                        <li>Evitar el <strong>tritono</strong> melódico (entre notas consecutivas)</li>
+                        <li>Evitar <strong>tritonos compuestos</strong> (tritono "oculto" con notas intermedias)</li>
+                        <li>Máximo <strong>8-9 notas</strong> en la misma dirección</li>
+                        <li>Evitar <strong>arpegios</strong> prolongados</li>
+                        <li>Mezclar saltos con grados conjuntos, moverse en "ondas"</li>
+                    </ul>
+                    <p class="theory-note">En la segunda especie, el doble de notas da mayor libertad melódica pero también exige mayor atención a la línea general.</p>
+                </section>
+
+                <!-- Resumen -->
+                <section class="theory-section">
+                    <h3>Resumen de Reglas — Segunda Especie</h3>
+
+                    <h4>Tiempos fuertes:</h4>
+                    <p>Deben ser <strong>consonantes</strong> con el CF (igual que primera especie).</p>
+
+                    <h4>Tiempos débiles:</h4>
+                    <ul>
+                        <li><strong>Consonancia</strong> — libre (cualquier intervalo consonante)</li>
+                        <li><strong>Disonancia</strong> — solo como nota de paso (grado conjunto, misma dirección)</li>
+                    </ul>
+
+                    <h4>Paralelas (F→F):</h4>
+                    <ul>
+                        <li>Sin 5as/8as paralelas entre tiempos fuertes</li>
+                        <li>Sin 5as/8as ocultas entre tiempos fuertes</li>
+                        <li>Evitar paralelas F↔D (menos grave, pero indeseable)</li>
+                    </ul>
+
+                    <h4>Estructura:</h4>
+                    <ul>
+                        <li>Última nota = redonda (unísono u octava)</li>
+                        <li>Anacrusa opcional (silencio de blanca)</li>
+                        <li>Evitar repetición de nota D→F</li>
+                    </ul>
+
+                    <h4>Cadencia:</h4>
+                    <ul>
+                        <li>Voz superior: sensible (VII) en último tiempo débil → tónica</li>
+                        <li>Voz inferior: grado II, V o VII → tónica</li>
+                    </ul>
+                </section>
+
+                <!-- Fuente -->
+                <section class="theory-section source">
+                    <h3>Fuente</h3>
+                    <p>Arnold Schoenberg, <em>"Ejercicios Preliminares de Contrapunto"</em>, Primera Parte: Contrapunto Simple a Dos Voces, Segunda Especie (§15-§22).</p>
+                </section>
+                </div><!-- /theorySecondSpecies -->
+
             </div>
         </div>
     </div>
@@ -1548,6 +1725,7 @@
     <script src="js/core/Scale.js"></script>
     <script src="js/core/CantusFirmus.js"></script>
     <script src="js/validators/FirstSpeciesValidator.js"></script>
+    <script src="js/validators/SecondSpeciesValidator.js"></script>
     <script src="js/data/SchoenbergExamples.js"></script>
 
     <script>
@@ -1588,6 +1766,136 @@
             soundfontLoading: false
         };
 
+        // ==================== SPECIES HELPERS ====================
+        function getCpLength() {
+            const cfLen = state.currentExercise.notes.length;
+            return state.species === 2 ? cfLen * 2 - 1 : cfLen;
+        }
+
+        function updateExerciseTitle() {
+            const speciesNames = { 1: 'Primera', 2: 'Segunda' };
+            document.getElementById('exerciseTitle').textContent =
+                `${speciesNames[state.species]} Especie - ${state.currentExercise.name}`;
+        }
+
+        // Store original rules HTML for restoration
+        const FIRST_SPECIES_RULES_HTML = `
+            <div class="rule-item" data-rules="consonance">
+                <div class="rule-icon pending">1</div>
+                <div class="rule-text">Solo consonancias (3as, 5as, 6as, 8as)</div>
+            </div>
+            <div class="rule-item" data-rules="parallel-fifths,parallel-octaves">
+                <div class="rule-icon pending">2</div>
+                <div class="rule-text">Sin quintas u octavas paralelas</div>
+            </div>
+            <div class="rule-item" data-rules="start-consonance">
+                <div class="rule-icon pending">3</div>
+                <div class="rule-text">Comenzar en consonancia perfecta</div>
+            </div>
+            <div class="rule-item" data-rules="end-consonance">
+                <div class="rule-icon pending">4</div>
+                <div class="rule-text">Terminar en unísono u octava</div>
+            </div>
+            <div class="rule-item" data-rules="voice-crossing">
+                <div class="rule-icon pending">5</div>
+                <div class="rule-text">Sin cruce de voces</div>
+            </div>
+            <div class="rule-item" data-rules="motion-type">
+                <div class="rule-icon pending">6</div>
+                <div class="rule-text">Preferir movimiento contrario</div>
+            </div>`;
+
+        const FIRST_SPECIES_ADVANCED_HTML = `
+            <div class="rule-item" data-rules="hidden-fifths,hidden-octaves">
+                <div class="rule-icon pending">7</div>
+                <div class="rule-text">Sin quintas/octavas ocultas</div>
+            </div>
+            <div class="rule-item" data-rules="battuta-fifths,battuta-octaves">
+                <div class="rule-icon pending">8</div>
+                <div class="rule-text">Sin paralelas intermitentes (§8)</div>
+            </div>
+            <div class="rule-item" data-rules="compound-tritone">
+                <div class="rule-icon pending">9</div>
+                <div class="rule-text">Sin tritonos compuestos (§7c)</div>
+            </div>
+            <div class="rule-item" data-rules="compound-dissonant-leap">
+                <div class="rule-icon pending">10</div>
+                <div class="rule-text">Sin saltos disonantes compuestos (§7e)</div>
+            </div>
+            <div class="rule-item" data-rules="prolonged-direction">
+                <div class="rule-icon pending">11</div>
+                <div class="rule-text">Máx 8-9 notas en una dirección (§7f)</div>
+            </div>
+            <div class="rule-item" data-rules="arpeggio,excessive-parallels">
+                <div class="rule-icon pending">12</div>
+                <div class="rule-text">Evitar arpegios y 3as/6as excesivas (§7h)</div>
+            </div>`;
+
+        const SECOND_SPECIES_RULES_HTML = `
+            <div class="rule-item" data-rules="consonance">
+                <div class="rule-icon pending">1</div>
+                <div class="rule-text">Consonancia en tiempos fuertes</div>
+            </div>
+            <div class="rule-item" data-rules="passing-tone">
+                <div class="rule-icon pending">2</div>
+                <div class="rule-text">Disonancia solo como nota de paso (§18)</div>
+            </div>
+            <div class="rule-item" data-rules="parallel-fifths,parallel-octaves">
+                <div class="rule-icon pending">3</div>
+                <div class="rule-text">Sin 5as/8as paralelas (F→F)</div>
+            </div>
+            <div class="rule-item" data-rules="start-consonance">
+                <div class="rule-icon pending">4</div>
+                <div class="rule-text">Comenzar en consonancia perfecta</div>
+            </div>
+            <div class="rule-item" data-rules="end-consonance">
+                <div class="rule-icon pending">5</div>
+                <div class="rule-text">Terminar en unísono u octava</div>
+            </div>
+            <div class="rule-item" data-rules="voice-crossing">
+                <div class="rule-icon pending">6</div>
+                <div class="rule-text">Sin cruce de voces</div>
+            </div>`;
+
+        const SECOND_SPECIES_ADVANCED_HTML = `
+            <div class="rule-item" data-rules="hidden-fifths,hidden-octaves">
+                <div class="rule-icon pending">7</div>
+                <div class="rule-text">Sin 5as/8as ocultas (F→F)</div>
+            </div>
+            <div class="rule-item" data-rules="strong-weak-parallels">
+                <div class="rule-icon pending">8</div>
+                <div class="rule-text">Evitar paralelas F↔D (§16)</div>
+            </div>
+            <div class="rule-item" data-rules="cadence-second-species">
+                <div class="rule-icon pending">9</div>
+                <div class="rule-text">Cadencia 2a especie (§20-22)</div>
+            </div>
+            <div class="rule-item" data-rules="note-repetition">
+                <div class="rule-icon pending">10</div>
+                <div class="rule-text">Evitar repetición D→F</div>
+            </div>
+            <div class="rule-item" data-rules="compound-tritone,tritone">
+                <div class="rule-icon pending">11</div>
+                <div class="rule-text">Sin trítonos melódicos/compuestos</div>
+            </div>
+            <div class="rule-item" data-rules="prolonged-direction,arpeggio,excessive-parallels">
+                <div class="rule-icon pending">12</div>
+                <div class="rule-text">Línea melódica equilibrada</div>
+            </div>`;
+
+        function updateRulesPanel() {
+            const rulesList = document.getElementById('rulesList');
+            const advancedList = document.getElementById('advancedRulesList');
+
+            if (state.species === 2) {
+                rulesList.innerHTML = SECOND_SPECIES_RULES_HTML;
+                advancedList.innerHTML = SECOND_SPECIES_ADVANCED_HTML;
+            } else {
+                rulesList.innerHTML = FIRST_SPECIES_RULES_HTML;
+                advancedList.innerHTML = FIRST_SPECIES_ADVANCED_HTML;
+            }
+        }
+
         // ==================== CANVAS SETUP ====================
         const canvas = document.getElementById('staffCanvas');
         const ctx = canvas.getContext('2d');
@@ -1621,12 +1929,12 @@
             if (!state.currentExercise) return;
 
             const cf = state.currentExercise.notes;
-            const noteCount = cf.length;
+            const cpLen = getCpLength();
 
             // Calculate note positions - ensure all notes fit within staff
             const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
             const availableWidth = width - startX - 60;
-            const noteSpacing = availableWidth / noteCount;
+            const noteSpacing = availableWidth / cpLen;
 
             // Draw grand staff (treble + bass)
             drawStaff(CONFIG.staff.x, CONFIG.staff.y, width - 40, 'treble');
@@ -1666,9 +1974,26 @@
                 (state.currentExercise.mode === 'major' ? 'Mayor' : 'menor'),
                 CONFIG.staff.x + CONFIG.staff.clefWidth + 5, CONFIG.staff.y - 10);
 
+            // Draw measure barlines for second species
+            if (state.species === 2) {
+                ctx.strokeStyle = CONFIG.colors.staffLine;
+                ctx.lineWidth = 0.5;
+                for (let m = 1; m < cf.length; m++) {
+                    const barX = startX + (m * 2 - 0.5) * noteSpacing;
+                    ctx.beginPath();
+                    ctx.moveTo(barX, CONFIG.staff.y);
+                    ctx.lineTo(barX, CONFIG.staff.y + 100 + 48);
+                    ctx.stroke();
+                }
+                ctx.lineWidth = 1;
+            }
+
             // Draw notes
-            for (let i = 0; i < noteCount; i++) {
+            for (let i = 0; i < cpLen; i++) {
                 const x = startX + i * noteSpacing;
+                const isSecond = state.species === 2;
+                const measureIdx = isSecond ? SecondSpeciesValidator.getMeasureIndex(i) : i;
+                const isStrong = isSecond ? SecondSpeciesValidator.isStrongBeat(i, cpLen) : true;
 
                 // Draw selection highlight for selected beat
                 if (i === state.selectedBeat) {
@@ -1685,24 +2010,34 @@
                     ctx.fill();
                 }
 
-                // Draw CF note
-                const cfNote = cf[i];
-                drawNote(x, cfNote, CONFIG.colors.cantusFirmus, 'cf');
+                // Draw CF note (on strong beats for species 2, always for species 1)
+                if (!isSecond || isStrong) {
+                    const cfNote = cf[measureIdx];
+                    drawNote(x, cfNote, CONFIG.colors.cantusFirmus, 'cf');
+                }
 
                 // Draw CP note if exists
                 if (state.counterpoint[i]) {
                     const cpNote = state.counterpoint[i];
-                    drawNote(x, cpNote, CONFIG.colors.counterpoint, 'cp');
+                    // Half notes with stems for species 2, whole notes for last or species 1
+                    const noteType = (isSecond && i !== cpLen - 1) ? 'half' : 'whole';
+                    drawNote(x, cpNote, CONFIG.colors.counterpoint, 'cp', noteType);
 
-                    // Draw interval
-                    drawInterval(x, cfNote, cpNote);
+                    // Draw interval against corresponding CF
+                    const cfForInterval = cf[measureIdx];
+                    drawInterval(x, cfForInterval, cpNote);
                 }
 
-                // Draw beat number (highlight if selected)
+                // Draw beat label
                 ctx.fillStyle = i === state.selectedBeat ? '#a855f7' : '#64748b';
                 ctx.font = i === state.selectedBeat ? 'bold 12px Inter' : '11px Inter';
                 ctx.textAlign = 'center';
-                ctx.fillText(i + 1, x, CONFIG.staff.y + 170);
+                if (isSecond) {
+                    const label = isStrong ? `${measureIdx + 1}F` : `${measureIdx + 1}D`;
+                    ctx.fillText(label, x, CONFIG.staff.y + 170);
+                } else {
+                    ctx.fillText(i + 1, x, CONFIG.staff.y + 170);
+                }
             }
 
             // Update selection display
@@ -1771,18 +2106,32 @@
             return c4Y - stepsFromC4 * stepSize;
         }
 
-        function drawNote(x, noteStr, color, type) {
+        function drawNote(x, noteStr, color, type, noteType = 'whole') {
             const y = getNoteY(noteStr);
 
             // Draw ledger lines if needed
             drawLedgerLines(x, y, noteStr);
 
-            // Draw note head (whole note)
+            // Draw note head (whole note = hollow ellipse, half note = hollow ellipse + stem)
             ctx.beginPath();
             ctx.ellipse(x, y, 8, 6, -0.2, 0, Math.PI * 2);
             ctx.strokeStyle = color;
             ctx.lineWidth = 2;
             ctx.stroke();
+
+            // Draw stem for half notes
+            if (noteType === 'half') {
+                const middleStaff = CONFIG.staff.y + 60;
+                // Stem goes down if note is above middle, up if below
+                const stemDir = y < middleStaff ? 1 : -1;
+                const stemX = stemDir === 1 ? x + 7 : x - 7;
+                ctx.beginPath();
+                ctx.moveTo(stemX, y);
+                ctx.lineTo(stemX, y + stemDir * 35);
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
 
             // Parse note for accidentals
             const parsed = Pitch.parse(noteStr);
@@ -1902,8 +2251,7 @@
             const y = e.clientY - rect.top;
 
             // Determine which beat was clicked
-            const cf = state.currentExercise.notes;
-            const noteCount = cf.length;
+            const noteCount = getCpLength();
             const width = rect.width;
             const startX = CONFIG.staff.x + CONFIG.staff.clefWidth + 30;
             const availableWidth = width - startX - 60;
@@ -1938,7 +2286,8 @@
             state.counterpoint[beatIndex] = noteStr;
 
             // Auto-advance to next beat
-            if (state.selectedBeat < noteCount - 1) {
+            const cpLength = getCpLength();
+            if (state.selectedBeat < cpLength - 1) {
                 state.selectedBeat++;
             }
 
@@ -2000,7 +2349,10 @@
         function validatePartial() {
             // Quick validation as user works
             const filled = state.counterpoint.filter(n => n).length;
-            const total = state.currentExercise.notes.length;
+            const total = getCpLength();
+            // For species 2, position 0 can be null (anacrusis) so allow total-1
+            const requiredFill = (state.species === 2 && state.counterpoint[0] === null)
+                ? total - 1 : total;
 
             if (filled === 0) {
                 showFeedback('pending', 'Escribe tu contrapunto',
@@ -2008,7 +2360,7 @@
                 return;
             }
 
-            if (filled < total) {
+            if (filled < requiredFill) {
                 showFeedback('pending', `Progreso: ${filled}/${total} notas`,
                     'Continua colocando notas sobre el cantus firmus.');
                 return;
@@ -2019,13 +2371,24 @@
         }
 
         function validateFull() {
-            const result = FirstSpeciesValidator.validate({
-                cantusFirmus: state.currentExercise.notes,
-                counterpoint: state.counterpoint,
-                key: state.currentExercise.key,
-                mode: state.currentExercise.mode,
-                cpPosition: state.cpPosition
-            });
+            let result;
+            if (state.species === 2) {
+                result = SecondSpeciesValidator.validate({
+                    cantusFirmus: state.currentExercise.notes,
+                    counterpoint: state.counterpoint,
+                    key: state.currentExercise.key,
+                    mode: state.currentExercise.mode,
+                    cpPosition: state.cpPosition
+                });
+            } else {
+                result = FirstSpeciesValidator.validate({
+                    cantusFirmus: state.currentExercise.notes,
+                    counterpoint: state.counterpoint,
+                    key: state.currentExercise.key,
+                    mode: state.currentExercise.mode,
+                    cpPosition: state.cpPosition
+                });
+            }
 
             updateRulesDisplay(result);
 
@@ -2086,7 +2449,13 @@
             if (hasError) return 'fail';
             if (hasWarning) return 'warn';
             if (hasSuggestion) return 'warn';
-            if (state.counterpoint.filter(n => n).length === state.currentExercise.notes.length) {
+
+            // Check if exercise is complete
+            const filled = state.counterpoint.filter(n => n).length;
+            const total = getCpLength();
+            const isComplete = filled >= total ||
+                (state.species === 2 && filled >= total - 1 && state.counterpoint[0] === null);
+            if (isComplete) {
                 return 'pass';
             }
             return 'pending';
@@ -2141,12 +2510,12 @@
             }
 
             state.currentExercise = cf;
-            state.counterpoint = new Array(cf.notes.length).fill(null);
+            state.counterpoint = new Array(getCpLength()).fill(null);
             state.history = [];
             state.selectedBeat = 0;  // Reset selection to first beat
 
-            document.getElementById('exerciseTitle').textContent =
-                `Primera Especie - ${cf.name}`;
+            updateExerciseTitle();
+            updateRulesPanel();
 
             // Update active state in list
             document.querySelectorAll('.exercise-item').forEach(el => {
@@ -2348,21 +2717,51 @@
             const beatDuration = 60 / tempo;
             let time = state.audioContext.currentTime + 0.1;
 
-            for (let i = 0; i < cf.length; i++) {
-                // Play CF note
-                playNote(cf[i], time, beatDuration * 0.9);
+            if (state.species === 2) {
+                const cpLen = getCpLength();
+                const halfBeat = beatDuration / 2;
 
-                // Play CP note if exists
-                if (state.counterpoint[i]) {
-                    playNote(state.counterpoint[i], time, beatDuration * 0.9);
+                for (let i = 0; i < cpLen; i++) {
+                    const isStrong = SecondSpeciesValidator.isStrongBeat(i, cpLen);
+                    const measureIdx = SecondSpeciesValidator.getMeasureIndex(i);
+                    const isLast = i === cpLen - 1;
+
+                    // CF plays on strong beats (holds for full beat)
+                    if (isStrong) {
+                        playNote(cf[measureIdx], time, beatDuration * 0.9);
+                    }
+
+                    // CP plays every half beat
+                    if (state.counterpoint[i]) {
+                        const dur = isLast ? beatDuration * 0.9 : halfBeat * 0.9;
+                        playNote(state.counterpoint[i], time, dur);
+                    }
+
+                    // Advance by half beat (full beat for last note handled by loop end)
+                    time += isLast ? 0 : halfBeat;
                 }
 
-                time += beatDuration;
-            }
+                const totalDuration = (cpLen - 1) * halfBeat + beatDuration;
+                setTimeout(() => {
+                    state.isPlaying = false;
+                }, totalDuration * 1000 + 200);
+            } else {
+                for (let i = 0; i < cf.length; i++) {
+                    // Play CF note
+                    playNote(cf[i], time, beatDuration * 0.9);
 
-            setTimeout(() => {
-                state.isPlaying = false;
-            }, cf.length * beatDuration * 1000 + 200);
+                    // Play CP note if exists
+                    if (state.counterpoint[i]) {
+                        playNote(state.counterpoint[i], time, beatDuration * 0.9);
+                    }
+
+                    time += beatDuration;
+                }
+
+                setTimeout(() => {
+                    state.isPlaying = false;
+                }, cf.length * beatDuration * 1000 + 200);
+            }
         }
 
         // ==================== MUSICXML EXPORT ====================
@@ -2500,7 +2899,7 @@
 
         document.getElementById('btnClear').addEventListener('click', () => {
             state.history.push([...state.counterpoint]);
-            state.counterpoint = new Array(state.currentExercise.notes.length).fill(null);
+            state.counterpoint = new Array(getCpLength()).fill(null);
             draw();
             validatePartial();
         });
@@ -2532,6 +2931,13 @@
 
         // Theory modal handlers
         document.getElementById('btnTheory').addEventListener('click', () => {
+            const speciesNames = { 1: 'Primera', 2: 'Segunda' };
+            document.querySelector('.theory-header h2').textContent =
+                `📖 Schoenberg - ${speciesNames[state.species]} Especie`;
+            document.getElementById('theoryFirstSpecies').style.display =
+                state.species === 1 ? '' : 'none';
+            document.getElementById('theorySecondSpecies').style.display =
+                state.species === 2 ? '' : 'none';
             document.getElementById('theoryModal').classList.add('active');
         });
 
@@ -2871,10 +3277,30 @@
                 state.cpPosition = btn.dataset.position;
 
                 // Clear and redraw
-                state.counterpoint = new Array(state.currentExercise.notes.length).fill(null);
+                state.counterpoint = new Array(getCpLength()).fill(null);
                 state.history = [];
                 draw();
                 validatePartial();
+            });
+        });
+
+        // Species tab handler
+        document.querySelectorAll('[data-species]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('locked')) return;
+                document.querySelectorAll('[data-species]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.species = parseInt(btn.dataset.species);
+
+                if (state.currentExercise) {
+                    state.counterpoint = new Array(getCpLength()).fill(null);
+                    state.history = [];
+                    state.selectedBeat = 0;
+                    updateExerciseTitle();
+                    updateRulesPanel();
+                    draw();
+                    validatePartial();
+                }
             });
         });
 
@@ -2893,7 +3319,7 @@
                 return;
             }
 
-            const noteCount = state.currentExercise.notes.length;
+            const noteCount = getCpLength();
 
             // Arrow navigation
             if (e.code === 'ArrowLeft') {
@@ -2955,7 +3381,9 @@
             if (state.selectedBeat === null) return;
 
             const currentNote = state.counterpoint[state.selectedBeat];
-            const cfNote = state.currentExercise.notes[state.selectedBeat];
+            const cfNote = state.species === 2
+                ? state.currentExercise.notes[Math.floor(state.selectedBeat / 2)]
+                : state.currentExercise.notes[state.selectedBeat];
 
             // Save history
             state.history.push([...state.counterpoint]);
@@ -3032,7 +3460,9 @@
             playNote(note, state.audioContext.currentTime, 0.3);
 
             // Also play CF note for context
-            const cfNote = state.currentExercise.notes[state.selectedBeat];
+            const cfNote = state.species === 2
+                ? state.currentExercise.notes[Math.floor(state.selectedBeat / 2)]
+                : state.currentExercise.notes[state.selectedBeat];
             playNote(cfNote, state.audioContext.currentTime, 0.3);
         }
 
