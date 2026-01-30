@@ -16,7 +16,7 @@ Contrapunctus implementa el método tradicional de **contrapunto de especies** (
 | 4ta | Sincopa | Notas ligadas, suspensiones |
 | 5ta | Floridus | Combinacion libre de especies |
 
-> **Estado actual**: Primera Especie completa + SoundFonts + MusicXML export
+> **Estado actual**: 1ª + 2ª + 3ª Especie completas + SoundFonts + MusicXML export
 
 ## Reglas de Primera Especie
 
@@ -112,7 +112,9 @@ contrapunctus/
 │   │   ├── Scale.js        # Escalas y tonalidades
 │   │   └── CantusFirmus.js # Colección de CF
 │   ├── validators/
-│   │   └── FirstSpeciesValidator.js  # Reglas 1ra especie
+│   │   ├── FirstSpeciesValidator.js  # Reglas 1ra especie
+│   │   ├── SecondSpeciesValidator.js # Reglas 2da especie
+│   │   └── ThirdSpeciesValidator.js  # Reglas 3ra especie
 │   └── ui/                 # (futuro) Componentes UI
 ├── css/                    # (futuro) Estilos externos
 ├── data/
@@ -185,13 +187,18 @@ Los *Ejercicios preliminares de contrapunto* (publicados póstumamente) aplican 
 - [ ] Guardar/cargar progreso
 - [ ] Tutorial interactivo
 
-### Fase 3: Segunda Especie
-- [ ] Notas de paso
-- [ ] SecondSpeciesValidator
-- [ ] UI para 2 notas por compás
+### Fase 3: Segunda Especie ✅
+- [x] Notas de paso (§15-§23)
+- [x] SecondSpeciesValidator
+- [x] UI para 2 notas por compás
 
-### Fase 4+: Especies Avanzadas
-- [ ] 3ra, 4ta, 5ta especie
+### Fase 4: Tercera Especie ✅
+- [x] Nota de paso, cambiata, PT en tiempo fuerte (§24-§35)
+- [x] ThirdSpeciesValidator
+- [x] UI para 4 notas por compás
+
+### Fase 5+: Especies Avanzadas
+- [ ] 4ta, 5ta especie
 - [ ] Tres y cuatro voces
 - [ ] Imitación y canon
 

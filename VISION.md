@@ -19,7 +19,7 @@
 │   Implementación completa del método de especies (Fux/Schoenberg)│
 │   Herramienta pedagógica para aprender contrapunto              │
 │                                                                  │
-│   Estado: Primera especie completa ✓                            │
+│   Estado: 1ª + 2ª + 3ª especie completas ✓                            │
 │   Meta: Cinco especies + cuatro voces                           │
 │                                                                  │
 ├─────────────────────────────────────────────────────────────────┤
@@ -105,8 +105,8 @@ contrapunctus/
 │   │
 │   ├── validators/
 │   │   ├── FirstSpeciesValidator.js    ✓ 17 reglas Schoenberg
-│   │   ├── SecondSpeciesValidator.js   ○ Notas de paso
-│   │   ├── ThirdSpeciesValidator.js    ○ Ornamentación
+│   │   ├── SecondSpeciesValidator.js   ✓ Notas de paso (§15-§23)
+│   │   ├── ThirdSpeciesValidator.js    ✓ Nota de paso + Cambiata (§24-§35)
 │   │   ├── FourthSpeciesValidator.js   ○ Suspensiones
 │   │   ├── FifthSpeciesValidator.js    ○ Floridus
 │   │   ├── ThreeVoiceValidator.js      ○ Tríadas
@@ -888,10 +888,12 @@ class NeuroFuxAssistant {
 COMPLETADO ✓
 ────────────
 • Primera Especie (17 reglas Schoenberg)
+• Segunda Especie (notas de paso, §15-§23)
+• Tercera Especie (cambiata, PT fuerte, §24-§35)
 • Interfaz interactiva (Canvas)
 • SoundFonts (6 instrumentos)
 • MusicXML export
-• Modal de teoría
+• Modal de teoría (§1-§35)
 
 EN PROGRESO ○
 ─────────────
@@ -902,16 +904,6 @@ EN PROGRESO ○
 
 PENDIENTE □
 ───────────
-• Fase 3: Segunda Especie
-  - SecondSpeciesValidator.js
-  - UI para blancas (2:1)
-  - Detección de notas de paso
-
-• Fase 4: Tercera Especie
-  - ThirdSpeciesValidator.js
-  - Patrones ornamentales
-  - UI para negras (4:1)
-
 • Fase 5: Cuarta Especie
   - FourthSpeciesValidator.js
   - Suspensiones y ligaduras
@@ -973,6 +965,172 @@ ITERACIÓN □
 
 ---
 
+## Análisis de DeepBach y Lecciones Aprendidas
+
+### Arquitectura de DeepBach (Hadjeres et al., 2017)
+
+DeepBach es el trabajo seminal en generación de corales de Bach con deep learning. Su arquitectura merece estudio detallado:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                        DEEPBACH ARCHITECTURE                                 │
+│                                                                              │
+│   SAMPLING: Pseudo-Gibbs (iterativo)                                        │
+│   ════════════════════════════════════                                       │
+│                                                                              │
+│   Inicializar:  [S₀, A₀, T₀, B₀] ← valores aleatorios                      │
+│   Iteración t:                                                               │
+│       Para cada voz v ∈ {S, A, T, B}:                                        │
+│           Para cada posición i:                                              │
+│               Muestrear vᵢ ~ P(vᵢ | contexto_pasado, contexto_futuro,       │
+│                                     otras_voces, metadata)                  │
+│   Repetir hasta convergencia (~10-20 iteraciones)                           │
+│                                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   MODELO POR VOZ: 4 LSTMs independientes                                    │
+│   ══════════════════════════════════════                                     │
+│                                                                              │
+│   ┌──────────────────────────────────────────────────────────────────┐      │
+│   │                    LSTM para Soprano                              │      │
+│   │                                                                    │      │
+│   │   Contexto pasado      Notas simultáneas    Contexto futuro       │      │
+│   │   ────────────────     ─────────────────    ────────────────      │      │
+│   │   [sᵢ₋₁, sᵢ₋₂,...]   [aᵢ, tᵢ, bᵢ]        [sᵢ₊₁, sᵢ₊₂,...]     │      │
+│   │          │                    │                    │               │      │
+│   │          ▼                    ▼                    ▼               │      │
+│   │     LSTM →         +      Dense       +      ← LSTM               │      │
+│   │          │                    │                    │               │      │
+│   │          └────────────┬───────┴────────────────────┘               │      │
+│   │                       ▼                                            │      │
+│   │                   Softmax                                          │      │
+│   │                       ▼                                            │      │
+│   │               P(sᵢ | contexto)                                    │      │
+│   └──────────────────────────────────────────────────────────────────┘      │
+│                                                                              │
+│   × 4 voces (idéntica arquitectura)                                         │
+│                                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   REPRESENTACIÓN: Hold Symbol                                               │
+│   ═══════════════════════════                                                │
+│                                                                              │
+│   Discretización a semicorcheas (16th notes):                               │
+│                                                                              │
+│   Notación:    ♩      ♩      ♪   ♪                                         │
+│   MIDI roll:   C4 C4  E4 E4  G4  A4   ← problema: notas repetidas          │
+│   DeepBach:    C4 __  E4 __  G4  A4   ← __ = "hold previous"               │
+│                                                                              │
+│   Ventaja: Distingue entre nota sostenida y nota repetida                   │
+│                                                                              │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│   DATA AUGMENTATION: Transposición                                          │
+│   ════════════════════════════════                                           │
+│                                                                              │
+│   352 corales originales → 2503 ejemplos                                    │
+│                                                                              │
+│   Para cada coral:                                                          │
+│       Para cada transposición ∈ [-5, +6] semitonos:                        │
+│           Si todas las voces caen en rango vocal válido:                    │
+│               Añadir coral transpuesto al dataset                           │
+│                                                                              │
+│   Rangos vocales (restricción):                                             │
+│       Soprano: C4 - G5                                                      │
+│       Alto:    F3 - C5                                                      │
+│       Tenor:   C3 - G4                                                      │
+│       Bajo:    E2 - C4                                                      │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+### Resultados Clave de DeepBach
+
+- **Turing Test Musical**: 50% de músicos no distinguieron corales de DeepBach de Bach original
+- **Tempo de generación**: ~1 segundo para coral completo (GPU)
+- **Steerability**: Puede fijar soprano, imponer cadencias, regenerar secciones
+- **Contexto bidireccional**: Δt = 16 (mira 16 notas atrás y adelante)
+
+### Comparación: DeepBach vs NeuroFux
+
+| Aspecto | DeepBach | NeuroFux (nuestra propuesta) |
+|---------|----------|------------------------------|
+| **Backbone** | 4 LSTMs separadas (una por voz) | Mamba unificado con embedding de voz |
+| **Sampling** | Pseudo-Gibbs (iterativo, ~20 passes) | Autoregresivo + Beam Search (1 pass) |
+| **Conocimiento musical** | Solo metadata (fermatas, beat) | Reglas de Fux/Schoenberg como Fux Loss |
+| **Validación** | Ninguna (puede generar paralelas) | Validator integrado en el loop |
+| **Explicabilidad** | Ninguna (caja negra) | Explicación por nota (§ referencias) |
+| **Curriculum** | No (entrena todo junto) | Sí (especie 1 → 2 → 3 → 4 → 5 → SATB) |
+| **Target** | Corales de Bach (4 voces) | Primera especie → 5ta (2 voces inicialmente) |
+| **Browser** | No viable (LSTM pesados) | Sí (~5-10MB ONNX cuantizado) |
+| **Latencia** | ~1s (GPU) | <100ms (browser, CPU) |
+
+### Lo que Adoptamos de DeepBach
+
+1. **Hold Symbol (`__`)**: Representación elegante para notas sostenidas vs repetidas
+   ```
+   NeuroFux adoptará: token especial HOLD en el vocabulario
+   ```
+
+2. **Data Augmentation por Transposición**: 7x más datos sin perder generalidad
+   ```python
+   # Adoptaremos exactamente esta estrategia
+   for coral in corpus:
+       for transpose in range(-5, 7):
+           if all_voices_in_range(coral, transpose):
+               augmented_corpus.append(transpose_coral(coral, transpose))
+   ```
+
+3. **Contexto Bidireccional**: Mirar hacia adelante mejora coherencia
+   ```
+   DeepBach: 2 LSTMs (pasado + futuro)
+   NeuroFux: Mamba (contexto "infinito") + lookahead simbólico
+   ```
+
+4. **Discretización a Semicorchea**: Granularidad suficiente para ornamentos
+
+### Donde NeuroFux Mejora
+
+1. **Fux Loss**: El modelo *interioriza* las reglas durante entrenamiento
+   ```
+   DeepBach: puede generar quintas paralelas (las "aprende" a evitar por estadística)
+   NeuroFux: penalización explícita → NUNCA genera paralelas
+   ```
+
+2. **Curriculum Learning**: Progresión pedagógica que reduce complejidad
+   ```
+   DeepBach: aprende 4 voces + todas las figuras rítmicas de golpe
+   NeuroFux: primero 2 voces 1:1, luego 2:1, etc.
+   ```
+
+3. **Lookahead Beam Search**: Evita callejones sin salida
+   ```
+   DeepBach: puede elegir nota que arruina la cadencia
+   NeuroFux: simula 2 pasos adelante, poda opciones sin futuro
+   ```
+
+4. **Explicabilidad**: Cada nota viene con justificación
+   ```
+   DeepBach: "aquí va un D4" (¿por qué?)
+   NeuroFux: "D4 (§8.I mov. contrario, §7l grado conjunto, patrón Bach)"
+   ```
+
+5. **Eficiencia Browser**: Mamba O(n) vs LSTM O(n²) en memoria
+   ```
+   DeepBach: requiere servidor + GPU
+   NeuroFux: 100% client-side, offline
+   ```
+
+### Insight Clave del Paper
+
+> *"The musical priors are not explicitly encoded but are rather learned from the data."*
+
+Esta es exactamente la limitación que NeuroFux resuelve. DeepBach confía en que el modelo aprenda las reglas por exposición estadística. Pero las reglas de contrapunto son **universales y explícitas** — no hay razón para que el modelo las "descubra" cuando podemos inyectarlas directamente.
+
+La Fux Loss hace esto posible: convierte el conocimiento musical en gradientes que moldean los pesos del modelo.
+
+---
+
 ## Referencias
 
 ### Teoría Musical
@@ -981,7 +1139,8 @@ ITERACIÓN □
 - Jeppesen, K. (1939). *Counterpoint*
 
 ### Machine Learning
-- Hadjeres, G. et al. (2017). *DeepBach: a Steerable Model for Bach Chorales Generation*
+- Hadjeres, G. et al. (2017). *DeepBach: a Steerable Model for Bach Chorales Generation* (ICML)
+- Liang, F. (2016). *BachBot* - LSTM para corales
 - Huang, C.A. et al. (2018). *Music Transformer*
 - Gu, A. & Dao, T. (2023). *Mamba: Linear-Time Sequence Modeling*
 

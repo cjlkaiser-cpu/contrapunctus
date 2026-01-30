@@ -23,10 +23,10 @@ Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus e
 ## Estado Actual
 
 ```
-[██████████░░░░░░░░░░] 25% - Primera Especie + Teoría Completa
+[██████████████░░░░░░] 50% - 1ª + 2ª + 3ª Especie Completas
 ```
 
-**Última actualización**: Diciembre 2024
+**Última actualización**: Enero 2026
 
 ---
 
@@ -134,11 +134,11 @@ Cada capa añade complejidad gradualmente, exactamente como Fux enseñó a sus e
 
 ---
 
-## Fase 3: Segunda Especie (2:1)
+## Fase 3: Segunda Especie (2:1) ✅ COMPLETADA
 
 **Dos notas de contrapunto por cada nota del CF**
 
-*Referencia: Schoenberg, pp. 48-72*
+*Referencia: Schoenberg, §15-§23, pp. 48-72*
 
 ### Diagrama
 ```
@@ -163,7 +163,7 @@ D = Tiempo débil (puede ser disonante SI es nota de paso)
 | Final | §19 | Última nota DEBE ser redonda |
 | Comienzo | §20 | Puede empezar en tiempo débil (silencio) |
 
-### Reglas Específicas a Implementar
+### Reglas Específicas Implementadas
 
 1. **§15**: Consonancia obligatoria en tiempo fuerte
 2. **§16**: Nota de paso válida = grado conjunto entre dos consonancias
@@ -178,58 +178,63 @@ D = Tiempo débil (puede ser disonante SI es nota de paso)
 9. **§23**: Cambio de dirección después de salto
 
 ### Implementación Técnica
-- [ ] SecondSpeciesValidator.js
-- [ ] Renderizado de blancas (𝅗𝅥) en el pentagrama
-- [ ] Detección automática de notas de paso válidas
-- [ ] UI para colocar 2 notas por compás
-- [ ] Validación de relación weak-strong
-- [ ] Modal de teoría Segunda Especie
+- [x] SecondSpeciesValidator.js
+- [x] Renderizado de blancas (𝅗𝅥) en el pentagrama
+- [x] Detección automática de notas de paso válidas
+- [x] UI para colocar 2 notas por compás
+- [x] Validación de relación weak-strong
+- [x] Modal de teoría Segunda Especie
 
 ---
 
-## Fase 4: Tercera Especie (4:1)
+## Fase 4: Tercera Especie (4:1) ✅ COMPLETADA
 
 **Cuatro notas de contrapunto por cada nota del CF**
 
-*Referencia: Schoenberg, pp. 73-95*
+*Referencia: Schoenberg, §24-§35, pp. 48-61*
 
 ### Diagrama
 ```
-CF:     𝅝          𝅝          𝅝
-CP:    𝅘𝅥 𝅘𝅥 𝅘𝅥 𝅘𝅥   𝅘𝅥 𝅘𝅥 𝅘𝅥 𝅘𝅥   𝅝
-       1 2 3 4    1 2 3 4    Final
-       ↑         ↑
-       Consonante (tiempo 1 obligatorio, tiempo 3 preferible)
+CF:     𝅝              𝅝              𝅝          ... 𝅝
+CP:    ♩ ♩ ♩ ♩       ♩ ♩ ♩ ♩       ♩ ♩ ♩ ♩       ... 𝅝
+       t1 t2 t3 t4   t1 t2 t3 t4   t1 t2 t3 t4       t1
+       F  D  sF D    F  D  sF D    F  D  sF D         F
+       ↑              ↑              ↑                  ↑
+       cons.          cons.          cons.              cons.
 ```
 
 ### Conceptos Nuevos (Schoenberg §24-§35)
 
 | Concepto | Sección | Descripción |
 |----------|---------|-------------|
-| Bordadura | §26 | Nota que sale y vuelve por grado (neighbor) |
-| Escapada | §27 | Sale por grado, vuelve por salto (échappée) |
-| Cambiata | §28 | Patrón específico de 4 notas |
-| Doble nota de paso | §29 | Dos notas de paso consecutivas |
-| Salto desde disonancia | §30 | Casos específicos permitidos |
+| División y acento | §24 | 4 negras por compás, t1+t3 acentuados |
+| Consonancias libres | §25 | En los 4 tiempos |
+| Nota de paso | §26 | Solo tiempos débiles, grado conjunto, misma dirección |
+| Distribución c/d | §27 | 4 patrones (a-d) de consonancia/disonancia |
+| Fluidez | §28 | No usar esquemas rígidos |
+| Cambiata | §29-§30 | Fórmula de 5 notas, salto de 3ª, 2 compases |
+| Exclusiones | §32 | Cambiatas con 5ª disminuida excluidas |
+| PT en tiempo fuerte | §33 | En t3, centro de 3ª, rodeada de consonancias |
+| Conclusión | §34 | Sensible en t4 del penúltimo compás |
 
-### Reglas Específicas a Implementar
+### Reglas Específicas Implementadas
 
-1. **§24**: Tiempo 1 DEBE ser consonante
-2. **§25**: Tiempos 2, 3, 4 pueden ser disonantes por paso
-3. **§26**: Bordadura: consonante → disonante por grado → misma consonante
-4. **§27**: Escapada: consonante → disonante por grado → consonante por salto
-5. **§28**: Cambiata: patrón C-D-C-C con salto de tercera
-6. **§29**: Doble nota de paso: dos grados conjuntos en la misma dirección
-7. **§30**: No más de 4 notas en la misma dirección sin compensar
-8. **§31-35**: Casos especiales y excepciones
+1. **§24**: Tiempo 1 DEBE ser consonante; t3 preferiblemente consonante
+2. **§25**: Consonancias libres en los 4 tiempos
+3. **§26**: Nota de paso en tiempos débiles (t2, t4)
+4. **§27**: Distribución flexible consonancia/disonancia (4 patrones)
+5. **§29-§30**: Cambiata descendente y ascendente (5 notas, 2 compases)
+6. **§32**: Exclusión de cambiatas con 5ª disminuida
+7. **§33**: Nota de paso en tiempo fuerte (t3, centro de 3ª)
+8. **§34**: Cadencia con sensible en t4 del penúltimo compás
 
 ### Implementación Técnica
-- [ ] ThirdSpeciesValidator.js
-- [ ] Renderizado de negras (𝅘𝅥)
-- [ ] Detección de patrones ornamentales
-- [ ] UI para entrada rápida de 4 notas
-- [ ] Visualización de patrones reconocidos
-- [ ] Modal de teoría Tercera Especie
+- [x] ThirdSpeciesValidator.js (~750 líneas)
+- [x] Renderizado de negras (♩) con cabeza rellena + stem
+- [x] Detección de nota de paso, cambiata, PT en tiempo fuerte
+- [x] UI para colocar 4 notas por compás
+- [x] Barlines cada 4 beats, labels "1.1"-"1.4"
+- [x] Modal de teoría Tercera Especie (§24-§35)
 
 ---
 
@@ -463,8 +468,8 @@ Bajo:    ───────── (E2-C4)  Mi2-Do4
 | 0.2.0 | Reglas Schoenberg + Teoría | ✅ Dic 2024 |
 | 0.3.0 | SoundFonts + MusicXML export | ✅ Dic 2024 |
 | 0.4.0 | Consolidación 1ª Especie | 🔲 |
-| 0.5.0 | Segunda Especie | 🔲 |
-| 0.6.0 | Tercera Especie | 🔲 |
+| 0.5.0 | Segunda Especie | ✅ Ene 2026 |
+| 0.6.0 | Tercera Especie | ✅ Ene 2026 |
 | 0.7.0 | Cuarta Especie | 🔲 |
 | 0.8.0 | Quinta Especie | 🔲 |
 | 0.9.0 | Tres Voces | 🔲 |
